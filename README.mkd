@@ -1,0 +1,148 @@
+# IQ Engines iOS SDK
+
+The steps to use the IQ Engines SDK are as follows:
+
+* Add the IQEnginesSDK folder into your project.
+* Add additional frameworks and libraries to the project:
+    * `AVFoundation.framework`
+    * `CoreMedia.framework`
+    * `CoreVideo.framework`
+    * `QuartzCore.framework`
+    * `libiconv.dylib`
+* If the project does not contain c++ source files (.mm or .cpp), link to the std c++ library by adding -lstdc++ to "Other Linker Flags" in Build Settings, or link with libstdc++.dylib.
+* For local object detection, add .desc/.kp data files and objects.json to a folder named iqedata and include the directory in your project.
+* Add the IQE class and delegate to view controller header:
+
+```
+#import "IQE.h"
+@interface ViewController : UIViewController <IQEDelegate>
+{
+    IQE* iqengines;
+}
+```
+
+* Allocate and initialize an IQE object in the view controller init method. Set the search type depending on what search is required. Use your IQ Engines API Key and secret if doing remote search:
+
+```
+iqengines = [[IQE alloc] initWithSearchType:IQESearchTypeAll
+                                     apiKey:@""
+                                  apiSecret:@""];
+
+iqengines.delegate = self;
+```
+
+* Set up the camera preview layer in the view controller viewDidLoad method.
+
+```
+CGRect rect = self.view.layer.bounds;
+iqengines.previewLayer.bounds = rect;
+iqengines.previewLayer.position = CGPointMake(CGRectGetMidX(rect),
+CGRectGetMidY(rect));
+
+[self.view.layer insertSublayer:iqengines.previewLayer atIndex:0];
+```
+
+* Start and stop camera processing in 'viewWillAppear:' and 'viewDidDisappear:'
+respectively:
+
+```
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+
+    [iqengines startCamera];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+
+    [iqengines stopCamera];
+}
+```
+
+* Implement the IQEDelegate delegate methods as necessary.
+* Clean up by adding the following in dealloc:
+
+```
+iqengines.delegate = nil;
+[iqengines stopCamera];
+[iqengines release];
+```
+
+# Using IQ Engines iOS SDK on iOS 3.0 - 3.2
+
+The image capture features are unavailable on iOS versions before 4.0. However, it is still possible to use the SDK with a UIImage.
+
+* AVFoundation framework must be weak linked to the project. Change the framework from "Required" to "Optional" in the Link Binary with Libraries section of the target Build Phases.
+
+* Get an image (with UIImagePickerController or other method) and call searchWithImage: on the IQE instance.
+
+```
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{    
+    UIImage* image = [info objectForKey:UIImagePickerControllerOriginalImage];
+
+    [iqengines searchWithImage:image];
+}
+```
+
+# IQ Engines iOS SDK UI
+
+The IQ Engines SDK includes source code for a UIViewController sublcass, IQEViewController,  which manages an image detection user interface.
+
+To use the IQEViewController:
+
+* Add the IQEnginesSDK folder into your project.
+* Add additional frameworks and libraries to the project:
+    * `AVFoundation.framework`
+    * `CoreLocation.framework`
+    * `CoreMedia.framework`
+    * `CoreVideo.framework`
+    * `QuartzCore.framework`
+    * `libiconv.dylib`
+* If the project does not contain c++ source files (.mm or .cpp), link to the std c++ library by adding -lstdc++ to "Other Linker Flags" in Build Settings, or link with libstdc++.dylib.
+* For local object detection, add .desc/.kp data files and objects.json to the folder named: iqedata.
+* Import the IQEViewController header file.
+
+```
+#import "IQEViewController.h"
+```
+
+* Allocate and initialize a IQEViewController object. Set the search type depending on what search is required. Use your IQ Engines API Key and secret if doing remote search:
+
+```
+IQEViewController* vc = [[IQEViewController alloc] initWithSearchType:IQESearchTypeAll
+                                                               apiKey:@""
+                                                            apiSecret:@""];
+    
+vc.delegate = self;
+```
+
+* Present the view controller via presentModalViewController:animated:
+
+```
+[self presentModalViewController:vc animated:YES];
+```
+
+* Implement the IQEViewControllerDelegate delegate methods as necessary. Specifically, the iqeViewControllerDidCancel method:
+
+```
+- (void) iqeViewControllerDidCancel:(IQEViewController*)controller
+{
+    controller.delegate = nil;
+    [controller dismissModalViewControllerAnimated:YES];
+}
+```
+
+# IQ Engines Example App
+
+The ExampleApp folder contains an example app which uses the IQEViewController class. The app can be configured by setting defines in the Config.h file.
+
+* `IQE_APIKEY` IQ Engines API key string.
+* `IQE_SECRET` IQ Engines secret string.
+
+* `SEARCH_BARCODE` Detect barcode and QR codes.
+* `SEARCH_OBJECT_LOCAL` Search using local image database.
+* `SEARCH_OBJECT_REMOTE` Search using image database on IQ Engines servers.
+* `SEARCH_OBJECT_LOCAL_CONTINUOUS` Continuously grab camera frames and search using local image database.
