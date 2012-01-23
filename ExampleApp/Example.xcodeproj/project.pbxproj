@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2765560414328F760001BDE4 /* iqedata in Resources */ = {isa = PBXBuildFile; fileRef = 2765560314328F760001BDE4 /* iqedata */; };
 		27655608143290ED0001BDE4 /* WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27655606143290ED0001BDE4 /* WebViewController.xib */; };
 		2765560F143291530001BDE4 /* webview_back_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 27655609143291530001BDE4 /* webview_back_button.png */; };
 		27655610143291530001BDE4 /* webview_back_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2765560A143291530001BDE4 /* webview_back_button@2x.png */; };
@@ -56,7 +55,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		2765560314328F760001BDE4 /* iqedata */ = {isa = PBXFileReference; lastKnownFileType = folder; name = iqedata; path = Example/iqedata; sourceTree = "<group>"; };
 		27655607143290ED0001BDE4 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/WebViewController.xib; sourceTree = "<group>"; };
 		27655609143291530001BDE4 /* webview_back_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = webview_back_button.png; sourceTree = "<group>"; };
 		2765560A143291530001BDE4 /* webview_back_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "webview_back_button@2x.png"; sourceTree = "<group>"; };
@@ -193,7 +191,6 @@
 		27EA37731432741A00BAAB34 = {
 			isa = PBXGroup;
 			children = (
-				2765560314328F760001BDE4 /* iqedata */,
 				27B9A98314C661F000267255 /* IQEnginesSDK */,
 				27EA37881432741A00BAAB34 /* Example */,
 				27EA37811432741A00BAAB34 /* Frameworks */,
@@ -321,7 +318,6 @@
 				27EA38041432896900BAAB34 /* ExampleViewController.xib in Resources */,
 				27EA38051432896900BAAB34 /* InfoPlist.strings in Resources */,
 				27EA38061432896900BAAB34 /* MainWindow.xib in Resources */,
-				2765560414328F760001BDE4 /* iqedata in Resources */,
 				27655608143290ED0001BDE4 /* WebViewController.xib in Resources */,
 				2765560F143291530001BDE4 /* webview_back_button.png in Resources */,
 				27655610143291530001BDE4 /* webview_back_button@2x.png in Resources */,
