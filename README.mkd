@@ -10,7 +10,7 @@ The steps to use the IQ Engines SDK are as follows:
     * `QuartzCore.framework`
     * `libiconv.dylib`
 * If the project does not contain c++ source files (.mm or .cpp), link to the std c++ library by adding -lstdc++ to "Other Linker Flags" in Build Settings, or link with libstdc++.dylib.
-* For local object detection, add .desc/.kp data files and objects.json to a folder named iqedata and include the directory in your project.
+* If you want to enable local object detection, contact us (support@iqengines.com) and we will send you a folder named iqedata that you can include in your project directory. This folder contains the image files necessary for local search. 
 * Add the IQE class and delegate to view controller header:
 
 ```
@@ -70,7 +70,7 @@ iqengines.delegate = nil;
 [iqengines release];
 ```
 
-# Using IQ Engines iOS SDK on iOS 3.0 - 3.2
+## Using IQ Engines iOS SDK on iOS 3.0 - 3.2
 
 The image capture features are unavailable on iOS versions before 4.0. However, it is still possible to use the SDK with a UIImage.
 
@@ -87,7 +87,7 @@ The image capture features are unavailable on iOS versions before 4.0. However, 
 }
 ```
 
-# IQ Engines iOS SDK UI
+## IQ Engines iOS SDK UI
 
 The IQ Engines SDK includes source code for a UIViewController sublcass, IQEViewController,  which manages an image detection user interface.
 
@@ -135,7 +135,7 @@ vc.delegate = self;
 }
 ```
 
-# IQ Engines Example App
+## IQ Engines Example App
 
 The ExampleApp folder contains an example app which uses the IQEViewController class. The app can be configured by setting defines in the Config.h file.
 
