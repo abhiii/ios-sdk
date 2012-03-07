@@ -20,10 +20,13 @@
  THE SOFTWARE.
 */
 
+// --------------------------------------------------------------------------------
 //
 //  IQEHistoryTableViewCell.m
 //
+// --------------------------------------------------------------------------------
 
+#import <QuartzCore/QuartzCore.h>
 #import "IQEHistoryTableViewCell.h"
 
 #define CELL_MARGIN 4
@@ -38,6 +41,7 @@
     if (self)
     {
         imageViewSize = CGSizeZero;
+        self.imageView.layer.cornerRadius = 2.0;
     }
     return self;
 }
@@ -77,3 +81,5 @@
 }
 
 @end
+
+// --------------------------------------------------------------------------------

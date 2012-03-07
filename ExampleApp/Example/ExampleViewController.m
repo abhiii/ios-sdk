@@ -20,9 +20,11 @@
  THE SOFTWARE.
 */
 
+// --------------------------------------------------------------------------------
 //
 //  ExampleViewController.m
 //
+// --------------------------------------------------------------------------------
 
 #import "ExampleViewController.h"
 #import "IQEViewController.h"
@@ -37,31 +39,9 @@
 
 @synthesize iqeNavController;
 
-- (void)didReceiveMemoryWarning
-{
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
-}
-
-#pragma mark - View lifecycle
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
-#pragma mark -
-#pragma mark Actions
+// --------------------------------------------------------------------------------
+#pragma mark - Actions
+// --------------------------------------------------------------------------------
 
 - (IBAction)onButton:(id)sender
 {
@@ -71,14 +51,14 @@
     if (SEARCH_OBJECT_LOCAL  == YES) searchType |= IQESearchTypeObjectSearch;
     if (SEARCH_OBJECT_REMOTE == YES) searchType |= IQESearchTypeRemoteSearch;
     
-    IQEViewController* vc = [[IQEViewController alloc] initWithSearchType:searchType
+    IQEViewController* vc = [[IQEViewController alloc] initWithParameters:searchType
                                                                    apiKey:IQE_APIKEY
                                                                 apiSecret:IQE_SECRET];
     
     vc.delegate        = self;
     vc.hidesBackButton = NO;
     vc.autoDetection   = SEARCH_OBJECT_LOCAL_CONTINUOUS;
-    vc.locationEnabled = YES;
+    vc.locationEnabled = NO;
     
     self.iqeNavController = [[[UINavigationController alloc] initWithRootViewController:vc] autorelease];
     
@@ -89,41 +69,48 @@
     [vc release];
 }
 
+// --------------------------------------------------------------------------------
 #pragma mark - <IQEViewControllerDelegate> implementation
+// --------------------------------------------------------------------------------
 
-- (void) iqeViewController:(IQEViewController*)controller didCompleteSearch:(IQEHistoryItem*)historyItem
+// Called when an image search has completed. Results are contained in the query object.
+
+- (void) iqeViewController:(IQEViewController*)controller didCompleteSearch:(IQEQuery*)query
 {
     NSLog(@"%s", __func__);
 }
 
-// History list selection
-- (void) iqeViewController:(IQEViewController*)controller didSelectItem:(IQEHistoryItem *)historyItem atIndex:(NSUInteger)index
+// Called after the user selects an item in the history list.
+
+- (void) iqeViewController:(IQEViewController*)controller didSelectItem:(IQEQuery*)query atIndex:(NSUInteger)index
 {
-    if (historyItem.type == IQEHistoryItemTypeRemoteObject)
+    if (query.type == IQEQueryTypeRemoteObject)
     {
-        NSLog(@"result: %@", historyItem.qidData);
+        NSLog(@"result: %@", query.qidData);
         
-        NSString* labels = [historyItem.qidData objectForKey:IQEKeyLabels];
+        NSString* labels = [query.qidData objectForKey:IQEKeyLabels];
         if (labels == nil)
             return;
         
         [self showWebViewForUrl:labels];
     }
     else
-    if (historyItem.type == IQEHistoryItemTypeLocalObject)
+    if (query.type == IQEQueryTypeLocalObject)
     {
-        NSLog(@"objID: %@, objName: %@, objMeta: %@", historyItem.objId, historyItem.objName, historyItem.objMeta);
+        NSLog(@"objID: %@, objName: %@, objMeta: %@", query.objId, query.objName, query.objMeta);
         
-        [self showWebViewForUrl:historyItem.objMeta];
+        [self showWebViewForUrl:query.objMeta];
     }
     else
-    if (historyItem.type == IQEHistoryItemTypeBarCode)
+    if (query.type == IQEQueryTypeBarCode)
     {
-        NSLog(@"codeData: %@, codeType:%@, codeDesc:%@", historyItem.codeData, historyItem.codeType, historyItem.codeDesc);
+        NSLog(@"codeData: %@, codeType:%@, codeDesc:%@", query.codeData, query.codeType, query.codeDesc);
         
-        [self showWebViewForUrl:historyItem.codeData];
+        [self showWebViewForUrl:query.codeData];
     }
 }
+
+// The delegate should dismiss the view controller in this callback. The controller does not dismiss itself.
 
 - (void) iqeViewControllerDidCancel:(IQEViewController*)controller
 {
@@ -133,7 +120,9 @@
     self.iqeNavController = nil;
 }
 
+// --------------------------------------------------------------------------------
 #pragma mark - Private
+// --------------------------------------------------------------------------------
 
 - (void) showWebViewForUrl:(NSString*)stringURL
 {
@@ -154,3 +143,6 @@
 }
 
 @end
+
+// --------------------------------------------------------------------------------
+

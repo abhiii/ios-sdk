@@ -20,9 +20,11 @@
  THE SOFTWARE.
 */
 
+// --------------------------------------------------------------------------------
 //
 //  IQELocation.h
 //
+// --------------------------------------------------------------------------------
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
@@ -50,3 +52,5 @@
 extern CLLocationDegrees kIQEInvalidLocationDegrees;
 
 @end
+
+// --------------------------------------------------------------------------------

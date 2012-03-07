@@ -28,7 +28,7 @@
 
 #import <UIKit/UIKit.h>
 #import "IQE.h"
-#import "IQEHistoryItem.h"
+#import "IQEQuery.h"
 
 @class IQEViewController;
 
@@ -40,16 +40,23 @@
 
 @protocol IQEViewControllerDelegate <NSObject>
 @optional
-- (void) iqeViewController:(IQEViewController*)controller didCompleteSearch:(IQEHistoryItem*)historyItem;
-- (void) iqeViewController:(IQEViewController*)controller didSelectItem:(IQEHistoryItem*)historyItem atIndex:(NSUInteger)index;
+
+// Called when an image search has completed. Results are contained in the query object.
+- (void) iqeViewController:(IQEViewController*)controller didCompleteSearch:(IQEQuery*)query;
+
+// Called after the user selects an item in the history list.
+- (void) iqeViewController:(IQEViewController*)controller didSelectItem:(IQEQuery*)query atIndex:(NSUInteger)index;
+
+// The delegate should dismiss the view controller in this callback. The controller does not dismiss itself.
 - (void) iqeViewControllerDidCancel:(IQEViewController*)controller;
+
 @end
 
 // --------------------------------------------------------------------------------
 //
 // IQEViewController
 //
-// View controller for IQ Engines user interface.
+// View controller for the IQ Engines user interface.
 //
 // --------------------------------------------------------------------------------
 
@@ -66,9 +73,14 @@
     IBOutlet UIBarButtonItem* mHistoryButton;
 }
 
-- (id)initWithSearchType:(IQESearchType)searchType;
-- (id)initWithSearchType:(IQESearchType)searchType apiKey:(NSString*)key apiSecret:(NSString*)secret;
+// The designated initializers.
+// If you subclass IQEViewController, you must call the super implementation of this method.
+// Provide your IQ Engines key and secret parameters when using the IQESearchTypeRemoteSearch type.
 
+- (id)initWithParameters:(IQESearchType)searchType;
+- (id)initWithParameters:(IQESearchType)searchType apiKey:(NSString*)key apiSecret:(NSString*)secret;
+
+// Actions for events.
 - (IBAction)onCameraButton:(id)sender;
 - (IBAction)onCancel:(id)sender;
 - (IBAction)onHistory:(id)sender;

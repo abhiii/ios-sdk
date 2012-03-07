@@ -20,13 +20,15 @@
  THE SOFTWARE.
 */
 
+// --------------------------------------------------------------------------------
 //
 //  IQEViewController.m
 //
+// --------------------------------------------------------------------------------
 
 #import "IQEViewController.h"
 #import "IQEHistoryTableViewCell.h"
-#import "IQEHistoryItem.h"
+#import "IQEQuery.h"
 #import "IQELocation.h"
 #import "UIImage+IQE.h"
 
@@ -54,45 +56,45 @@ typedef enum
     ListDisplayModeHistory,
 } ListDisplayMode;
 
-/* -------------------------------------------------------------------------------- */
+// --------------------------------------------------------------------------------
 #pragma mark -
 #pragma mark IQEViewController Private interface
-/* -------------------------------------------------------------------------------- */
+// --------------------------------------------------------------------------------
 
 @interface IQEViewController () <UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate>
+- (void)   queryTitleChange:(NSNotification*)n;
+- (void)   queryStateChange:(NSNotification*)n;
 - (void)   updateView;
 - (void)   updateToolbar;
 - (void)   loadState;
 - (void)   saveState;
 - (void)   applicationDidEnterBackground;
 - (void)   applicationWillEnterForeground;
-- (void)   processUnfinishedHistoryItems:(BOOL)search;
+- (void)   processUnfinishedQueries:(BOOL)search;
 - (CGRect) historyListRect;
 - (CGSize) thumbSize;
-- (void)   historyItemTitleChange:(NSNotification*)n;
-- (void)   historyItemStateChange:(NSNotification*)n;
-- (void)   startSearchForHistoryItem:(IQEHistoryItem*)historyItem withImage:(UIImage*)image;
-- (void)   saveImageFiles:(IQEHistoryItem*)historyItem forImage:(UIImage*)image;
-- (void)   removeImageFiles:(IQEHistoryItem*)historyItem;
-@property(nonatomic, assign) IQESearchType          mSearchType;
-@property(nonatomic, retain) UITableView*           mTableView;
-@property(nonatomic, retain) UIView*                mPreviewView;
-@property(nonatomic, retain) UIToolbar*             mToolBar;
-@property(nonatomic, retain) UIBarButtonItem*       mBackButton;
-@property(nonatomic, retain) UIButton*              mCameraButton;
-@property(nonatomic, retain) UIBarButtonItem*       mHistoryButton;
-@property(nonatomic, assign) BOOL                   mFirstViewLoad;
-@property(nonatomic, retain) NSMutableArray*        mHistory;
-@property(nonatomic, retain) NSString*              mDocumentPath;
-@property(nonatomic, retain) NSString*              mDataPath;
-@property(nonatomic, assign) CGPoint                mStartTouchPosition;
-@property(nonatomic, assign) ListDisplayMode        mListDisplayMode;
+- (void)   startSearchForQuery:(IQEQuery*)query withImage:(UIImage*)image;
+- (void)   saveImageFiles:(IQEQuery*)query forImage:(UIImage*)image;
+- (void)   removeImageFiles:(IQEQuery*)query;
+@property(nonatomic, assign) IQESearchType    mSearchType;
+@property(nonatomic, retain) UITableView*     mTableView;
+@property(nonatomic, retain) UIView*          mPreviewView;
+@property(nonatomic, retain) UIToolbar*       mToolBar;
+@property(nonatomic, retain) UIBarButtonItem* mBackButton;
+@property(nonatomic, retain) UIButton*        mCameraButton;
+@property(nonatomic, retain) UIBarButtonItem* mHistoryButton;
+@property(nonatomic, assign) BOOL             mFirstViewLoad;
+@property(nonatomic, retain) NSMutableArray*  mQueryHistory;
+@property(nonatomic, retain) NSString*        mDocumentPath;
+@property(nonatomic, retain) NSString*        mDataPath;
+@property(nonatomic, assign) CGPoint          mStartTouchPosition;
+@property(nonatomic, assign) ListDisplayMode  mListDisplayMode;
 @end
 
-/* -------------------------------------------------------------------------------- */
+// --------------------------------------------------------------------------------
 #pragma mark -
 #pragma mark IQEViewController implementation
-/* -------------------------------------------------------------------------------- */
+// --------------------------------------------------------------------------------
 
 @implementation IQEViewController
 
@@ -107,18 +109,18 @@ typedef enum
 @synthesize mToolBar;
 @synthesize mSearchType;
 @synthesize mTableView;
-@synthesize mHistory;
+@synthesize mQueryHistory;
 @synthesize mDocumentPath;
 @synthesize mDataPath;
 @synthesize mStartTouchPosition;
 @synthesize mListDisplayMode;
 
-- (id)initWithSearchType:(IQESearchType)searchType
+- (id)initWithParameters:(IQESearchType)searchType
 {
-    return [self initWithSearchType:searchType apiKey:nil apiSecret:nil];
+    return [self initWithParameters:searchType apiKey:nil apiSecret:nil];
 }
 
-- (id)initWithSearchType:(IQESearchType)searchType apiKey:(NSString*)key apiSecret:(NSString*)secret
+- (id)initWithParameters:(IQESearchType)searchType apiKey:(NSString*)key apiSecret:(NSString*)secret
 {
     self = [super initWithNibName:@"IQEViewController" bundle:nil];
     if (self)
@@ -146,7 +148,7 @@ typedef enum
         
         self.mDocumentPath    = documentPath;
         self.mDataPath        = dataPath;
-        self.mHistory         = [NSMutableArray arrayWithCapacity:0];
+        self.mQueryHistory    = [NSMutableArray arrayWithCapacity:0];
         self.mSearchType      = searchType;
         self.mListDisplayMode = ListDisplayModeNone;
         self.hidesBackButton  = NO;
@@ -157,26 +159,26 @@ typedef enum
         // Init IQE.
         //
         
-        mIQE = [[IQE alloc] initWithSearchType:searchType
+        mIQE = [[IQE alloc] initWithParameters:searchType
                                         apiKey:key
                                      apiSecret:secret];
         
         mIQE.delegate = self;
         
         //
-        // Register notification message for history item changes.
+        // Register notification message for query changes.
         //
         
         NSNotificationCenter* notificationCenter = [NSNotificationCenter defaultCenter];
         
         [notificationCenter addObserver:self
-                               selector:@selector(historyItemTitleChange:) 
-                                   name:IQEHistoryItemTitleChangeNotification
+                               selector:@selector(queryTitleChange:) 
+                                   name:IQEQueryTitleChangeNotification
                                  object:nil];
         
         [notificationCenter addObserver:self
-                               selector:@selector(historyItemStateChange:) 
-                                   name:IQEHistoryItemStateChangeNotification
+                               selector:@selector(queryStateChange:) 
+                                   name:IQEQueryStateChangeNotification
                                  object:nil];
         
         //
@@ -241,7 +243,7 @@ typedef enum
     [mCameraButton  release];
     [mHistoryButton release];
     [mTableView     release];
-    [mHistory       release];
+    [mQueryHistory  release];
     [mDocumentPath  release];
     [mDataPath      release];
     
@@ -258,10 +260,10 @@ typedef enum
     // Release any cached data, images, etc that aren't in use.
 }
 
-/* -------------------------------------------------------------------------------- */
+// --------------------------------------------------------------------------------
 #pragma mark -
 #pragma mark UIViewController
-/* -------------------------------------------------------------------------------- */
+// --------------------------------------------------------------------------------
 
 - (void)viewDidLoad
 {
@@ -316,10 +318,10 @@ typedef enum
     if (mFirstViewLoad)
     {
         //
-        // Handle unfinished searches.
+        // Handle unfinished queries.
         //
         
-        [self processUnfinishedHistoryItems:YES];
+        [self processUnfinishedQueries:YES];
         
         mFirstViewLoad = NO;
     }
@@ -366,10 +368,468 @@ typedef enum
     [mTableView setEditing:editing animated:animated];
 }
 
-/* -------------------------------------------------------------------------------- */
+// --------------------------------------------------------------------------------
+#pragma mark -
+#pragma mark Application lifecycle
+// --------------------------------------------------------------------------------
+
+- (void)applicationDidEnterBackground
+{
+    [self saveState];
+    
+    [[IQELocation location] stopLocating];
+}
+
+- (void)applicationWillEnterForeground
+{
+    [self loadState];
+    
+    if (mSearchType & IQESearchTypeRemoteSearch && self.locationEnabled)
+        [[IQELocation location] startLocating];
+    
+    [self processUnfinishedQueries:NO];
+}
+
+// --------------------------------------------------------------------------------
+#pragma mark -
+#pragma mark <IQEDelegate> implementation
+// --------------------------------------------------------------------------------
+
+- (void)iqEngines:(IQE*)iqe didCompleteSearch:(IQESearchType)type withResults:(NSDictionary*)results forQID:(NSString*)qid
+{
+    IQEQuery*  query       = nil;
+    NSUInteger scrollIndex = NSNotFound;
+    
+    if (qid)
+    {
+        query = [mQueryHistory queryForQID:qid];
+        if (!query)
+            return; // query for this qid has been deleted. Ignore result.
+    }
+    
+    //
+    // Deal with queries that have no results.
+    //
+    
+    if (query && results.count == 0)
+    {
+        if (type == IQESearchTypeRemoteSearch)
+            [query setState:IQEQueryStateNotFound forType:IQEQueryTypeRemoteObject];
+        else
+        if (type == IQESearchTypeObjectSearch)
+            [query setState:IQEQueryStateNotFound forType:IQEQueryTypeLocalObject];
+        else
+        if (type == IQESearchTypeBarCode)
+            [query setState:IQEQueryStateNotFound forType:IQEQueryTypeBarCode];
+        
+        // If the search is complete, find out if there are any results found.
+        if ([query complete] == YES
+        &&  [query found]    == NO)
+        {
+            query.type  = IQEQueryTypeUnknown;
+            query.state = IQEQueryStateNotFound;
+        }
+        
+        return;
+    }
+    
+    if (type == IQESearchTypeRemoteSearch)
+    {
+        if (query)
+        {
+            [query setState:IQEQueryStateFound forType:IQEQueryTypeRemoteObject];
+            
+            // Ignore remote result if local or barcode is already finished.
+            if (query.type == IQEQueryTypeBarCode
+            ||  query.type == IQEQueryTypeLocalObject)
+                return;
+            
+            if (query.state != IQEQueryStateFound)
+                scrollIndex = [mQueryHistory indexOfObject:query];
+            
+            query.qidData = results;
+            query.type    = IQEQueryTypeRemoteObject;
+            query.state   = IQEQueryStateFound;
+            
+            [mTableView reloadData];
+        }
+    }
+    else
+    if (type == IQESearchTypeObjectSearch)
+    {
+        NSString* objId     = [results objectForKey:IQEKeyObjectId];
+        NSString* objName   = [results objectForKey:IQEKeyObjectName];
+        NSString* objMeta   = [results objectForKey:IQEKeyObjectMeta];
+        NSString* imagePath = [results objectForKey:IQEKeyObjectImagePath];
+        
+        if (query)
+        {
+            [query setState:IQEQueryStateFound forType:IQEQueryTypeLocalObject];
+            
+            UIImage* image = [UIImage imageWithContentsOfFile:imagePath];
+            if (image)
+            {
+                // Remove images. Local Object item uses images in local files.
+                [self removeImageFiles:query];
+                
+                // Use local object images.
+                [self saveImageFiles:query forImage:image];
+            }
+            
+            query.qidData = nil; // local results overwrite remote object
+            query.objId   = objId;
+            query.objName = objName;
+            query.objMeta = objMeta;
+            query.type    = IQEQueryTypeLocalObject;
+            query.state   = IQEQueryStateFound;
+            
+            scrollIndex = [mQueryHistory indexOfObject:query];
+        }
+        else
+        {
+            // Automatic detect.
+            
+            IQEQuery* newQuery = [[[IQEQuery alloc] init] autorelease];
+            
+            newQuery.objId   = objId;
+            newQuery.objName = objName;
+            newQuery.objMeta = objMeta;
+            newQuery.type    = IQEQueryTypeLocalObject;
+            
+            IQEQuery* latestQuery = [mQueryHistory firstObject];
+            if (latestQuery == nil || [latestQuery isEqualToQuery:newQuery] == NO)
+            {
+                UIImage* image = [UIImage imageWithContentsOfFile:imagePath];
+                if (image)
+                    [self saveImageFiles:newQuery forImage:image];
+                
+                newQuery.state = IQEQueryStateFound;
+                
+                [mQueryHistory insertObject:newQuery atIndex:0];
+                [mTableView reloadData];
+            }
+            else
+            {
+                if (kCFCoreFoundationVersionNumber > kCFCoreFoundationVersionNumber_iPhoneOS_3_2)
+                    UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, latestQuery.title);
+            }
+            
+            scrollIndex = 0;
+        }
+    }
+    else
+    if (type == IQESearchTypeBarCode)
+    {
+        NSString* barData = [results objectForKey:IQEKeyBarcodeData];
+        NSString* barType = [results objectForKey:IQEKeyBarcodeType];
+        
+        if (query)
+        {
+            [query setState:IQEQueryStateFound forType:IQEQueryTypeBarCode];
+            
+            // Remove images. Barcode item uses default images in bundle.
+            [self removeImageFiles:query];
+            
+            query.qidData  = nil; // local results overwrite remote object
+            query.codeData = barData;
+            query.codeType = barType;
+            query.type     = IQEQueryTypeBarCode;
+            query.state    = IQEQueryStateFound;
+            
+            scrollIndex = [mQueryHistory indexOfObject:query];
+        }
+        else
+        {
+            // Automatic detect.
+            
+            IQEQuery* newQuery = [[[IQEQuery alloc] init] autorelease];
+            
+            newQuery.codeData = barData;
+            newQuery.codeType = barType;
+            newQuery.type     = IQEQueryTypeBarCode;
+            
+            IQEQuery* latestQuery = [mQueryHistory firstObject];
+            if (latestQuery == nil || [latestQuery isEqualToQuery:newQuery] == NO)
+            {                
+                newQuery.state = IQEQueryStateFound;
+                
+                [mQueryHistory insertObject:newQuery atIndex:0];
+                [mTableView reloadData];
+            }
+            
+            scrollIndex = 0;
+        }
+    }
+    
+    //
+    // Update UI:
+    // - Scroll list to query
+    // - Show list
+    //
+    
+    if (scrollIndex != NSNotFound && [mTableView numberOfRowsInSection:0] > 0)
+    {
+        [mTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:scrollIndex inSection:0]
+                          atScrollPosition:UITableViewScrollPositionTop
+                                  animated:YES];
+        
+        if (mListDisplayMode == ListDisplayModeNone)
+            mListDisplayMode = ListDisplayModeResult;
+        
+        [self updateView];
+    }
+}
+
+- (void)iqEngines:(IQE*)iqe didCaptureStillFrame:(UIImage*)image
+{
+    //
+    // Got an image due to the camera button press. Start a new search.
+    //
+    
+    IQEQuery* newQuery = [[IQEQuery alloc] init];
+    
+    [self startSearchForQuery:newQuery withImage:image];
+    
+    [mQueryHistory insertObject:newQuery atIndex:0];
+    
+    [self saveImageFiles:newQuery forImage:image];
+    
+    //
+    // Update UI
+    //
+    
+    [mTableView reloadData];
+    [mTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]
+                      atScrollPosition:UITableViewScrollPositionTop
+                              animated:NO];
+    
+    if (mListDisplayMode == ListDisplayModeNone)
+        mListDisplayMode = ListDisplayModeResult;
+    
+    [self updateView];
+    
+    [newQuery release];
+}
+
+- (void)iqEngines:(IQE*)iqe statusDidChange:(IQEStatus)status forQID:(NSString *)qid
+{
+    IQEQuery* query = [mQueryHistory queryForQID:qid];
+    
+    if (query == nil)
+        return;
+    
+    // Ignore remote status if local or barcode is already finished.
+    if (query.type == IQEQueryTypeBarCode
+    ||  query.type == IQEQueryTypeLocalObject)
+        return;
+
+    switch (status)
+    {
+        case IQEStatusUnknown:
+            query.state = IQEQueryStateUnknown;
+            break;
+            
+        case IQEStatusError:
+            query.state = IQEQueryStateNetworkProblem;
+            break;
+
+        case IQEStatusUploading:
+            query.state = IQEQueryStateUploading;
+            break;
+            
+        case IQEStatusSearching:
+            query.state = IQEQueryStateSearching;
+            break;
+            
+        case IQEStatusNotReady:
+            query.state = IQEQueryStateNotReady;
+            break;
+            
+        default:
+            break;
+    }
+}
+
+- (void) iqEngines:(IQE*)iqe didFindBarcodeDescription:(NSString*)desc forUPC:(NSString*)upc
+{
+    if (desc == nil || [desc isEqualToString:@""])
+        return;
+    
+    for (IQEQuery* query in mQueryHistory)
+    {
+        if (query.type == IQEQueryTypeBarCode
+        && [query.codeData isEqualToString:upc]  == YES
+        && [query.codeDesc isEqualToString:desc] == NO)
+        {
+            query.codeDesc = desc;
+            
+            [mTableView reloadData];
+            
+            if (kCFCoreFoundationVersionNumber > kCFCoreFoundationVersionNumber_iPhoneOS_3_2)
+                UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, query.title);
+
+            break;
+        }
+    }
+}
+
+- (void)iqEngines:(IQE*)iqe failedWithError:(NSError*)error
+{
+    NSLog(@"failedWithError: %@", error.localizedDescription);
+}
+
+// --------------------------------------------------------------------------------
+#pragma mark -
+#pragma mark <UITableViewDataSource> implementation
+// --------------------------------------------------------------------------------
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return mQueryHistory.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    IQEHistoryTableViewCell* cell = nil;
+    
+    static NSString* cellIdentifier = @"IQECell";
+    
+    cell = (IQEHistoryTableViewCell*)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    if (cell == nil)
+        cell = [[[IQEHistoryTableViewCell alloc] initWithReuseIdentifier:cellIdentifier] autorelease];
+    
+    IQEQuery* query = [mQueryHistory objectAtIndex:indexPath.row];
+    
+    cell.textLabel.text                 = query.title;
+    cell.textLabel.font                 = (query.state == IQEQueryStateFound) ? [UIFont boldSystemFontOfSize:14] : [UIFont systemFontOfSize:14];
+    cell.textLabel.numberOfLines        = 1;
+    cell.textLabel.textColor            = [UIColor whiteColor];
+    cell.backgroundView                 = [[[UIView alloc] initWithFrame:cell.frame] autorelease];
+    cell.backgroundView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.25];
+    cell.imageViewSize                  = CGSizeMake(THUMB_WIDTH, THUMB_HEIGHT);
+    
+    // Use a white arrow for accessory disclosure indicator.
+    if (query.state == IQEQueryStateFound)
+    {
+        UIImage*     arrowImage         = [UIImage imageNamed:@"IQEAccessoryDisclosureArrow.png"];
+        UIImageView* accessoryImageView = [[UIImageView alloc] initWithImage:arrowImage];
+        
+        [accessoryImageView sizeToFit];
+        
+        cell.accessoryView = accessoryImageView;
+        
+        [accessoryImageView release];
+    }
+    else
+    {
+        cell.accessoryView = nil;
+    }
+    
+    //
+    // Set thumbnail image.
+    //
+    
+    cell.imageView.contentMode   = UIViewContentModeScaleAspectFill;
+    cell.imageView.clipsToBounds = YES;
+    
+    if (query.type == IQEQueryTypeBarCode)
+    {
+        if ([query.codeType isEqualToString:IQEBarcodeTypeQRCODE])
+            cell.imageView.image = [UIImage imageNamed:@"IQEQRCode.png"];
+        else
+            cell.imageView.image = [UIImage imageNamed:@"IQEBarcode.png"];
+    }
+    else
+    {
+        cell.imageView.image = [UIImage imageWithContentsOfFile:[mDocumentPath stringByAppendingPathComponent:query.thumbFile]];
+    }
+    
+    return cell;
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete)
+    {
+        //
+        // Remove image and thumbnail files. Then remove query from query history.
+        //
+        
+        IQEQuery* query = [mQueryHistory objectAtIndex:indexPath.row];
+        if (query == nil)
+            return;
+            
+        [self removeImageFiles:query];
+        
+        [mQueryHistory removeObjectAtIndex:indexPath.row];
+        
+        if (mListDisplayMode == ListDisplayModeResult)
+            mListDisplayMode = ListDisplayModeNone;
+        
+        [self updateView];
+    }
+    
+    [mTableView reloadData];
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return UITableViewCellEditingStyleDelete;
+}
+
+// --------------------------------------------------------------------------------
+#pragma mark -
+#pragma mark <UITableDelegate> implementation
+// --------------------------------------------------------------------------------
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Notify delegate of item selection
+    
+    IQEQuery* query = [mQueryHistory objectAtIndex:indexPath.row];
+
+    if (query.state == IQEQueryStateFound)
+    {
+        if ([mDelegate respondsToSelector:@selector(iqeViewController:didSelectItem:atIndex:)])
+            [mDelegate iqeViewController:self didSelectItem:query atIndex:indexPath.row];
+    }
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+// --------------------------------------------------------------------------------
+#pragma mark -
+#pragma mark <UIScrollViewDelegate> implementation
+// --------------------------------------------------------------------------------
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView;
+{
+    if (scrollView.dragging)
+    {
+        if (scrollView.contentOffset.y < - scrollView.frame.size.height / 3.0)
+        {
+            mListDisplayMode = ListDisplayModeNone;
+            
+            [self updateView];
+            [self updateToolbar];
+        }
+    }
+}
+
+// --------------------------------------------------------------------------------
 #pragma mark -
 #pragma mark UIResponder implementation
-/* -------------------------------------------------------------------------------- */
+// --------------------------------------------------------------------------------
+
+//
+// Handle touches to show or hide the history list when swiping
+// up or down on the image preview.
+//
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
@@ -425,13 +885,16 @@ typedef enum
     mStartTouchPosition = CGPointZero;
 }
 
-/* -------------------------------------------------------------------------------- */
+// --------------------------------------------------------------------------------
 #pragma mark -
 #pragma mark Actions
-/* -------------------------------------------------------------------------------- */
+// --------------------------------------------------------------------------------
 
 - (IBAction)onCameraButton:(id)sender
 {
+    // Request an image from the camera.
+    // A UIImage will be returned asynchronously through IQEDelegate didCaptureStillFrame.
+    
     [mIQE captureStillFrame];
     
     [self updateView];
@@ -458,32 +921,10 @@ typedef enum
     [self updateToolbar];
 }
 
-/* -------------------------------------------------------------------------------- */
-#pragma mark -
-#pragma mark Application lifecycle
-/* -------------------------------------------------------------------------------- */
-
-- (void)applicationDidEnterBackground
-{
-    [self saveState];
-    
-    [[IQELocation location] stopLocating];
-}
-
-- (void)applicationWillEnterForeground
-{
-    [self loadState];
-    
-    if (mSearchType & IQESearchTypeRemoteSearch && self.locationEnabled)
-        [[IQELocation location] startLocating];
-    
-    [self processUnfinishedHistoryItems:NO];
-}
-
-/* -------------------------------------------------------------------------------- */
+// --------------------------------------------------------------------------------
 #pragma mark -
 #pragma mark Public methods
-/* -------------------------------------------------------------------------------- */
+// --------------------------------------------------------------------------------
 
 - (BOOL)autoDetection
 {
@@ -523,10 +964,52 @@ typedef enum
         [[IQELocation location] stopLocating];
 }
 
-/* -------------------------------------------------------------------------------- */
+// --------------------------------------------------------------------------------
 #pragma mark -
 #pragma mark Private methods
-/* -------------------------------------------------------------------------------- */
+// --------------------------------------------------------------------------------
+
+- (void)queryTitleChange:(NSNotification*)n
+{
+    [self retain];
+    
+    IQEQuery* query = n.object;
+    
+    // Save new result data to data source.
+    if (query.type == IQEQueryTypeRemoteObject)
+        [mIQE updateResults:query.qidData forQID:query.qid];
+    
+    [mTableView reloadData];
+    [self updateView];
+    
+    [self autorelease];
+}
+
+- (void)queryStateChange:(NSNotification*)n
+{
+    [self retain];
+    
+    IQEQuery* query = n.object;
+    
+    if (query.state == IQEQueryStateFound
+    ||  query.state == IQEQueryStateNotFound)
+    {
+        //
+        // Call delegate when an item is complete.
+        //
+        
+        if ([mDelegate respondsToSelector:@selector(iqeViewController:didCompleteSearch:)])
+            [mDelegate iqeViewController:self didCompleteSearch:query];
+    }
+    
+    if (kCFCoreFoundationVersionNumber > kCFCoreFoundationVersionNumber_iPhoneOS_3_2)
+        UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, query.title);
+
+    [mTableView reloadData];
+    [self updateView];
+
+    [self autorelease];
+}
 
 - (void)updateView
 {
@@ -653,16 +1136,19 @@ typedef enum
         mCameraButton.hidden = NO;
 }
 
-// Load persistant data from plist.
 - (void)loadState
 {
+    //
+    // Load persistant data from plist.
+    //
+    
     NSString* dataFilePath = [mDataPath stringByAppendingPathComponent:STR_DATAFILE];
     
     NSFileManager* fileManager = [NSFileManager defaultManager];
     if ([fileManager fileExistsAtPath:dataFilePath] == NO)
     {
         // Set default values if file doesn't exist.
-        self.mHistory = [NSMutableArray arrayWithCapacity:0];
+        self.mQueryHistory = [NSMutableArray arrayWithCapacity:0];
     }
     else
     {
@@ -671,22 +1157,25 @@ typedef enum
         NSArray* historyArray = [dict objectForKey:STR_KEY_HISTORY];
         if (historyArray)
         {
-            self.mHistory = [[[NSMutableArray alloc] initWithNSArray:historyArray] autorelease];
+            self.mQueryHistory = [[[NSMutableArray alloc] initWithNSArray:historyArray] autorelease];
         }
     }
 }
 
-// Save persistant data to plist.
 - (void)saveState
 {
+    //
+    // Save persistant data to plist.
+    //
+    
     NSMutableDictionary* dict = [NSMutableDictionary dictionary];
     
     [dict setObject:STR_DATAFILE_VER forKey:STR_KEY_VERSION];
 
-    if (mHistory)
+    if (mQueryHistory)
     {
-        NSMutableArray* historyArray = [NSMutableArray arrayWithCapacity:mHistory.count];
-        [mHistory encodeWithNSArray:historyArray];
+        NSMutableArray* historyArray = [NSMutableArray arrayWithCapacity:mQueryHistory.count];
+        [mQueryHistory encodeWithNSArray:historyArray];
         
         [dict setObject:historyArray forKey:STR_KEY_HISTORY];
     }
@@ -695,47 +1184,47 @@ typedef enum
     [dict writeToFile:dataFilePath atomically:YES];
 }
 
-/*
-    History items may be in an unfinished state under normal circumstances.
-    For instance, when the view is deallocated, or the app goes into the background.
-    This method will go through the history list and restart them.
-*/
-
-- (void)processUnfinishedHistoryItems:(BOOL)search
+- (void)processUnfinishedQueries:(BOOL)search
 {
-    for (IQEHistoryItem* historyItem in mHistory)
+    //
+    // Queries may be in an unfinished state under normal circumstances.
+    // For instance, when the view is deallocated, or the app goes into the background.
+    // This method will go through the query history list and restart them.
+    //
+
+    for (IQEQuery* query in mQueryHistory)
     {
-        // HistoryItem type is unknown until a successful image search/detection.
-        if (historyItem.type  == IQEHistoryItemTypeUnknown
-        &&  historyItem.state != IQEHistoryItemStateNotFound)
+        // Query type is unknown until a successful image search/detection.
+        if (query.type  == IQEQueryTypeUnknown
+        &&  query.state != IQEQueryStateNotFound)
         {
             if (mSearchType & IQESearchTypeRemoteSearch)
             {
                 // Remote search disconnects from server when in the background.
                 
-                if ((historyItem.state == IQEHistoryItemStateUploading
-                ||   historyItem.state == IQEHistoryItemStateNetworkProblem))
+                if ((query.state == IQEQueryStateUploading
+                ||   query.state == IQEQueryStateNetworkProblem))
                 {
                     //
                     // Image may not have made it to the server. Try again.
                     //
                     
-                    NSString* imagePath = [mDocumentPath stringByAppendingPathComponent:historyItem.imageFile];
+                    NSString* imagePath = [mDocumentPath stringByAppendingPathComponent:query.imageFile];
                     UIImage*  image     = [UIImage imageWithContentsOfFile:imagePath];
                     
                     if (image)
-                        [self startSearchForHistoryItem:historyItem withImage:image];
+                        [self startSearchForQuery:query withImage:image];
                 }
                 else
-                if ((historyItem.state == IQEHistoryItemStateSearching
-                ||   historyItem.state == IQEHistoryItemStateNotReady))
+                if ((query.state == IQEQueryStateSearching
+                ||   query.state == IQEQueryStateNotReady))
                 {
                     //
                     // Results may be available if the app was closed
                     // before getting the results, so check for them.
                     //
                     
-                    [mIQE searchWithQID:historyItem.qid];
+                    [mIQE searchWithQID:query.qid];
                 }
             }
             else
@@ -748,11 +1237,11 @@ typedef enum
                     // Resubmit image when initial search for this item is no longer running.
                     //
                     
-                    NSString* imagePath = [mDocumentPath stringByAppendingPathComponent:historyItem.imageFile];
+                    NSString* imagePath = [mDocumentPath stringByAppendingPathComponent:query.imageFile];
                     UIImage*  image     = [UIImage imageWithContentsOfFile:imagePath];
                     
                     if (image)
-                        [self startSearchForHistoryItem:historyItem withImage:image];
+                        [self startSearchForQuery:query withImage:image];
                 }
             }
         }
@@ -761,27 +1250,27 @@ typedef enum
 
 - (CGRect)historyListRect
 {
-    CGRect  historyRect;
-    CGFloat historyHeight = MIN(mHistory.count, MAX_DISPLAYCELLS) * CELL_HEIGHT;
+    CGRect  rect;
+    CGFloat historyHeight = MIN(mQueryHistory.count, MAX_DISPLAYCELLS) * CELL_HEIGHT;
     
     if (mListDisplayMode == ListDisplayModeHistory)
     {
         mTableView.scrollEnabled = YES;
-        historyRect = CGRectMake(0, mPreviewView.frame.size.height - historyHeight, mPreviewView.frame.size.width, historyHeight);
+        rect = CGRectMake(0, mPreviewView.frame.size.height - historyHeight, mPreviewView.frame.size.width, historyHeight);
     }
     else
     if (mListDisplayMode == ListDisplayModeResult)
     {
         mTableView.scrollEnabled = NO;
-        historyRect = CGRectMake(0, mPreviewView.frame.size.height - CELL_HEIGHT, mPreviewView.frame.size.width, CELL_HEIGHT);   
+        rect = CGRectMake(0, mPreviewView.frame.size.height - CELL_HEIGHT, mPreviewView.frame.size.width, CELL_HEIGHT);   
     }
     else
     if (mListDisplayMode == ListDisplayModeNone)
     {
-        historyRect = CGRectMake(0, mPreviewView.frame.size.height, mPreviewView.frame.size.width, 0);
+        rect = CGRectMake(0, mPreviewView.frame.size.height, mPreviewView.frame.size.width, 0);
     }
     
-    return historyRect;
+    return rect;
 }
 
 - (CGSize)thumbSize
@@ -795,78 +1284,41 @@ typedef enum
     return CGSizeMake(THUMB_WIDTH * screenScale, THUMB_HEIGHT * screenScale);
 }
 
-- (void)historyItemTitleChange:(NSNotification*)n
+- (void)startSearchForQuery:(IQEQuery*)query withImage:(UIImage*)image
 {
-    [self retain];
-    
-    IQEHistoryItem* historyItem = n.object;
-    
-    // Save new result data to data source.
-    if (historyItem.type == IQEHistoryItemTypeRemoteObject)
-        [mIQE updateResults:historyItem.qidData forQID:historyItem.qid];
-    
-    [mTableView reloadData];
-    [self updateView];
-    
-    [self autorelease];
-}
-
-- (void)historyItemStateChange:(NSNotification*)n
-{
-    [self retain];
-    
-    IQEHistoryItem* historyItem = n.object;
-    
-    if (historyItem.state == IQEHistoryItemStateFound
-    ||  historyItem.state == IQEHistoryItemStateNotFound)
-    {
-        //
-        // Call delegate when an item is complete.
-        //
-        
-        if ([mDelegate respondsToSelector:@selector(iqeViewController:didCompleteSearch:)])
-            [mDelegate iqeViewController:self didCompleteSearch:historyItem];
-    }
-    
-    if (kCFCoreFoundationVersionNumber > kCFCoreFoundationVersionNumber_iPhoneOS_3_2)
-        UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, historyItem.title);
-
-    [mTableView reloadData];
-    [self updateView];
-
-    [self autorelease];
-}
-
-- (void)startSearchForHistoryItem:(IQEHistoryItem*)historyItem withImage:(UIImage*)image
-{
-    if (mSearchType & IQESearchTypeBarCode)      [historyItem setState:IQEHistoryItemStateUnknown forType:IQEHistoryItemTypeBarCode];
-    if (mSearchType & IQESearchTypeObjectSearch) [historyItem setState:IQEHistoryItemStateUnknown forType:IQEHistoryItemTypeLocalObject];
-    if (mSearchType & IQESearchTypeRemoteSearch) [historyItem setState:IQEHistoryItemStateUnknown forType:IQEHistoryItemTypeRemoteObject];
+    // Reset state of query for all search types when doing a new search.
+    if (mSearchType & IQESearchTypeBarCode)      [query setState:IQEQueryStateUnknown forType:IQEQueryTypeBarCode];
+    if (mSearchType & IQESearchTypeObjectSearch) [query setState:IQEQueryStateUnknown forType:IQEQueryTypeLocalObject];
+    if (mSearchType & IQESearchTypeRemoteSearch) [query setState:IQEQueryStateUnknown forType:IQEQueryTypeRemoteObject];
     
     //
-    // Start image detection. The result will be returned via the IQEDelegate protocol.
+    // Start image search/detection. The result will be returned via the IQEDelegate protocol.
     //
     
     NSString* qid = [mIQE searchWithImage:image atLocation:[IQELocation location].coordinates];
     
     if (qid)
     {
-        historyItem.qid = qid;
+        query.qid = qid;
         
         if (mSearchType & IQESearchTypeRemoteSearch)
-            historyItem.state = IQEHistoryItemStateUploading;
+            query.state = IQEQueryStateUploading;
         else
-            historyItem.state = IQEHistoryItemStateSearching;
+            query.state = IQEQueryStateSearching;
     }
     else
     {
-        historyItem.state = IQEHistoryItemStateNotFound;
-        historyItem.type  = IQEHistoryItemTypeUnknown;
+        query.state = IQEQueryStateNotFound;
+        query.type  = IQEQueryTypeUnknown;
     }
 }
 
-- (void)saveImageFiles:(IQEHistoryItem*)historyItem forImage:(UIImage*)image
+- (void)saveImageFiles:(IQEQuery*)query forImage:(UIImage*)image
 {
+    // Save image as a jpg in the iqe data directory.
+    // Also create and save a thumbnail suffixed with "thumb".
+    // Update query object with the location of image files.
+    
     NSString* uniqueName = [UIImage uniqueName];
     NSString* imageName  = [NSString stringWithFormat:@"%@.jpg",      uniqueName];
     NSString* thumbName  = [NSString stringWithFormat:@"%@thumb.jpg", uniqueName];
@@ -876,444 +1328,27 @@ typedef enum
     [image saveAsJPEGinDirectory:mDataPath withName:thumbName size:[self thumbSize]];
     
     // iqe/*.jpg
-    historyItem.imageFile = [STR_DATADIR stringByAppendingPathComponent:imageName];
-    historyItem.thumbFile = [STR_DATADIR stringByAppendingPathComponent:thumbName];
+    query.imageFile = [STR_DATADIR stringByAppendingPathComponent:imageName];
+    query.thumbFile = [STR_DATADIR stringByAppendingPathComponent:thumbName];
 }
 
-- (void)removeImageFiles:(IQEHistoryItem*)historyItem
+- (void)removeImageFiles:(IQEQuery*)query
 {
-    NSString* imagePath = [mDocumentPath stringByAppendingPathComponent:historyItem.imageFile];
-    NSString* thumbPath = [mDocumentPath stringByAppendingPathComponent:historyItem.thumbFile];
+    NSString* imagePath = [mDocumentPath stringByAppendingPathComponent:query.imageFile];
+    NSString* thumbPath = [mDocumentPath stringByAppendingPathComponent:query.thumbFile];
     
     NSFileManager* fileManager = [NSFileManager defaultManager];
     
-    if (historyItem.imageFile && ![historyItem.imageFile isEqualToString:@""]) 
+    if (query.imageFile && ![query.imageFile isEqualToString:@""]) 
         [fileManager removeItemAtPath:imagePath error:nil];
     
-    if (historyItem.thumbFile && ![historyItem.thumbFile isEqualToString:@""])
+    if (query.thumbFile && ![query.thumbFile isEqualToString:@""])
         [fileManager removeItemAtPath:thumbPath error:nil];
     
-    historyItem.imageFile = nil;
-    historyItem.thumbFile = nil;
-}
-
-/* -------------------------------------------------------------------------------- */
-#pragma mark -
-#pragma mark <IQEDelegate> implementation
-/* -------------------------------------------------------------------------------- */
-
-- (void)iqEngines:(IQE*)iqe didCompleteSearch:(IQESearchType)type withResults:(NSDictionary*)results forQID:(NSString*)qid
-{
-    IQEHistoryItem* historyItem = nil;
-    NSUInteger      scrollIndex = NSNotFound;
-    
-    if (qid)
-    {
-        historyItem = [mHistory historyItemForQID:qid];
-        if (!historyItem)
-            return; // historyItem for this qid has been deleted. Ignore result.
-    }
-    
-    //
-    // Deal with searches that have no results.
-    //
-    
-    if (historyItem && results.count == 0)
-    {
-        if (type == IQESearchTypeRemoteSearch)
-            [historyItem setState:IQEHistoryItemStateNotFound forType:IQEHistoryItemTypeRemoteObject];
-        else
-        if (type == IQESearchTypeObjectSearch)
-            [historyItem setState:IQEHistoryItemStateNotFound forType:IQEHistoryItemTypeLocalObject];
-        else
-        if (type == IQESearchTypeBarCode)
-            [historyItem setState:IQEHistoryItemStateNotFound forType:IQEHistoryItemTypeBarCode];
-        
-        // If the search is complete, find out if there are any results found.
-        if ([historyItem complete] == YES
-        &&  [historyItem found]    == NO)
-        {
-            historyItem.type  = IQEHistoryItemTypeUnknown;
-            historyItem.state = IQEHistoryItemStateNotFound;
-        }
-        
-        return;
-    }
-    
-    if (type == IQESearchTypeRemoteSearch)
-    {
-        if (historyItem)
-        {
-            [historyItem setState:IQEHistoryItemStateFound forType:IQEHistoryItemTypeRemoteObject];
-            
-            // Ignore remote result if local or barcode is already finished.
-            if (historyItem.type == IQEHistoryItemTypeBarCode
-            ||  historyItem.type == IQEHistoryItemTypeLocalObject)
-                return;
-            
-            if (historyItem.state != IQEHistoryItemStateFound)
-                scrollIndex = [mHistory indexOfObject:historyItem];
-            
-            historyItem.qidData = results;
-            historyItem.type    = IQEHistoryItemTypeRemoteObject;
-            historyItem.state   = IQEHistoryItemStateFound;
-            
-            [mTableView reloadData];
-        }
-    }
-    else
-    if (type == IQESearchTypeObjectSearch)
-    {
-        NSString* objId     = [results objectForKey:IQEKeyObjectId];
-        NSString* objName   = [results objectForKey:IQEKeyObjectName];
-        NSString* objMeta   = [results objectForKey:IQEKeyObjectMeta];
-        NSString* imagePath = [results objectForKey:IQEKeyObjectImagePath];
-        
-        if (historyItem)
-        {
-            [historyItem setState:IQEHistoryItemStateFound forType:IQEHistoryItemTypeLocalObject];
-            
-            // Remove images. Local Object item uses images in local files.
-            [self removeImageFiles:historyItem];
-            
-            // Use local object images
-            UIImage* image = [UIImage imageWithContentsOfFile:imagePath];
-            [self saveImageFiles:historyItem forImage:image];
-            
-            historyItem.qidData = nil; // local results overwrite remote object
-            historyItem.objId   = objId;
-            historyItem.objName = objName;
-            historyItem.objMeta = objMeta;
-            historyItem.type    = IQEHistoryItemTypeLocalObject;
-            historyItem.state   = IQEHistoryItemStateFound;
-            
-            scrollIndex = [mHistory indexOfObject:historyItem];
-        }
-        else
-        {
-            // Automatic detect.
-            
-            IQEHistoryItem* item = [[[IQEHistoryItem alloc] init] autorelease];
-            
-            item.objId   = objId;
-            item.objName = objName;
-            item.objMeta = objMeta;
-            item.type    = IQEHistoryItemTypeLocalObject;
-            
-            IQEHistoryItem* latestItem = [mHistory firstObject];
-            if (latestItem == nil || [latestItem isEqualToHistoryItem:item] == NO)
-            {
-                UIImage* image = [UIImage imageWithContentsOfFile:imagePath];
-                [self saveImageFiles:item forImage:image];
-                
-                item.state = IQEHistoryItemStateFound;
-                
-                [mHistory insertObject:item atIndex:0];
-                [mTableView reloadData];
-            }
-            else
-            {
-                if (kCFCoreFoundationVersionNumber > kCFCoreFoundationVersionNumber_iPhoneOS_3_2)
-                    UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, latestItem.title);
-            }
-            
-            scrollIndex = 0;
-        }
-    }
-    else
-    if (type == IQESearchTypeBarCode)
-    {
-        NSString* barData = [results objectForKey:IQEKeyBarcodeData];
-        NSString* barType = [results objectForKey:IQEKeyBarcodeType];
-        
-        if (historyItem)
-        {
-            [historyItem setState:IQEHistoryItemStateFound forType:IQEHistoryItemTypeBarCode];
-            
-            // Remove images. Barcode item uses default images in bundle.
-            [self removeImageFiles:historyItem];
-            
-            historyItem.qidData  = nil; // local results overwrite remote object
-            historyItem.codeData = barData;
-            historyItem.codeType = barType;
-            historyItem.type     = IQEHistoryItemTypeBarCode;
-            historyItem.state    = IQEHistoryItemStateFound;
-            
-            scrollIndex = [mHistory indexOfObject:historyItem];
-        }
-        else
-        {
-            // Automatic detect.
-            
-            IQEHistoryItem* item = [[[IQEHistoryItem alloc] init] autorelease];
-            
-            item.codeData = barData;
-            item.codeType = barType;
-            item.type     = IQEHistoryItemTypeBarCode;
-            
-            IQEHistoryItem* latestItem = [mHistory firstObject];
-            if (latestItem == nil || [latestItem isEqualToHistoryItem:item] == NO)
-            {                
-                item.state = IQEHistoryItemStateFound;
-                
-                [mHistory insertObject:item atIndex:0];
-                [mTableView reloadData];
-            }
-            
-            scrollIndex = 0;
-        }
-    }
-    
-    //
-    // Update UI:
-    // - Scroll list to historyItem
-    // - Show list
-    //
-    
-    if (scrollIndex != NSNotFound && [mTableView numberOfRowsInSection:0] > 0)
-    {
-        [mTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:scrollIndex inSection:0]
-                          atScrollPosition:UITableViewScrollPositionTop
-                                  animated:YES];
-        
-        if (mListDisplayMode == ListDisplayModeNone)
-            mListDisplayMode = ListDisplayModeResult;
-        
-        [self updateView];
-    }
-}
-
-- (void)iqEngines:(IQE*)iqe didCaptureStillFrame:(UIImage*)image
-{
-    IQEHistoryItem* historyItem = [[IQEHistoryItem alloc] init];
-    
-    [self startSearchForHistoryItem:historyItem withImage:image];
-    
-    [mHistory insertObject:historyItem atIndex:0];
-    
-    [self saveImageFiles:historyItem forImage:image];
-    
-    [mTableView reloadData];
-    [mTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]
-                      atScrollPosition:UITableViewScrollPositionTop
-                              animated:NO];
-    
-    if (mListDisplayMode == ListDisplayModeNone)
-        mListDisplayMode = ListDisplayModeResult;
-    
-    [self updateView];
-    
-    [historyItem release];
-}
-
-- (void)iqEngines:(IQE*)iqe statusDidChange:(IQEStatus)status forQID:(NSString *)qid
-{
-    IQEHistoryItem* historyItem = [mHistory historyItemForQID:qid];
-    
-    if (historyItem == nil)
-        return;
-    
-    // Ignore remote status if local or barcode is already finished.
-    if (historyItem.type == IQEHistoryItemTypeBarCode
-    ||  historyItem.type == IQEHistoryItemTypeLocalObject)
-        return;
-
-    switch (status)
-    {
-        case IQEStatusUnknown:
-            historyItem.state = IQEHistoryItemStateUnknown;
-            break;
-            
-        case IQEStatusError:
-            historyItem.state = IQEHistoryItemStateNetworkProblem;
-            break;
-
-        case IQEStatusUploading:
-            historyItem.state = IQEHistoryItemStateUploading;
-            break;
-            
-        case IQEStatusSearching:
-            historyItem.state = IQEHistoryItemStateSearching;
-            break;
-            
-        case IQEStatusNotReady:
-            historyItem.state = IQEHistoryItemStateNotReady;
-            break;
-            
-        default:
-            break;
-    }
-}
-
-- (void) iqEngines:(IQE*)iqe didFindBarcodeDescription:(NSString*)desc forUPC:(NSString*)upc
-{
-    if (desc == nil || [desc isEqualToString:@""])
-        return;
-    
-    for (IQEHistoryItem* historyItem in mHistory)
-    {
-        if (historyItem.type == IQEHistoryItemTypeBarCode
-        && [historyItem.codeData isEqualToString:upc]  == YES
-        && [historyItem.codeDesc isEqualToString:desc] == NO)
-        {
-            historyItem.codeDesc = desc;
-            
-            [mTableView reloadData];
-            
-            if (kCFCoreFoundationVersionNumber > kCFCoreFoundationVersionNumber_iPhoneOS_3_2)
-                UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, historyItem.title);
-
-            break;
-        }
-    }
-}
-
-- (void)iqEngines:(IQE*)iqe failedWithError:(NSError*)error
-{
-    NSLog(@"failedWithError: %@", error.localizedDescription);
-}
-
-/* -------------------------------------------------------------------------------- */
-#pragma mark -
-#pragma mark <UITableViewDataSource> implementation
-/* -------------------------------------------------------------------------------- */
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return mHistory.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    IQEHistoryTableViewCell* cell = nil;
-    
-    static NSString* cellIdentifier = @"HistoryCell";
-    
-    cell = (IQEHistoryTableViewCell*)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    if (cell == nil)
-        cell = [[[IQEHistoryTableViewCell alloc] initWithReuseIdentifier:cellIdentifier] autorelease];
-    
-    IQEHistoryItem* historyItem = [mHistory objectAtIndex:indexPath.row];
-    
-    cell.textLabel.text                 = historyItem.title;
-    cell.textLabel.font                 = (historyItem.state == IQEHistoryItemStateFound) ? [UIFont boldSystemFontOfSize:14] : [UIFont systemFontOfSize:14];
-    cell.textLabel.numberOfLines        = 1;
-    cell.textLabel.textColor            = [UIColor whiteColor];
-    cell.backgroundView                 = [[[UIView alloc] initWithFrame:cell.frame] autorelease];
-    cell.backgroundView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.25];
-    cell.imageViewSize                  = CGSizeMake(THUMB_WIDTH, THUMB_HEIGHT);
-    
-    // Use a white arrow for accessory disclosure indicator.
-    if (historyItem.state == IQEHistoryItemStateFound)
-    {
-        UIImage*     arrowImage         = [UIImage imageNamed:@"IQEAccessoryDisclosureArrow.png"];
-        UIImageView* accessoryImageView = [[UIImageView alloc] initWithImage:arrowImage];
-        
-        [accessoryImageView sizeToFit];
-        
-        cell.accessoryView = accessoryImageView;
-        
-        [accessoryImageView release];
-    }
-    else
-    {
-        cell.accessoryView = nil;
-    }
-    
-    //
-    // Set thumbnail image.
-    //
-    
-    cell.imageView.contentMode   = UIViewContentModeScaleAspectFill;
-    cell.imageView.clipsToBounds = YES;
-    
-    if (historyItem.type == IQEHistoryItemTypeBarCode)
-    {
-        if ([historyItem.codeType isEqualToString:IQEBarcodeTypeQRCODE])
-            cell.imageView.image = [UIImage imageNamed:@"IQEQRCode.png"];
-        else
-            cell.imageView.image = [UIImage imageNamed:@"IQEBarcode.png"];
-    }
-    else
-    {
-        cell.imageView.image = [UIImage imageWithContentsOfFile:[mDocumentPath stringByAppendingPathComponent:historyItem.thumbFile]];
-    }
-    
-    return cell;
-}
-
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return YES;
-}
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete)
-    {
-        //
-        // Remove image and thumbnail files. Then remove item from history.
-        //
-        
-        IQEHistoryItem* historyItem = [mHistory objectAtIndex:indexPath.row];
-        if (historyItem == nil)
-            return;
-            
-        [self removeImageFiles:historyItem];
-        
-        [mHistory removeObjectAtIndex:indexPath.row];
-        
-        if (mListDisplayMode == ListDisplayModeResult)
-            mListDisplayMode = ListDisplayModeNone;
-        
-        [self updateView];
-    }
-    
-    [mTableView reloadData];
-}
-
-- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return UITableViewCellEditingStyleDelete;
-}
-
-/* -------------------------------------------------------------------------------- */
-#pragma mark -
-#pragma mark <UITableDelegate> implementation
-/* -------------------------------------------------------------------------------- */
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Notify delegate of item selection
-    
-    IQEHistoryItem* historyItem = [mHistory objectAtIndex:indexPath.row];
-
-    if (historyItem.state == IQEHistoryItemStateFound)
-    {
-        if ([mDelegate respondsToSelector:@selector(iqeViewController:didSelectItem:atIndex:)])
-            [mDelegate iqeViewController:self didSelectItem:historyItem atIndex:indexPath.row];
-    }
-    
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-}
-
-/* -------------------------------------------------------------------------------- */
-#pragma mark -
-#pragma mark <UIScrollViewDelegate> implementation
-/* -------------------------------------------------------------------------------- */
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView;
-{
-    if (scrollView.dragging)
-    {
-        if (scrollView.contentOffset.y < - scrollView.frame.size.height / 3.0)
-        {
-            mListDisplayMode = ListDisplayModeNone;
-            
-            [self updateView];
-            [self updateToolbar];
-        }
-    }
+    query.imageFile = nil;
+    query.thumbFile = nil;
 }
 
 @end
+
+// --------------------------------------------------------------------------------

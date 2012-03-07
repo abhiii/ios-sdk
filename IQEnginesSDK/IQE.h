@@ -1,10 +1,30 @@
+/*
+ Copyright (c) 2011-2012 IQ Engines, Inc.
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+ 
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+ 
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+*/
+
 // --------------------------------------------------------------------------------
 //
 //  IQE.h
 //
-//  Copyright (c) 2011-2012 IQ Engines, Inc. All rights reserved.
-//
-//  Version 1.0
+//  Version 1.1
 //
 // --------------------------------------------------------------------------------
 
@@ -40,10 +60,22 @@ typedef enum
 
 @protocol IQEDelegate <NSObject>
 @optional
+
+// Called when an image search has completed successfully.
+// The type parameter indicates what type of image was detected.
+// Results for the image search are contained in the results dictionary parameter. The keys are listed below.
 - (void) iqEngines:(IQE*)iqe didCompleteSearch:(IQESearchType)type withResults:(NSDictionary*)results forQID:(NSString*)qid;
-- (void) iqEngines:(IQE*)iqe statusDidChange:(IQEStatus)status forQID:(NSString*)qid;
+
+// Called when an image search has failed.
 - (void) iqEngines:(IQE*)iqe failedWithError:(NSError*)error;
+
+// Status changes for a particular query ID are returned with this message.
+- (void) iqEngines:(IQE*)iqe statusDidChange:(IQEStatus)status forQID:(NSString*)qid;
+
+// Called when a description becomes available for a barcode search type.
 - (void) iqEngines:(IQE*)iqe didFindBarcodeDescription:(NSString*)desc forUPC:(NSString*)upc;
+
+// Called in response to captureStillFrame:
 - (void) iqEngines:(IQE*)iqe didCaptureStillFrame:(UIImage*)image;
 @end
 
@@ -62,29 +94,44 @@ typedef enum
     id<IQEDelegate> mDelegate;
 }
 
-- (id)initWithSearchType:(IQESearchType)searchType;
-- (id)initWithSearchType:(IQESearchType)searchType apiKey:(NSString*)key apiSecret:(NSString*)secret;
+// The designated initializers.
+// Provide your IQ Engines key and secret parameters when using the IQESearchTypeRemoteSearch type.
+
+- (id)initWithParameters:(IQESearchType)searchType;
+- (id)initWithParameters:(IQESearchType)searchType apiKey:(NSString*)key apiSecret:(NSString*)secret;
 
 @property(nonatomic, assign) id<IQEDelegate> delegate;
 
 @property(nonatomic, assign)   BOOL     autoDetection; // Automatic local detection. default is YES
 @property(nonatomic, readonly) CALayer* previewLayer;  // Previews visual output of the camera device.
 
+// Camera control. Use to start or stop camera when preview is visible or hidden, respectively.
 - (void)startCamera;
 - (void)stopCamera;
 
-- (void)captureStillFrame; // Image returned asynchronously through iqEngines:didCaptureStillFrame:
+// Capture a single frame. The image is returned asynchronously through iqEngines:didCaptureStillFrame:
+- (void)captureStillFrame;
+
+// Perform an image recognition search on an image. Returns a query ID string. 
+// On success, results are returned to the delegate asynchronously with the
+// iqEngines:didCompleteSearch:withResults:forQID: messsage.
+// iqEngines:failedWithError: is called on failure.
+// Location information can be provided to enhance results using the location parameter.
 
 - (NSString*)searchWithImage:(UIImage*)image;
 - (NSString*)searchWithImage:(UIImage*)image atLocation:(CLLocationCoordinate2D)location;
-- (void)     searchWithQID:(NSString*)qid;
-- (void)     updateResults:(NSDictionary*)results forQID:(NSString*)qid;
+
+// Retrieves results for a previous image search.
+- (void)searchWithQID:(NSString*)qid;
+
+// Called to update user modified results for a particular query ID.
+- (void)updateResults:(NSDictionary*)results forQID:(NSString*)qid;
 
 @end
 
 // --------------------------------------------------------------------------------
 
-// Dictionary keys for iqEngines:didCompleteSearch: results
+// Dictionary keys for iqEngines:didCompleteSearch:withResults:forQID: results
 extern NSString* const IQEKeyQID;
 extern NSString* const IQEKeyQIDData;
 extern NSString* const IQEKeyColor;
