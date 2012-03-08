@@ -622,7 +622,12 @@ typedef enum
     if (query.type == IQEQueryTypeBarCode
     ||  query.type == IQEQueryTypeLocalObject)
         return;
-
+    
+    // State should not change once found or not found.
+    if (query.state == IQEQueryStateFound
+    ||  query.state == IQEQueryStateNotFound)
+        return;
+    
     switch (status)
     {
         case IQEStatusUnknown:
