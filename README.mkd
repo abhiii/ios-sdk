@@ -59,8 +59,8 @@ The steps to use the IQEViewController class are as follows:
     * `QuartzCore.framework`
     * `libiconv.dylib`
 * Local search uses the standard c++ library. If the project does not contain c++ source files (.mm or .cpp), link to the standard c++ library by adding -lstdc++ to "Other Linker Flags" in Build Settings, or link with libstdc++.dylib.
-* When using local object detection, add .desc/.kp data files and objects.json to the folder named: iqedata. Be sure to create folder references, not groups when adding this folder.
-* Import the IQEViewController header file.
+* When using local object detection, add the data files and objects.json to the folder named: iqedata. Be sure to create folder references, not groups when adding this folder. Contact us at contact@iqengines.com to obtain some sample data for *local* recognition.
+* Import the IQEViewController header file. 
 
 ```
 
