@@ -21,6 +21,8 @@
 */
 
 #import "IQEnginesUpdateResultParser.h"
+#import "IQEnginesAPI.h"
+#import "IQEnginesTags.h"
 
 /*
 
@@ -30,6 +32,10 @@
         <qid_data>
             <color>Mostly black white, with some gray.</color>
             <labels>starbucks</labels>
+            <bbox>0</bbox>
+            <bbox>21</bbox>
+            <bbox>232</bbox>
+            <bbox>147</bbox>
         </qid_data>
         <qid>c840c66245eae70df429fbbbc3c1e9b3ae40a64f</qid>
         <meta>http://www.starbucks.com</meta>
@@ -64,8 +70,9 @@
 
 - (void)dealloc
 {
-    [mResults release];
-    [mComment release];
+    [mResults     release];
+    [mComment     release];
+    [mBoundingBox release];
     
     [super dealloc];
 }
@@ -80,25 +87,30 @@
 
 - (void)didStartElement:(NSString*)elementName namespaceURI:(NSString*)namespaceURI qualifiedName:(NSString*)qualifiedName attributes:(NSDictionary*)attributes;
 {
-    if ([self xmlPathEndsWith:@"data", @"results", nil])
+    if ([self xmlPathEndsWith:IQETagData, IQETagResults, nil])
+    {
         mResultItem = [[NSMutableDictionary alloc] initWithCapacity:0];
+    }
     else
-    if ([self xmlPathEndsWith:@"data", @"results", @"qid_data", nil])
+    if ([self xmlPathEndsWith:IQETagData, IQETagResults, IQETagQIDData, nil])
+    {
         mQIDDataItem = [[NSMutableDictionary alloc] initWithCapacity:0];
+        mBoundingBox = [[NSMutableArray      alloc] initWithCapacity:0];
+    }
 }
 
 - (void)didEndElement:(NSString*)elementName namespaceURI:(NSString*)namespaceURI qualifiedName:(NSString*)qualifiedName
 {
-    if ([self xmlPathEndsWith:@"data", nil])
+    if ([self xmlPathEndsWith:IQETagData, nil])
         self.found = YES;
     else
-    if ([self xmlPathEndsWith:@"data", @"error", nil])
+    if ([self xmlPathEndsWith:IQETagData, IQETagError, nil])
         self.errorCode = [[self trimmedString] intValue];
     else
-    if ([self xmlPathEndsWith:@"data", @"comment", nil])
+    if ([self xmlPathEndsWith:IQETagData, IQETagComment, nil])
         self.comment = [self trimmedString];
     else
-    if ([self xmlPathEndsWith:@"data", @"results", nil])
+    if ([self xmlPathEndsWith:IQETagData, IQETagResults, nil])
     {
         [mResults addObject:mResultItem];
         
@@ -106,43 +118,51 @@
         mResultItem = nil;
     }
     else
-    if ([self xmlPathEndsWith:@"data", @"results", @"qid", nil])
-        [mResultItem setObject:[self trimmedString] forKey:@"qid"];
+    if ([self xmlPathEndsWith:IQETagData, IQETagResults, IQETagQID, nil])
+        [mResultItem setObject:[self trimmedString] forKey:IQEnginesKeyQID];
     else
-    if ([self xmlPathEndsWith:@"data", @"results", @"qid_data", nil])
+    if ([self xmlPathEndsWith:IQETagData, IQETagResults, IQETagQIDData, nil])
     {
-        [mResultItem setObject:mQIDDataItem forKey:@"qid_data"];
+        if (mBoundingBox.count > 0)
+            [mQIDDataItem setObject:mBoundingBox forKey:IQEnginesKeyBoundingBox];
+        [mBoundingBox release];
+        mBoundingBox = nil;
+        
+        [mResultItem setObject:mQIDDataItem forKey:IQETagQIDData];
         
         [mQIDDataItem release];
         mQIDDataItem = nil;
     }
     else
-    if ([self xmlPathEndsWith:@"data", @"results", @"qid_data", @"color", nil])
-        [mQIDDataItem setObject:[self trimmedString] forKey:@"color"];
+    if ([self xmlPathEndsWith:IQETagData, IQETagResults, IQETagQIDData, IQETagColor, nil])
+        [mQIDDataItem setObject:[self trimmedString] forKey:IQEnginesKeyColor];
     else
-    if ([self xmlPathEndsWith:@"data", @"results", @"qid_data", @"isbn", nil])
-        [mQIDDataItem setObject:[self trimmedString] forKey:@"isbn"];
+    if ([self xmlPathEndsWith:IQETagData, IQETagResults, IQETagQIDData, IQETagISBN, nil])
+        [mQIDDataItem setObject:[self trimmedString] forKey:IQEnginesKeyISBN];
     else
-    if ([self xmlPathEndsWith:@"data", @"results", @"qid_data", @"labels", nil])
-        [mQIDDataItem setObject:[self trimmedString] forKey:@"labels"];
+    if ([self xmlPathEndsWith:IQETagData, IQETagResults, IQETagQIDData, IQETagLabels, nil])
+        [mQIDDataItem setObject:[self trimmedString] forKey:IQEnginesKeyLabels];
     else
-    if ([self xmlPathEndsWith:@"data", @"results", @"qid_data", @"sku", nil])
-        [mQIDDataItem setObject:[self trimmedString] forKey:@"sku"];
+    if ([self xmlPathEndsWith:IQETagData, IQETagResults, IQETagQIDData, IQETagSKU, nil])
+        [mQIDDataItem setObject:[self trimmedString] forKey:IQEnginesKeySKU];
     else
-    if ([self xmlPathEndsWith:@"data", @"results", @"qid_data", @"upc", nil])
-        [mQIDDataItem setObject:[self trimmedString] forKey:@"upc"];
+    if ([self xmlPathEndsWith:IQETagData, IQETagResults, IQETagQIDData, IQETagUPC, nil])
+        [mQIDDataItem setObject:[self trimmedString] forKey:IQEnginesKeyUPC];
     else
-    if ([self xmlPathEndsWith:@"data", @"results", @"qid_data", @"url", nil])
-        [mQIDDataItem setObject:[self trimmedString] forKey:@"url"];
+    if ([self xmlPathEndsWith:IQETagData, IQETagResults, IQETagQIDData, IQETagURL, nil])
+        [mQIDDataItem setObject:[self trimmedString] forKey:IQEnginesKeyURL];
     else
-    if ([self xmlPathEndsWith:@"data", @"results", @"qid_data", @"qrcode", nil])
-        [mQIDDataItem setObject:[self trimmedString] forKey:@"qrcode"];
+    if ([self xmlPathEndsWith:IQETagData, IQETagResults, IQETagQIDData, IQETagQRCode, nil])
+        [mQIDDataItem setObject:[self trimmedString] forKey:IQEnginesKeyQRCode];
     else
-    if ([self xmlPathEndsWith:@"data", @"results", @"qid_data", @"meta", nil])
-        [mQIDDataItem setObject:[self trimmedString] forKey:@"meta"];
+    if ([self xmlPathEndsWith:IQETagData, IQETagResults, IQETagQIDData, IQETagMeta, nil])
+        [mQIDDataItem setObject:[self trimmedString] forKey:IQEnginesKeyMeta];
     else
-    if ([self xmlPathEndsWith:@"data", @"results", @"qid_data", @"obj_id", nil])
-        [mQIDDataItem setObject:[self trimmedString] forKey:@"obj_id"];
+    if ([self xmlPathEndsWith:IQETagData, IQETagResults, IQETagQIDData, IQETagObjId, nil])
+        [mQIDDataItem setObject:[self trimmedString] forKey:IQEnginesKeyObjId];
+    else
+    if ([self xmlPathEndsWith:IQETagData, IQETagResults, IQETagQIDData, IQETagBBox, nil])
+        [mBoundingBox addObject:[self trimmedString]];
 }
 
 @end

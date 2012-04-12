@@ -37,17 +37,18 @@
 
 #define JPEG_QUALITY        0.6
 
-NSString* const IQEnginesKeyQID      = @"qid";
-NSString* const IQEnginesKeyQIDData  = @"qid_data";
-NSString* const IQEnginesKeyColor    = @"color";
-NSString* const IQEnginesKeyISBN     = @"isbn";
-NSString* const IQEnginesKeyLabels   = @"labels";
-NSString* const IQEnginesKeySKU      = @"sku";
-NSString* const IQEnginesKeyUPC      = @"upc";
-NSString* const IQEnginesKeyURL      = @"url";
-NSString* const IQEnginesKeyQRCode   = @"qrcode";
-NSString* const IQEnginesKeyMeta     = @"meta";
-NSString* const IQEnginesKeyObjId    = @"obj_id";
+NSString* const IQEnginesKeyQID         = @"qid";
+NSString* const IQEnginesKeyQIDData     = @"qid_data";
+NSString* const IQEnginesKeyColor       = @"color";
+NSString* const IQEnginesKeyISBN        = @"isbn";
+NSString* const IQEnginesKeyLabels      = @"labels";
+NSString* const IQEnginesKeySKU         = @"sku";
+NSString* const IQEnginesKeyUPC         = @"upc";
+NSString* const IQEnginesKeyURL         = @"url";
+NSString* const IQEnginesKeyQRCode      = @"qrcode";
+NSString* const IQEnginesKeyMeta        = @"meta";
+NSString* const IQEnginesKeyObjId       = @"obj_id";
+NSString* const IQEnginesKeyBoundingBox = @"bbox";
 
 NSString* const IQEnginesErrorDomain = @"IQEnginesAPIErrorDomain";
 

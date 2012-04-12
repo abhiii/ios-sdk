@@ -104,6 +104,7 @@ extern NSString* const IQEnginesKeyURL;
 extern NSString* const IQEnginesKeyQRCode;
 extern NSString* const IQEnginesKeyMeta;
 extern NSString* const IQEnginesKeyObjId;
+extern NSString* const IQEnginesKeyBoundingBox;
 
 extern NSString* const IQEnginesErrorDomain;
 

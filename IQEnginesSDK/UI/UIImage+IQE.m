@@ -68,10 +68,94 @@
     return [imageResized saveAsJPEGinDirectory:directory withName:name];
 }
 
+- (NSString*) description
+{
+    NSString* orientation = @"";
+    
+    if (self.imageOrientation == UIImageOrientationUp)            orientation = @"UIImageOrientationUp";           else
+    if (self.imageOrientation == UIImageOrientationDown)          orientation = @"UIImageOrientationDown";         else
+    if (self.imageOrientation == UIImageOrientationLeft)          orientation = @"UIImageOrientationLeft";         else
+    if (self.imageOrientation == UIImageOrientationRight)         orientation = @"UIImageOrientationRight";        else
+    if (self.imageOrientation == UIImageOrientationUpMirrored)    orientation = @"UIImageOrientationUpMirrored";   else
+    if (self.imageOrientation == UIImageOrientationDownMirrored)  orientation = @"UIImageOrientationDownMirrored"; else
+    if (self.imageOrientation == UIImageOrientationLeftMirrored)  orientation = @"UIImageOrientationLeftMirrored"; else
+    if (self.imageOrientation == UIImageOrientationRightMirrored) orientation = @"UIImageOrientationRightMirrored";
+    
+    CGSize cgImageSize = CGSizeMake(CGImageGetWidth(self.CGImage),
+                                    CGImageGetHeight(self.CGImage));
+    
+    return [NSString stringWithFormat:@"{\n    size             = %@\n    CGImage.size     = %@\n    imageOrientation = %@\n}",
+            NSStringFromCGSize(self.size),
+            NSStringFromCGSize(cgImageSize),
+            orientation];
+}
+
 // UIImage+Resize.m
 // Created by Trevor Harmon on 8/5/09.
 // Free for personal or commercial use, with or without modification.
 // No warranty is expressed or implied.
+
+- (UIImage*)croppedImage:(CGRect)newRect
+{
+    BOOL drawTransposed;
+    
+    switch (self.imageOrientation)
+    {
+        case UIImageOrientationLeft:
+        case UIImageOrientationLeftMirrored:
+        case UIImageOrientationRight:
+        case UIImageOrientationRightMirrored:
+            drawTransposed = YES;
+            break;
+            
+        default:
+            drawTransposed = NO;
+    }
+    
+    newRect = CGRectIntegral(newRect);
+    
+    CGImageRef imageRef = self.CGImage;
+    
+    // Build a context that's the same dimensions as the new size
+    CGContextRef bitmap = CGBitmapContextCreate(NULL,
+                                                newRect.size.width,
+                                                newRect.size.height,
+                                                CGImageGetBitsPerComponent(imageRef),
+                                                0,
+                                                CGImageGetColorSpace(imageRef),
+                                                CGImageGetBitmapInfo(imageRef));
+    if (bitmap == nil)
+        return nil;
+    
+    CGRect clippedRect = CGRectMake(0, 0, newRect.size.width, newRect.size.height);
+    
+    CGContextClipToRect(bitmap, clippedRect);
+    
+    // Rotate and/or flip the image if required by its orientation
+    CGContextConcatCTM(bitmap, [self transformForOrientation:newRect.size]);
+    
+    CGRect transposedRect = CGRectMake(- newRect.origin.y,
+                                       - newRect.origin.x,
+                                       self.size.height,
+                                       self.size.width);
+    CGRect drawRect = CGRectMake(- newRect.origin.x,
+                                 - newRect.origin.y,
+                                 self.size.width,
+                                 self.size.height);
+    
+    // Draw into the context; this crops the image
+    CGContextDrawImage(bitmap, drawTransposed ? transposedRect : drawRect, imageRef);
+    
+    // Get the resized image from the context and a UIImage
+    CGImageRef newImageRef = CGBitmapContextCreateImage(bitmap);
+    UIImage*   newImage    = [UIImage imageWithCGImage:newImageRef];
+    
+    // Clean up
+    CGContextRelease(bitmap);
+    CGImageRelease(newImageRef);
+    
+    return newImage;
+}
 
 // Returns a rescaled copy of the image, taking into account its orientation
 // The image will be scaled disproportionately if necessary to fit the bounds specified by the parameter

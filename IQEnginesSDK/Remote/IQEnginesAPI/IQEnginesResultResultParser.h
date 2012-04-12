@@ -29,6 +29,7 @@
     NSString* mComment;
 
     NSMutableDictionary* mResults;
+    NSMutableArray*      mBoundingBox;
 }
 
 @property(nonatomic, assign) BOOL      found;

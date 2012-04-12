@@ -58,7 +58,7 @@
 @interface IQEImageCapture : NSObject <AVCaptureVideoDataOutputSampleBufferDelegate>
 {
     id<IQEImageCaptureDelegate> mDelegate;
-	AVCaptureVideoPreviewLayer* mPreviewLayer;
+    AVCaptureVideoPreviewLayer* mPreviewLayer;
 }
 
 // Camera control. Use to start or stop camera when preview is visible or hidden, respectively.

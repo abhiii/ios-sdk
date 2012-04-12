@@ -31,8 +31,9 @@
 @interface UIImage (UIImageIQE)
 
 + (NSString*) uniqueName;
-- (BOOL) saveAsJPEGinDirectory:(NSString*)directory withName:(NSString *)name;
-- (BOOL) saveAsJPEGinDirectory:(NSString*)directory withName:(NSString *)name size:(CGSize)size;
+- (BOOL)      saveAsJPEGinDirectory:(NSString*)directory withName:(NSString *)name;
+- (BOOL)      saveAsJPEGinDirectory:(NSString*)directory withName:(NSString *)name size:(CGSize)size;
+- (NSString*) description;
 
 // UIImage+Resize.h
 // Created by Trevor Harmon on 8/5/09.
@@ -40,6 +41,8 @@
 // No warranty is expressed or implied.
 
 // Extends the UIImage class to support resizing/cropping
+
+- (UIImage *)croppedImage:(CGRect)newRect;
 
 - (UIImage *)resizedImage:(CGSize)newSize
      interpolationQuality:(CGInterpolationQuality)quality;

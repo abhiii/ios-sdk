@@ -21,6 +21,7 @@
 */
 
 #import "IQEnginesQueryResultParser.h"
+#import "IQEnginesTags.h"
 
 @implementation IQEnginesQueryResultParser
 
@@ -48,13 +49,13 @@
 
 - (void)didEndElement:(NSString*)elementName namespaceURI:(NSString*)namespaceURI qualifiedName:(NSString*)qualifiedName
 {
-    if ([self xmlPathEndsWith:@"data", nil])
+    if ([self xmlPathEndsWith:IQETagData, nil])
         self.found = YES;
     else
-    if ([self xmlPathEndsWith:@"data", @"error", nil])
+    if ([self xmlPathEndsWith:IQETagData, IQETagError, nil])
         self.errorCode = [[self trimmedString] intValue];
     else
-    if ([self xmlPathEndsWith:@"data", @"comment", nil])
+    if ([self xmlPathEndsWith:IQETagData, IQETagComment, nil])
         self.comment = [self trimmedString];
 }
 

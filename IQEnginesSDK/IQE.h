@@ -24,7 +24,7 @@
 //
 //  IQE.h
 //
-//  Version 1.1
+//  Version 1.2
 //
 // --------------------------------------------------------------------------------
 
@@ -143,6 +143,7 @@ extern NSString* const IQEKeyURL;
 extern NSString* const IQEKeyQRCode;
 extern NSString* const IQEKeyMeta;
 extern NSString* const IQEKeyObjId;
+extern NSString* const IQEKeyBoundingBox;
 
 extern NSString* const IQEKeyObjectId;
 extern NSString* const IQEKeyObjectName;
@@ -170,5 +171,6 @@ extern NSString* const IQEBarcodeTypePDF417;
 extern NSString* const IQEBarcodeTypeQRCODE;
 extern NSString* const IQEBarcodeTypeUPCA;
 extern NSString* const IQEBarcodeTypeUPCE;
+extern NSString* const IQEBarcodeTypeDATAMATRIX;
 
 // --------------------------------------------------------------------------------

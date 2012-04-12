@@ -59,6 +59,7 @@ NSString* const IQEnginesLocalBarcodePDF417      = @"PDF417";
 NSString* const IQEnginesLocalBarcodeQRCODE      = @"QR-Code";
 NSString* const IQEnginesLocalBarcodeUPCE        = @"UPC-E";
 NSString* const IQEnginesLocalBarcodeUPCA        = @"UPC-A";
+NSString* const IQEnginesLocalBarcodeDATAMATRIX  = @"DataMatrix";
 
 // --------------------------------------------------------------------------------
 #pragma mark -

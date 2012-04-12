@@ -31,6 +31,7 @@
     NSMutableArray*      mResults;
     NSMutableDictionary* mResultItem;  // qid_data and qid
     NSMutableDictionary* mQIDDataItem; // labels, color ...
+    NSMutableArray*      mBoundingBox; // bbox
 }
 
 @property(nonatomic, assign) BOOL      found;

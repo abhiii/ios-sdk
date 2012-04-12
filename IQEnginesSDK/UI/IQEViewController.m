@@ -84,6 +84,7 @@ typedef enum
 @property(nonatomic, retain) UIButton*        mCameraButton;
 @property(nonatomic, retain) UIBarButtonItem* mHistoryButton;
 @property(nonatomic, assign) BOOL             mFirstViewLoad;
+@property(nonatomic, assign) CGFloat          mZoom;
 @property(nonatomic, retain) NSMutableArray*  mQueryHistory;
 @property(nonatomic, retain) NSString*        mDocumentPath;
 @property(nonatomic, retain) NSString*        mDataPath;
@@ -106,6 +107,7 @@ typedef enum
 @synthesize mCameraButton;
 @synthesize mHistoryButton;
 @synthesize mFirstViewLoad;
+@synthesize mZoom;
 @synthesize mToolBar;
 @synthesize mSearchType;
 @synthesize mTableView;
@@ -150,6 +152,7 @@ typedef enum
         self.mDataPath        = dataPath;
         self.mQueryHistory    = [NSMutableArray arrayWithCapacity:0];
         self.mSearchType      = searchType;
+        self.mZoom            = 1.4;
         self.mListDisplayMode = ListDisplayModeNone;
         self.hidesBackButton  = NO;
         self.locationEnabled  = NO;
@@ -273,9 +276,11 @@ typedef enum
     // Set up video preview layer.
     //
     
-    CGRect layerRect = mPreviewView.layer.bounds;
-    mIQE.previewLayer.bounds   = layerRect;
-    mIQE.previewLayer.position = CGPointMake(CGRectGetMidX(layerRect), CGRectGetMidY(layerRect));
+    CGRect layerRect = CGRectMake((mPreviewView.layer.bounds.size.width  - (mPreviewView.layer.bounds.size.width  * mZoom)) / 2,
+                                  (mPreviewView.layer.bounds.size.height - (mPreviewView.layer.bounds.size.height * mZoom)) / 2,
+                                   mPreviewView.layer.bounds.size.width  * mZoom,
+                                   mPreviewView.layer.bounds.size.height * mZoom);
+    mIQE.previewLayer.frame = layerRect;
     
     [mPreviewView.layer insertSublayer:mIQE.previewLayer atIndex:0];
     
@@ -583,6 +588,17 @@ typedef enum
 - (void)iqEngines:(IQE*)iqe didCaptureStillFrame:(UIImage*)image
 {
     //
+    // Crop image to adjust for preview zoom factor.
+    //
+        
+    CGRect cropRect = CGRectMake((image.size.width  - (image.size.width  / mZoom)) / 2,
+                                 (image.size.height - (image.size.height / mZoom)) / 2,
+                                  image.size.width  / mZoom,
+                                  image.size.height / mZoom);
+    
+    image = [image croppedImage:cropRect];
+    
+    //
     // Got an image due to the camera button press. Start a new search.
     //
     
@@ -741,6 +757,9 @@ typedef enum
     {
         if ([query.codeType isEqualToString:IQEBarcodeTypeQRCODE])
             cell.imageView.image = [UIImage imageNamed:@"IQEQRCode.png"];
+        else
+        if ([query.codeType isEqualToString:IQEBarcodeTypeDATAMATRIX])
+            cell.imageView.image = [UIImage imageNamed:@"IQEDataMatrix.png"];
         else
             cell.imageView.image = [UIImage imageNamed:@"IQEBarcode.png"];
     }

@@ -34,12 +34,13 @@
 #define MINIMAL_DIMENSION   480
 
 @interface IQEImageCapture ()
-- (void)     addVideoPreviewLayer;
-- (void)     addVideoInput;
-- (void)     addVideoDataOutput;
-- (void)     addStillImageOutput;
-- (UIImage*) scaleImage:(UIImage*)uiImage maxDimension1:(NSUInteger)maxDimension1 maxDimension2:(NSUInteger)maxDimension2;
-- (void)     onCaptureSessionRuntimeError:(NSNotification*)n;
+- (void)                      addVideoPreviewLayer;
+- (void)                      addVideoInput;
+- (void)                      addVideoDataOutput;
+- (void)                      addStillImageOutput;
+- (AVCaptureVideoOrientation) cameraOrientation;
+- (UIImage*)                  scaleImage:(UIImage*)uiImage maxDimension1:(NSUInteger)maxDimension1 maxDimension2:(NSUInteger)maxDimension2;
+- (void)                      onCaptureSessionRuntimeError:(NSNotification*)n;
 @property(retain)            AVCaptureSession*          mCaptureSession;
 @property(nonatomic, retain) AVCaptureVideoDataOutput*  mVideoOut;
 @property(nonatomic, retain) AVCaptureStillImageOutput* mStillImageOutput;
@@ -76,7 +77,7 @@
                                                      name:AVCaptureSessionRuntimeErrorNotification
                                                    object:nil];
         
-		mCaptureSession = [[AVCaptureSession alloc] init];
+        mCaptureSession = [[AVCaptureSession alloc] init];
         
         // configure capture session
         [self addVideoInput];
@@ -88,7 +89,7 @@
         
         /*
         Preset                                3G        3GS     4 back  4 front
-        AVCaptureSessionPresetHigh	     400x304    640x480   1280x720  640x480
+        AVCaptureSessionPresetHigh       400x304    640x480   1280x720  640x480
         AVCaptureSessionPresetMedium     400x304    480x360    480x360  480x360
         AVCaptureSessionPresetLow        400x304    192x144    192x144  192x144
         AVCaptureSessionPreset640x480         NA    640x480    640x480  640x480
@@ -155,13 +156,13 @@
     
     [mPreviewLayer       release];
     [mStillImageOutput   release];
-	[mCaptureSession     release];
+    [mCaptureSession     release];
     [mSessionPreset      release];
     [mSessionPresetStill release];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
-	[super dealloc];
+    [super dealloc];
 }
 
 // --------------------------------------------------------------------------------
@@ -173,25 +174,28 @@
 {
     AVCaptureConnection* videoConnection = nil;
     
-	for (AVCaptureConnection* connection in mStillImageOutput.connections)
+    for (AVCaptureConnection* connection in mStillImageOutput.connections)
     {
-		for (AVCaptureInputPort* port in connection.inputPorts)
+        for (AVCaptureInputPort* port in connection.inputPorts)
         {
-			if ([port.mediaType isEqual:AVMediaTypeVideo])
+            if ([port.mediaType isEqual:AVMediaTypeVideo])
             {
-				videoConnection = connection;
-				break;
-			}
-		}
+                videoConnection = connection;
+                break;
+            }
+        }
         
-		if (videoConnection)
+        if (videoConnection)
             break;
-	}
+    }
     
     if (videoConnection == nil)
         return;
     
-	[mStillImageOutput captureStillImageAsynchronouslyFromConnection:videoConnection 
+    if ([videoConnection isVideoOrientationSupported])
+        [videoConnection setVideoOrientation:[self cameraOrientation]];
+    
+    [mStillImageOutput captureStillImageAsynchronouslyFromConnection:videoConnection 
                        completionHandler: ^(CMSampleBufferRef imageSampleBuffer, NSError* error)
         {
             if (imageSampleBuffer != nil)
@@ -234,7 +238,7 @@
                 NSLog(@"%s error: %@", __func__, error);
             }
         }
-	];
+    ];
 }
 
 - (void) startCamera
@@ -317,8 +321,8 @@
 
 - (void)addVideoPreviewLayer
 {
-	mPreviewLayer              = [[AVCaptureVideoPreviewLayer alloc] initWithSession:mCaptureSession];
-	mPreviewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+    mPreviewLayer              = [[AVCaptureVideoPreviewLayer alloc] initWithSession:mCaptureSession];
+    mPreviewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
 }
 
 - (void)addStillImageOutput
@@ -337,41 +341,57 @@
 
 - (void)addVideoInput
 {
-	AVCaptureDevice* videoDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    AVCaptureDevice* videoDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
     
-	if (videoDevice)
+    if (videoDevice)
     {
-		NSError* error;
-		AVCaptureDeviceInput* videoIn = [AVCaptureDeviceInput deviceInputWithDevice:videoDevice error:&error];
-		if (!error)
+        NSError* error;
+        AVCaptureDeviceInput* videoIn = [AVCaptureDeviceInput deviceInputWithDevice:videoDevice error:&error];
+        if (!error)
         {
-			if ([mCaptureSession canAddInput:videoIn])
-				[mCaptureSession addInput:videoIn];
-			else
-				NSLog(@"Couldn't add video input");
-		}
-		else
+            if ([mCaptureSession canAddInput:videoIn])
+                [mCaptureSession addInput:videoIn];
+            else
+                NSLog(@"Couldn't add video input");
+        }
+        else
         {
             NSLog(@"Couldn't create video input:%@", error.localizedDescription);
         }
-	}
-	else
+    }
+    else
     {
-		NSLog(@"Couldn't create video capture device");
+        NSLog(@"Couldn't create video capture device");
     }
 }
 
 - (void)addVideoDataOutput
 {
-	self.mVideoOut = [[[AVCaptureVideoDataOutput alloc] init] autorelease];
+    self.mVideoOut = [[[AVCaptureVideoDataOutput alloc] init] autorelease];
     
-	mVideoOut.alwaysDiscardsLateVideoFrames = YES;
-	mVideoOut.videoSettings = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:kCVPixelFormatType_32BGRA]
+    mVideoOut.alwaysDiscardsLateVideoFrames = YES;
+    mVideoOut.videoSettings = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:kCVPixelFormatType_32BGRA]
                                                           forKey:(id)kCVPixelBufferPixelFormatTypeKey];
     
-	dispatch_queue_t my_queue = dispatch_queue_create("com.iqengines.IQEImageCapture", NULL);
-	[mVideoOut setSampleBufferDelegate:self queue:my_queue];
+    dispatch_queue_t my_queue = dispatch_queue_create("com.iqengines.IQEImageCapture", NULL);
+    [mVideoOut setSampleBufferDelegate:self queue:my_queue];
     dispatch_release(my_queue);
+}
+
+- (AVCaptureVideoOrientation)cameraOrientation
+{
+    UIDeviceOrientation       deviceOrientation = [UIDevice currentDevice].orientation;
+    AVCaptureVideoOrientation newOrientation;
+    
+    // AVCapture and UIDevice have opposite meanings for landscape left and right
+    // (AVCapture orientation is the same as UIInterfaceOrientation)
+    if (deviceOrientation == UIDeviceOrientationPortrait)           newOrientation = AVCaptureVideoOrientationPortrait;           else
+    if (deviceOrientation == UIDeviceOrientationPortraitUpsideDown) newOrientation = AVCaptureVideoOrientationPortraitUpsideDown; else
+    if (deviceOrientation == UIDeviceOrientationLandscapeLeft)      newOrientation = AVCaptureVideoOrientationLandscapeRight;     else
+    if (deviceOrientation == UIDeviceOrientationLandscapeRight)     newOrientation = AVCaptureVideoOrientationLandscapeLeft;      else
+    if (deviceOrientation == UIDeviceOrientationUnknown)            newOrientation = AVCaptureVideoOrientationPortrait;           else
+                                                                    newOrientation = AVCaptureVideoOrientationPortrait;
+    return newOrientation;
 }
 
 - (UIImage*)scaleImage:(UIImage*)uiImage maxDimension1:(NSUInteger)maxDimension1 maxDimension2:(NSUInteger)maxDimension2

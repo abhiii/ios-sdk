@@ -70,6 +70,7 @@ NSString* const IQEKeyURL                 = @"url";
 NSString* const IQEKeyQRCode              = @"qrcode";
 NSString* const IQEKeyMeta                = @"meta";
 NSString* const IQEKeyObjId               = @"obj_id";
+NSString* const IQEKeyBoundingBox         = @"bbox";
 // local dictionary keys
 NSString* const IQEKeyObjectId            = @"objectId";
 NSString* const IQEKeyObjectName          = @"objectName";
@@ -95,6 +96,7 @@ NSString* const IQEBarcodeTypePDF417      = @"PDF417";
 NSString* const IQEBarcodeTypeQRCODE      = @"QR-Code";
 NSString* const IQEBarcodeTypeUPCA        = @"UPC-A";
 NSString* const IQEBarcodeTypeUPCE        = @"UPC-E";
+NSString* const IQEBarcodeTypeDATAMATRIX  = @"DataMatrix";
 
 @synthesize delegate = mDelegate;
 @synthesize mSearchType;
@@ -362,7 +364,10 @@ NSString* const IQEBarcodeTypeUPCE        = @"UPC-E";
         NSString* barData     = [results objectForKey:IQEnginesLocalKeyBarcodeData];
         NSString* barTypeName = [results objectForKey:IQEnginesLocalKeyBarcodeType];
         
-        if ([barTypeName isEqualToString:IQEnginesLocalBarcodeQRCODE] == NO)
+        if ([barTypeName isEqualToString:IQEnginesLocalBarcodeUPCE]
+        ||  [barTypeName isEqualToString:IQEnginesLocalBarcodeUPCA]
+        ||  [barTypeName isEqualToString:IQEnginesLocalBarcodeEAN8]
+        ||  [barTypeName isEqualToString:IQEnginesLocalBarcodeEAN13])
         {
             if (mIQEnginesRemote == nil && mApiKey && mApiSecret)
             {

@@ -300,15 +300,15 @@
 
 - (void)queryComplete:(NSString*)qid
 {
-    if ([mDelegate respondsToSelector:@selector(iqEnginesRemote:statusDidChange:forQID:)])
-        [mDelegate iqEnginesRemote:self statusDidChange:IQEnginesRemoteStatusSearching forQID:qid];
-    
     //
     // Image uploaded successfully, call Update to wait for a result.
     //
     
     if ([mQIDs indexOfObject:qid] != NSNotFound)
     {
+        if ([mDelegate respondsToSelector:@selector(iqEnginesRemote:statusDidChange:forQID:)])
+            [mDelegate iqEnginesRemote:self statusDidChange:IQEnginesRemoteStatusSearching forQID:qid];
+        
         // Start timer here to change status from searching to not ready if Update takes "too long".
         // Increments retain count on self.
         [self performSelector:@selector(searchTimeout:) withObject:qid afterDelay:TIMER_SEARCHING];
@@ -341,20 +341,20 @@
     for (NSDictionary* result in results)
     {
         NSString* qid = [result objectForKey:IQEnginesKeyQID];
-
+        
         if (([mQIDs indexOfObject:qid] != NSNotFound) || PERSISTANT_UPDATE)
         {
             // Cancel timed call for this qid that sets status to not ready.
             [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(searchTimeout:) object:qid];
-
+            
             NSDictionary* qidData = [result objectForKey:IQEnginesKeyQIDData];
             
             if ([mDelegate respondsToSelector:@selector(iqEnginesRemote:statusDidChange:forQID:)])
                 [mDelegate iqEnginesRemote:self statusDidChange:IQEnginesRemoteStatusComplete forQID:qid];
-
+            
             if ([mDelegate respondsToSelector:@selector(iqEnginesRemote:didCompleteSearch:forQID:)])
                 [mDelegate iqEnginesRemote:self didCompleteSearch:qidData forQID:qid];
-
+            
             [mQIDs removeObject:qid];
         }
     }

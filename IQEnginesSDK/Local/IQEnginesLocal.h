@@ -129,5 +129,6 @@ extern NSString* const IQEnginesLocalBarcodePDF417;
 extern NSString* const IQEnginesLocalBarcodeQRCODE;
 extern NSString* const IQEnginesLocalBarcodeUPCE;
 extern NSString* const IQEnginesLocalBarcodeUPCA;
+extern NSString* const IQEnginesLocalBarcodeDATAMATRIX;
 
 // --------------------------------------------------------------------------------
