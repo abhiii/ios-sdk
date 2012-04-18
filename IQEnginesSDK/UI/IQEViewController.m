@@ -1311,9 +1311,9 @@ typedef enum
 - (void)startSearchForQuery:(IQEQuery*)query withImage:(UIImage*)image
 {
     // Reset state of query for all search types when doing a new search.
-    if (mSearchType & IQESearchTypeBarCode)      [query setState:IQEQueryStateUnknown forType:IQEQueryTypeBarCode];
-    if (mSearchType & IQESearchTypeObjectSearch) [query setState:IQEQueryStateUnknown forType:IQEQueryTypeLocalObject];
-    if (mSearchType & IQESearchTypeRemoteSearch) [query setState:IQEQueryStateUnknown forType:IQEQueryTypeRemoteObject];
+    if (mSearchType & IQESearchTypeBarCode      && self.autoDetection == NO) [query setState:IQEQueryStateUnknown forType:IQEQueryTypeBarCode];
+    if (mSearchType & IQESearchTypeObjectSearch && self.autoDetection == NO) [query setState:IQEQueryStateUnknown forType:IQEQueryTypeLocalObject];
+    if (mSearchType & IQESearchTypeRemoteSearch)                             [query setState:IQEQueryStateUnknown forType:IQEQueryTypeRemoteObject];
     
     //
     // Start image search/detection. The result will be returned via the IQEDelegate protocol.
