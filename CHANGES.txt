@@ -1,0 +1,30 @@
+
+2012-04-12  IQ Engines iOS SDK Version 1.2
+
+    * Add Data Matrix barcode type.
+
+    * Add Code 128 barcode type.
+
+    * Support image orientation for still image capture.
+
+    * Zoom preview image.
+
+
+2012-03-06  IQ Engines iOS SDK Version 1.1
+
+    * Include source for IQE, IQERemote and IQEImageCapture.
+
+    * Rename IQEHistoryItem class to IQEQuery.
+
+    * Rename initWithSearchType to initWithParameters.
+
+    * Disable location by default in example app.
+
+    * Allow inclusion or removal of libIQEnginesLocal.a.
+
+    * Allow enabling or disabling of IQEImageCapture.
+
+
+2012-01-19  IQ Engines iOS SDK Version 1.0
+
+    * Initial release.
