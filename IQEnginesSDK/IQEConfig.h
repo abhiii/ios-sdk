@@ -32,8 +32,12 @@
 // Set to FALSE if local image recognition library, libIQEnginesLocal.a, is not used.
 //
 
-#ifndef IQENGINES_LOCAL_LIB
-#define IQENGINES_LOCAL_LIB TRUE
+#if TARGET_IPHONE_SIMULATOR
+    #define IQENGINES_LOCAL_LIB FALSE
+#else
+    #ifndef IQENGINES_LOCAL_LIB
+    #define IQENGINES_LOCAL_LIB TRUE
+    #endif
 #endif
 
 //
