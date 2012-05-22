@@ -8,9 +8,9 @@ IQ Engines provides VisionIQ, an image recognition platform that makes it possib
 
 Visit our developer portal and [sign up](http://www.iqengines.com/accounts/login/) for an API key. Once you have obtained your API key, you will be able to (1) send images to the VisionIQ cloud for image recognition via the Query API and (2) train the VisionIQ cloud with your own set of images via the Training API. In the iOS SDK search in the cloud is referred to as *remote* search, as the image processing algorithms are running on VisionIQ's remote servers.
 
-When you send an image to the VisionIQ cloud, it is first analyzed by our computer vision algorithms, where we match your image against the VisionIQ image dataset as well as your private dataset of images. Contact us at contact@iqengines.com if you want VisionIQ to search your dataset exclusively.     
+When you send an image to the VisionIQ cloud, it is first analyzed by our computer vision algorithms, where we match your image against the VisionIQ image dataset as well as your private dataset of images. Contact us at support@iqengines.com if you want VisionIQ to search your dataset exclusively.     
 
-When our computer vision algorithms are not able to recognize your image, then it is sent to our crowdsourcing engine, i.e. a person will manually tag your image. By combining computer vision and crowdsourcing, we are able to provide accurate labels for 100% of images. As using crowdsourcing is not appropriate for all applications, you can turn it on or off by contacting us at contact@iqengines.com. 
+When our computer vision algorithms are not able to recognize your image, then it is sent to our crowdsourcing engine, i.e. a person will manually tag your image. By combining computer vision and crowdsourcing, we are able to provide accurate labels for 100% of images. As using crowdsourcing is not appropriate for all applications, you can turn it on or off by contacting us at support@iqengines.com. 
 
 ### Visual search on the mobile device
 
@@ -59,7 +59,7 @@ The steps to use the IQEViewController class are as follows:
     * `QuartzCore.framework`
     * `libiconv.dylib`
 * Local search uses the standard c++ library. If the project does not contain c++ source files (.mm or .cpp), link to the standard c++ library by adding -lstdc++ to "Other Linker Flags" in Build Settings, or link with libstdc++.dylib.
-* When using local object detection, add the data files and objects.json to the folder named: iqedata. Be sure to create folder references, not groups when adding this folder. Contact us at contact@iqengines.com to obtain some sample data for *local* recognition.
+* When using local object detection, add the data files and objects.json to the folder named: iqedata. Be sure to create folder references, not groups when adding this folder. Contact us at support@iqengines.com to obtain some sample data for *local* recognition.
 * Import the IQEViewController header file. 
 
 ```
@@ -234,4 +234,4 @@ The image capture features are unavailable on iOS versions before 4.0. However, 
 
 ## Questions
 
-Contact us at contact@iqengines.com if you have any questions!
+Contact us at support@iqengines.com if you have any questions!
