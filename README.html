@@ -1,70 +1,70 @@
-<h1>VisionIQ iOS SDK</h1>
+<h1><strong>VisionIQ iOS SDK</strong></h1>
 
-<h2>Introduction</h2>
+<h1>Introduction</h1>
 
-<p>IQ Engines provides VisionIQ, an image recognition platform that makes it possible to add visual search to your mobile application. Before diving into the details of how you can integrate the SDK into your iOS application, we give a brief overview of the two engines at the core of VisionIQ: (1) visual search in the cloud, and (2) visual search on the mobile device. You can find more information about VisionIQ <a href="http://www.iqengines.com/howitworks/">here</a>.</p>
+<p>IQ Engines provides VisionIQ, an image recognition platform that makes it possible to add visual search to your mobile application. Before diving into the details of how you can integrate the SDK into your iOS application, we give a brief overview of the two engines at the core of VisionIQ: (1) visual search in the cloud, and (2) visual search on mobile devices. You can find more information about VisionIQ on the <a href="http://www.iqengines.com/system/">system overview</a> page.</p>
 
-<h3>Visual search in the cloud</h3>
+<h2>Vision IQ server : Visual search in the cloud</h2>
 
 <p>Visit our developer portal and <a href="http://www.iqengines.com/accounts/login/">sign up</a> for an API key. Once you have obtained your API key, you will be able to (1) send images to the VisionIQ cloud for image recognition via the Query API and (2) train the VisionIQ cloud with your own set of images via the Training API. In the iOS SDK search in the cloud is referred to as <em>remote</em> search, as the image processing algorithms are running on VisionIQ's remote servers.</p>
 
-<p>When you send an image to the VisionIQ cloud, it is first analyzed by our computer vision algorithms, where we match your image against the VisionIQ image dataset as well as your private dataset of images. Contact us at support@iqengines.com if you want VisionIQ to search your dataset exclusively.     </p>
+<p>When you send an image to VisionIQ server, it is first analyzed by VisionIQ's computer vision algorithms. The image is matched against IQ Engines' public image dataset, as well as your private image dataset if you have <a href="http://www.iqengines.com/dashboard/upload">trained</a> the system.</p>
 
-<p>When our computer vision algorithms are not able to recognize your image, then it is sent to our crowdsourcing engine, i.e. a person will manually tag your image. By combining computer vision and crowdsourcing, we are able to provide accurate labels for 100% of images. As using crowdsourcing is not appropriate for all applications, you can turn it on or off by contacting us at support@iqengines.com. </p>
+<p>When the computer vision algorithms are not able to recognize your image, then it is sent to VisionIQ's crowdsourcing engine, where a person will manually tag your image. By combining computer vision and crowdsourcing, we are able to provide accurate labels for 100% of images.</p>
 
-<h3>Visual search on the mobile device</h3>
+<h2>Vision IQ mobile : Visual search on mobile devices</h2>
 
-<p>The VisionIQ cloud can scale to recognize millions of images. However, if your dataset is small (~100 objects), then the recognition can happen entirely on the mobile device, with no need for an internet connection as the image isn't sent to the VisionIQ cloud. This makes for a really snappy experience, and quasi-instant results. In the iOS SDK the search on the mobile device is referred to as <em>local</em> search. If you switch the <em>continuous</em> mode on, then frames are continuously grabbed from the camera and processed in real-time, i.e. there is no need for the user to take an action such as pressing a button to retrieve information about objects within the viewfinder.  </p>
+<p>The VisionIQ cloud can scale to recognize millions of images. However, if your dataset is small (~100 objects), then the recognition can happen entirely on the mobile device. There is no need for an internet connection as the image isn't sent to the VisionIQ cloud. This makes for a really snappy experience, and quasi-instant results. If you turn on the <em>continuous</em> mode, then frames are continuously grabbed from the camera and matched against the <em>local</em> image dataset, which means that objects can be recognized without the user having to take an action such as pressing a shutter button.</p>
 
-<h2>VisionIQ Example App</h2>
+<p>The local dataset is hosted directly on the mobile device. It is not possible at the moment for you to directly generate the image signatures that are necessary for recognition (this "local training" feature is coming soon). To receive the iqedata folder that corresponds to your own set of images, first train VisionIQ server, and then contact us at <a href="&#x6D;&#x61;&#105;&#x6C;&#x74;o:&#x73;&#x75;&#112;&#x70;&#111;&#x72;&#x74;&#64;&#105;&#x71;&#x65;&#x6E;&#x67;&#x69;&#110;&#101;&#115;&#46;&#99;&#111;&#x6D;">&#x73;&#x75;&#112;&#x70;&#111;&#x72;&#x74;&#64;&#105;&#x71;&#x65;&#x6E;&#x67;&#x69;&#110;&#101;&#115;&#46;&#99;&#111;&#x6D;</a>.</p>
 
-<p>The SDK comes with an example app that showcases all the functionality of VisionIQ. It provides a reference design for visual search. If you are building an app from scratch, the Example app will help you get started! The app is in the <code>ExampleApp</code> folder and you can configure it by editing the settings defined in the <code>Config.h</code> file: </p>
+<h2>Contents</h2>
+
+<p>The VisionIQ iOS SDK is comprised of:</p>
 
 <ul>
-<li><code>IQE_APIKEY</code> and <code>IQE_SECRET</code>: you can obtain your API key and secret by <a href="http://www.iqengines.com/accounts/register/">signing up</a> for VisionIQ. </li>
+<li><strong>IQEnginesSDK</strong>: The VisionIQ SDK. It contains all the necessary functions to include VisionIQ functionality in your app. The two main classes are:
+<ul>
+<li>The <code>IQE</code> class: it contains all the functions for <em>local</em> and <em>remote</em> image recognition. You will use this class when integrating VisionIQ into your app.</li>
+<li>The <code>IQEViewController</code> class: it is a <code>UIViewController</code> subclass, and provides an example of a user interface for visual search. It uses the <code>IQE</code> class.</li>
+</ul></li>
+<li><strong>ExampleApp</strong>: The VisionIQ example application. It provides a good example of how the VisionIQ SDK can be included in a mobile app using the <code>IQEViewController</code> class.</li>
+</ul>
+
+<h1>Building the Example App.</h1>
+
+<p>Before including the SDK in your existing app, we recommend that you first try building the example app, as this is the best way to get familiar with both the SDK and VisionIQ's capabilities.</p>
+
+<p>Configure the example app by editing the settings defined in the ExampleApp/Example/Config.h file: </p>
+
+<ul>
+<li><code>IQE_APIKEY</code> and <code>IQE_SECRET</code>: your API key and secret obtained after you've signed up for VisionIQ. </li>
 <li><em>remote</em> search
 <ul>
 <li><code>SEARCH_OBJECT_REMOTE</code>: if set to <code>YES</code>, <em>remote</em> search is enabled. </li>
 </ul></li>
 <li><em>local</em> search
 <ul>
-<li><code>SEARCH_OBJECT_LOCAL</code>: if set to <code>YES</code>, <em>local</em> search is enabled.</li>
+<li><code>SEARCH_OBJECT_LOCAL</code>: if set to <code>YES</code>, <em>local</em> search is enabled if the iqedata folder is present and populated.</li>
 <li><code>SEARCH_OBJECT_LOCAL_CONTINUOUS</code>: if set to <code>YES</code>, <em>local continuous</em> search is enabled.</li>
-<li><code>SEARCH_BARCODE</code>: Detect barcode and QR codes if set to <code>YES</code>.</li>
+<li><code>SEARCH_BARCODE</code>: detect barcode and QR codes if set to <code>YES</code>.</li>
 </ul></li>
 </ul>
 
-<p>Note that the Example app does not work with the simulator as it is using the <code>AVFoundation</code> framework. However, you can run the Example app on your iOS device!</p>
+<p>Note that the example app does not work with the simulator as it is using the <code>AVFoundation</code> framework. However, you can run the example app on your iOS device.</p>
 
-<h2>How to include the SDK in your mobile app</h2>
+<h1>Include the VisionIQ SDK in your own project</h1>
 
-<p>The VisionIQ iOS SDK is comprised of:</p>
+<h2>Install the VisionIQ SDK</h2>
 
 <ul>
-<li>The VisionIQ SDK in the <code>IQEngineSDK</code> folder. It contains all the necessary functions to include the VisionIQ functionality in your app. The two main classes are:
-<ul>
-<li>the <code>IQE</code> class: it contains all the functions for <em>local</em> and <em>remote</em> image recognition. You will use this class when integrating VisionIQ into your app.</li>
-<li>the <code>IQEViewController</code> class: it is a <code>UIViewController</code> subclass, and provides an example of a user interface for visual search. It uses the <code>IQE</code> class.</li>
-</ul></li>
-<li>The VisionIQ demo application in the <code>ExampleApp</code> folder. It shows an example of how the SDK can be used in a mobile app, and uses the <code>IQEViewController</code> class.</li>
+<li>Add the <code>IQEnginesSDK</code> folder to your project.</li>
 </ul>
 
-<h3>Configure the IQEngines VisionIQ SDK</h3>
-
-<p>When you import the IQEngines VisionIQ SDK in your app, you can configure it by setting the following variables in <code>IQEnginesSDK/IQEConfig.h</code>:</p>
+<p><img src="http://github.com/iqengines/ios-sdk/raw/master/IQEngines/README.images/AddIQEnginesSDK.png" alt="center" title="" /></p>
 
 <ul>
-<li><code>IQENGINES_LOCAL_LIB</code>: If local search is not used, set to <code>FALSE</code>. IQEnginesSDK/Local/libIQEnginesLocal.a can then be removed from the project, which will make your app smaller.</li>
-<li><code>IQE_IMAGE_CAPTURE</code>: Designates if the <code>IQEImageCapture</code> class is used by <code>IQE</code> to provide the image capture functionality. Set to <code>FALSE</code> if a custom image acquisition scheme will be used.</li>
-</ul>
-
-<h3>Using the IQEViewController class</h3>
-
-<p>The steps to use the IQEViewController class are as follows:</p>
-
-<ul>
-<li>Add the IQEnginesSDK folder into your project.</li>
-<li>Add additional frameworks and libraries to the project:
+<li>Add additional frameworks and libraries:
 <ul>
 <li><code>AVFoundation.framework</code></li>
 <li><code>CoreLocation.framework</code></li>
@@ -73,25 +73,60 @@
 <li><code>QuartzCore.framework</code></li>
 <li><code>libiconv.dylib</code></li>
 </ul></li>
-<li>Local search uses the standard c++ library. If the project does not contain c++ source files (.mm or .cpp), link to the standard c++ library by adding -lstdc++ to "Other Linker Flags" in Build Settings, or link with libstdc++.dylib.</li>
-<li>When using local object detection, add .desc/.kp data files and objects.json to the folder named: iqedata. Be sure to create folder references, not groups when adding this folder.</li>
-<li>Import the IQEViewController header file.</li>
+</ul>
+
+<p><img src="http://github.com/iqengines/ios-sdk/raw/master/IQEngines/README.images/AddFrameworks.png" alt="center" title="" /></p>
+
+<ul>
+<li>Local search uses the standard c++ library. If the project does not contain c++ source files (.mm or .cpp), link to the standard c++ library by adding <code>-lstdc++</code> to "Other Linker Flags" in Build Settings, or link with <code>libstdc++.dylib</code>.</li>
+</ul>
+
+<p><img src="http://github.com/iqengines/ios-sdk/raw/master/IQEngines/README.images/StdC++.png" alt="center" title="" /></p>
+
+<ul>
+<li>When using local object detection, add the data files to the folder named: <code>iqedata</code> at the root of the project. Be sure to create folder references, not groups when adding this folder.</li>
+</ul>
+
+<p><img src="http://github.com/iqengines/ios-sdk/raw/master/IQEngines/README.images/iqedata1.png" alt="center" title="" />
+<img src="http://github.com/iqengines/ios-sdk/raw/master/IQEngines/README.images/iqedata2.png" alt="center" title="" /></p>
+
+<h2>Configure the VisionIQ SDK</h2>
+
+<p>The IQEngines VisionIQ SDK may be configured by setting the following variables in IQEnginesSDK/IQEConfig.h:</p>
+
+<ul>
+<li><code>IQENGINES_LOCAL_LIB</code>: If local search is not used, set to <code>FALSE</code>. IQEnginesSDK/Local/libIQEnginesLocal.a can then be removed from the project.</li>
+<li><code>IQE_IMAGE_CAPTURE</code>: Designates if the <code>IQEImageCapture</code> class is used by <code>IQE</code> to provide the image capture functionality. Set to <code>FALSE</code> if a custom image acquisition scheme will be used.</li>
+</ul>
+
+<h2>Using the IQEViewController class</h2>
+
+<p>The steps to use the <code>IQEViewController</code> class are as follows:</p>
+
+<ul>
+<li>Import IQEViewController.h and adopt the <code>IQEViewControllerDelegate</code> protocol in your view controller header:</li>
 </ul>
 
 <p>```</p>
 
 <pre><code>    #import "IQEViewController.h"
+
+    @interface ViewController : UIViewController &lt;IQEViewControllerDelegate&gt;
+    {
+
+    }
 </code></pre>
 
 <p>```</p>
 
 <ul>
-<li>Allocate and initialize a IQEViewController object. Set the search type depending on what search is required. Use your IQ Engines API Key and secret if doing remote search:</li>
+<li>Allocate and initialize an <code>IQEViewController</code> object. Set the search type depending on what search is required. Use your IQ Engines API Key and secret if doing remote search:</li>
 </ul>
 
 <p>```</p>
 
-<pre><code>    IQEViewController* vc = [[IQEViewController alloc] initWithParameters:IQESearchTypeAll
+<pre><code>    IQEViewController* vc = [[IQEViewController alloc] initWithParameters:IQESearchTypeRemoteSearch |
+                                                                          IQESearchTypeBarCode
                                                                    apiKey:@""
                                                                 apiSecret:@""];
 
@@ -112,7 +147,7 @@
 <p>```</p>
 
 <ul>
-<li>Implement the IQEViewControllerDelegate delegate methods as necessary. Specifically, the iqeViewControllerDidCancel method:</li>
+<li>Implement the <code>IQEViewControllerDelegate</code> delegate methods as necessary. Specifically, the <code>iqeViewControllerDidCancel</code> method:</li>
 </ul>
 
 <p>```</p>
@@ -126,28 +161,18 @@
 
 <p>```</p>
 
-<h3>Using the IQE class</h3>
+<h2>Using the IQE class</h2>
 
-<p>The steps to use the IQE class from the IQ Engines SDK are as follows:</p>
+<p>The steps to use the <code>IQE</code> class are as follows:</p>
 
 <ul>
-<li>Add the IQEnginesSDK folder into your project.</li>
-<li>Add additional frameworks and libraries to the project:
-<ul>
-<li><code>AVFoundation.framework</code></li>
-<li><code>CoreMedia.framework</code></li>
-<li><code>CoreVideo.framework</code></li>
-<li><code>QuartzCore.framework</code></li>
-<li><code>libiconv.dylib</code></li>
-</ul></li>
-<li>Local search uses the standard c++ library. If the project does not contain c++ source files (.mm or .cpp), link to the standard c++ library by adding -lstdc++ to "Other Linker Flags" in Build Settings, or link with libstdc++.dylib.</li>
-<li>When using local object detection, add .desc/.kp data files and objects.json to a folder named iqedata. Be sure to create folder references, not groups when adding this folder.</li>
-<li>Add the IQE class and delegate to view controller header:</li>
+<li>Add an <code>IQE</code> class to your view controller and adopt the <code>IQEDelegate</code> protocol:</li>
 </ul>
 
 <p>```</p>
 
 <pre><code>    #import "IQE.h"
+
     @interface ViewController : UIViewController &lt;IQEDelegate&gt;
     {
         IQE* iqengines;
@@ -157,12 +182,13 @@
 <p>```</p>
 
 <ul>
-<li>Allocate and initialize an IQE object in the view controller init method. Set the search type depending on what search is required. Use your IQ Engines API Key and secret if doing remote search:</li>
+<li>Allocate and initialize an <code>IQE</code> object in the view controller init method. Set the search type depending on what search is required. Use your IQ Engines API Key and secret if doing remote search:</li>
 </ul>
 
 <p>```</p>
 
-<pre><code>    iqengines = [[IQE alloc] initWithParameters:IQESearchTypeAll
+<pre><code>    iqengines = [[IQE alloc] initWithParameters:IQESearchTypeRemoteSearch |
+                                                IQESearchTypeBarCode
                                          apiKey:@""
                                       apiSecret:@""];
 
@@ -188,7 +214,7 @@
 <p>```</p>
 
 <ul>
-<li>Start and stop camera processing in 'viewWillAppear:' and 'viewDidDisappear:'
+<li>Start and stop camera processing in viewWillAppear: and viewDidDisappear:
 respectively:</li>
 </ul>
 
@@ -212,7 +238,7 @@ respectively:</li>
 <p>```</p>
 
 <ul>
-<li>Capture a still image from the camera by calling the captureStillFrame method. Process the image in the didCaptureStillFrame IQEDelegate method:</li>
+<li>Capture a still image from the camera by calling the <code>captureStillFrame</code> method. Process the image in the <code>didCaptureStillFrame IQEDelegate</code> method:</li>
 </ul>
 
 <p>```</p>
@@ -231,12 +257,14 @@ respectively:</li>
 <p>```</p>
 
 <ul>
-<li>Handle the image search result in the didCompleteSearch IQEDelegate method:</li>
+<li>Handle the image search result in the <code>didCompleteSearch IQEDelegate</code> method:</li>
 </ul>
 
 <p>```</p>
 
-<pre><code>    - (void)iqEngines:(IQE*)iqe didCompleteSearch:(IQESearchType)type withResults:(NSDictionary*)results forQID:(NSString*)qid
+<pre><code>    - (void)iqEngines:(IQE*)iqe didCompleteSearch:(IQESearchType)type
+                                      withResults:(NSDictionary*)results
+                                           forQID:(NSString*)qid
     {
         NSLog(@"results:%@", results);
     }
@@ -245,7 +273,7 @@ respectively:</li>
 <p>```</p>
 
 <ul>
-<li>Implement other IQEDelegate delegate methods as necessary.</li>
+<li>Implement other <code>IQEDelegate</code> delegate methods as necessary.</li>
 <li>Clean up by adding the following in dealloc:</li>
 </ul>
 
@@ -258,18 +286,19 @@ respectively:</li>
 
 <p>```</p>
 
-<h3>Using the IQE class on iOS 3.0 - 3.2</h3>
+<h2>Using the IQE class on iOS 3.0 - 3.2</h2>
 
-<p>The image capture features are unavailable on iOS versions before 4.0. However, it is still possible to use the IQE class with a UIImage. </p>
+<p>The image capture features are unavailable on iOS versions before 4.0. However, it is still possible to use the <code>IQE</code> class with a UIImage. </p>
 
 <ul>
 <li><p>AVFoundation framework must be weak linked to the project. Change the framework from "Required" to "Optional" in the Link Binary with Libraries section of the target Build Phases.</p></li>
-<li><p>Get an image (with UIImagePickerController or other method) and call searchWithImage: on the IQE instance.</p></li>
+<li><p>Get an image (with UIImagePickerController or other method) and call <code>searchWithImage</code>: on the <code>IQE</code> instance.</p></li>
 </ul>
 
 <p>```</p>
 
-<pre><code>    - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+<pre><code>    - (void)imagePickerController:(UIImagePickerController *)picker
+    didFinishPickingMediaWithInfo:(NSDictionary *)info
     {    
         UIImage* image = [info objectForKey:UIImagePickerControllerOriginalImage];
 
@@ -279,6 +308,9 @@ respectively:</li>
 
 <p>```</p>
 
-<h2>Questions</h2>
+<h1>Questions</h1>
 
-<p>Contact us at support@iqengines.com if you have any questions!</p>
+<ul>
+<li><a href="http://support.iqengines.com/knowledgebase">FAQ</a></li>
+<li>Contact us at support@iqengines.com if you have any questions!</li>
+</ul>
