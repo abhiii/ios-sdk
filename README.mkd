@@ -56,7 +56,7 @@ Install the VisionIQ SDK
 
 * Add the `IQEnginesSDK` folder to your project.
 
-![center](http://github.com/iqengines/ios-sdk/raw/master/IQEngines/README.images/AddIQEnginesSDK.png)
+![center](http://github.com/iqengines/ios-sdk/raw/master/README.images/AddIQEnginesSDK.png)
 
 * Add additional frameworks and libraries:
     * `AVFoundation.framework`
@@ -66,16 +66,16 @@ Install the VisionIQ SDK
     * `QuartzCore.framework`
     * `libiconv.dylib`
 
-![center](http://github.com/iqengines/ios-sdk/raw/master/IQEngines/README.images/AddFrameworks.png)
+![center](http://github.com/iqengines/ios-sdk/raw/master/README.images/AddFrameworks.png)
 
 * Local search uses the standard c++ library. If the project does not contain c++ source files (.mm or .cpp), link to the standard c++ library by adding `-lstdc++` to "Other Linker Flags" in Build Settings, or link with `libstdc++.dylib`.
 
-![center](http://github.com/iqengines/ios-sdk/raw/master/IQEngines/README.images/StdC++.png)
+![center](http://github.com/iqengines/ios-sdk/raw/master/README.images/StdC++.png)
 
 * When using local object detection, add the data files to the folder named: `iqedata` at the root of the project. Be sure to create folder references, not groups when adding this folder.
 
-![center](http://github.com/iqengines/ios-sdk/raw/master/IQEngines/README.images/iqedata1.png)
-![center](http://github.com/iqengines/ios-sdk/raw/master/IQEngines/README.images/iqedata2.png)
+![center](http://github.com/iqengines/ios-sdk/raw/master/README.images/iqedata1.png)
+![center](http://github.com/iqengines/ios-sdk/raw/master/README.images/iqedata2.png)
 
 Configure the VisionIQ SDK
 --------------------------
