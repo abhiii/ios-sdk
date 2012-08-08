@@ -29,11 +29,8 @@
 #import "ExampleViewController.h"
 #import "IQEViewController.h"
 #import "WebViewController.h"
+#import "ResultsViewController.h"
 #import "Config.h"
-
-@interface ExampleViewController ()
-- (void) showWebViewForUrl:(NSString*)stringURL;
-@end
 
 @implementation ExampleViewController
 
@@ -84,29 +81,60 @@
 
 - (void) iqeViewController:(IQEViewController*)controller didSelectItem:(IQEQuery*)query atIndex:(NSUInteger)index
 {
-    if (query.type == IQEQueryTypeRemoteObject)
-    {
+    if (query.type == IQEQueryTypeRemoteObject && query.qidResults)
+        NSLog(@"results: %@", query.qidResults);
+    else
+    if (query.type == IQEQueryTypeRemoteObject && query.qidData)
         NSLog(@"result: %@", query.qidData);
-        
-        NSString* labels = [query.qidData objectForKey:IQEKeyLabels];
-        if (labels == nil)
-            return;
-        
-        [self showWebViewForUrl:labels];
-    }
     else
     if (query.type == IQEQueryTypeLocalObject)
-    {
         NSLog(@"objID: %@, objName: %@, objMeta: %@", query.objId, query.objName, query.objMeta);
-        
-        [self showWebViewForUrl:query.objMeta];
-    }
     else
     if (query.type == IQEQueryTypeBarCode)
-    {
         NSLog(@"codeData: %@, codeType:%@, codeDesc:%@", query.codeData, query.codeType, query.codeDesc);
+    
+    //
+    // Take action based on query.
+    //
+    
+    // If query title is a url, go directly to a WebView.
+    NSURL* url = [NSURL URLWithString:query.title];
+    
+    // Go to shop webView if UPC/EAN barcode.
+    if (query.type == IQEQueryTypeBarCode)
+    {
+        NSString* stringData  = query.codeData;
+        NSString* encodedData = [stringData stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSString* stringURL   = nil;
+
+        if ([query.codeType isEqualToString:IQEBarcodeTypeEAN8]
+        ||  [query.codeType isEqualToString:IQEBarcodeTypeEAN13]
+        ||  [query.codeType isEqualToString:IQEBarcodeTypeUPCA]
+        ||  [query.codeType isEqualToString:IQEBarcodeTypeUPCE])
+        {
+            stringURL = [NSString stringWithFormat:@"http://www.google.com/products?q=%@", encodedData];
+        }
+        else
+        {
+            stringURL = [NSString stringWithFormat:@"http://www.google.com/search?q=%@", encodedData];
+        }
         
-        [self showWebViewForUrl:query.codeData];
+        url = [NSURL URLWithString:stringURL];
+    }
+    
+    if (url && url.scheme)
+    {        
+        WebViewController* vc = [[WebViewController alloc] initWithUrl:url];
+            
+        [iqeNavController pushViewController:vc animated:YES];
+        [vc release];
+    }
+    else
+    {
+        ResultsViewController* vc = [[ResultsViewController alloc] initWithQuery:query];
+        
+        [iqeNavController pushViewController:vc animated:YES];
+        [vc release];
     }
 }
 
@@ -118,28 +146,6 @@
     [controller dismissModalViewControllerAnimated:YES];
     
     self.iqeNavController = nil;
-}
-
-// --------------------------------------------------------------------------------
-#pragma mark - Private
-// --------------------------------------------------------------------------------
-
-- (void) showWebViewForUrl:(NSString*)stringURL
-{
-    NSURL* url = [NSURL URLWithString:stringURL];
-    
-    if (url == nil || url.scheme == nil)
-    {
-        NSString* encodedData = [stringURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        NSString* stringURL   = [NSString stringWithFormat:@"http://www.google.com/search?q=%@", encodedData];
-        
-        url = [NSURL URLWithString:stringURL];
-    }
-    
-    WebViewController* vc = [[WebViewController alloc] initWithUrl:url];
-    
-    [self.iqeNavController pushViewController:vc animated:YES];
-    [vc release];
 }
 
 @end

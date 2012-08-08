@@ -55,6 +55,12 @@
 		27A61B8515D1EA4100C27BF5 /* IQEQRCode.png in Resources */ = {isa = PBXBuildFile; fileRef = 27A61B5B15D1EA4100C27BF5 /* IQEQRCode.png */; };
 		27A61B8615D1EA4100C27BF5 /* IQEQRCode@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27A61B5C15D1EA4100C27BF5 /* IQEQRCode@2x.png */; };
 		27A61B8715D1EA4100C27BF5 /* UIImage+IQE.m in Sources */ = {isa = PBXBuildFile; fileRef = 27A61B5E15D1EA4100C27BF5 /* UIImage+IQE.m */; };
+		27A61B8A15D1F3E300C27BF5 /* ResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27A61B8915D1F3E300C27BF5 /* ResultsViewController.m */; };
+		27A61B8D15D1F3FB00C27BF5 /* ResultsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27A61B8B15D1F3FB00C27BF5 /* ResultsViewController.xib */; };
+		27A61B9215D1F71A00C27BF5 /* ResultsBackArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 27A61B8E15D1F71A00C27BF5 /* ResultsBackArrow.png */; };
+		27A61B9315D1F71A00C27BF5 /* ResultsBackArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27A61B8F15D1F71A00C27BF5 /* ResultsBackArrow@2x.png */; };
+		27A61B9415D1F71A00C27BF5 /* ResultsWWW.png in Resources */ = {isa = PBXBuildFile; fileRef = 27A61B9015D1F71A00C27BF5 /* ResultsWWW.png */; };
+		27A61B9515D1F71A00C27BF5 /* ResultsWWW@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27A61B9115D1F71A00C27BF5 /* ResultsWWW@2x.png */; };
 		27ACF09814C8DB2400CF6FB1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27ACF09714C8DB2400CF6FB1 /* CoreGraphics.framework */; };
 		27EA37831432741A00BAAB34 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27EA37821432741A00BAAB34 /* UIKit.framework */; };
 		27EA37851432741A00BAAB34 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27EA37841432741A00BAAB34 /* Foundation.framework */; };
@@ -145,6 +151,13 @@
 		27A61B5C15D1EA4100C27BF5 /* IQEQRCode@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IQEQRCode@2x.png"; sourceTree = "<group>"; };
 		27A61B5D15D1EA4100C27BF5 /* UIImage+IQE.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+IQE.h"; sourceTree = "<group>"; };
 		27A61B5E15D1EA4100C27BF5 /* UIImage+IQE.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+IQE.m"; sourceTree = "<group>"; };
+		27A61B8815D1F3E300C27BF5 /* ResultsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResultsViewController.h; sourceTree = "<group>"; };
+		27A61B8915D1F3E300C27BF5 /* ResultsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResultsViewController.m; sourceTree = "<group>"; };
+		27A61B8C15D1F3FB00C27BF5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ResultsViewController.xib; sourceTree = "<group>"; };
+		27A61B8E15D1F71A00C27BF5 /* ResultsBackArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ResultsBackArrow.png; sourceTree = "<group>"; };
+		27A61B8F15D1F71A00C27BF5 /* ResultsBackArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ResultsBackArrow@2x.png"; sourceTree = "<group>"; };
+		27A61B9015D1F71A00C27BF5 /* ResultsWWW.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ResultsWWW.png; sourceTree = "<group>"; };
+		27A61B9115D1F71A00C27BF5 /* ResultsWWW@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ResultsWWW@2x.png"; sourceTree = "<group>"; };
 		27ACF09714C8DB2400CF6FB1 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		27EA377E1432741A00BAAB34 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		27EA37821432741A00BAAB34 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -345,6 +358,8 @@
 				27EA37921432741A00BAAB34 /* ExampleAppDelegate.m */,
 				27EA37971432741A00BAAB34 /* ExampleViewController.h */,
 				27EA37981432741A00BAAB34 /* ExampleViewController.m */,
+				27A61B8815D1F3E300C27BF5 /* ResultsViewController.h */,
+				27A61B8915D1F3E300C27BF5 /* ResultsViewController.m */,
 				27EA380B14328E5E00BAAB34 /* WebViewController.h */,
 				27EA380C14328E5E00BAAB34 /* WebViewController.m */,
 				27EA37FD1432896900BAAB34 /* Resources */,
@@ -366,6 +381,10 @@
 		27EA37FD1432896900BAAB34 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				27A61B8E15D1F71A00C27BF5 /* ResultsBackArrow.png */,
+				27A61B8F15D1F71A00C27BF5 /* ResultsBackArrow@2x.png */,
+				27A61B9015D1F71A00C27BF5 /* ResultsWWW.png */,
+				27A61B9115D1F71A00C27BF5 /* ResultsWWW@2x.png */,
 				27655609143291530001BDE4 /* webview_back_button.png */,
 				2765560A143291530001BDE4 /* webview_back_button@2x.png */,
 				2765560B143291530001BDE4 /* webview_forward_button.png */,
@@ -375,6 +394,7 @@
 				27EA38001432896900BAAB34 /* InfoPlist.strings */,
 				27EA37FE1432896900BAAB34 /* ExampleViewController.xib */,
 				27EA38021432896900BAAB34 /* MainWindow.xib */,
+				27A61B8B15D1F3FB00C27BF5 /* ResultsViewController.xib */,
 				27655606143290ED0001BDE4 /* WebViewController.xib */,
 			);
 			path = Resources;
@@ -459,6 +479,11 @@
 				27A61B8415D1EA4100C27BF5 /* IQEHistoryIcon@2x.png in Resources */,
 				27A61B8515D1EA4100C27BF5 /* IQEQRCode.png in Resources */,
 				27A61B8615D1EA4100C27BF5 /* IQEQRCode@2x.png in Resources */,
+				27A61B8D15D1F3FB00C27BF5 /* ResultsViewController.xib in Resources */,
+				27A61B9215D1F71A00C27BF5 /* ResultsBackArrow.png in Resources */,
+				27A61B9315D1F71A00C27BF5 /* ResultsBackArrow@2x.png in Resources */,
+				27A61B9415D1F71A00C27BF5 /* ResultsWWW.png in Resources */,
+				27A61B9515D1F71A00C27BF5 /* ResultsWWW@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -495,6 +520,7 @@
 				27A61B7315D1EA4100C27BF5 /* IQEQuery.m in Sources */,
 				27A61B7415D1EA4100C27BF5 /* IQEViewController.m in Sources */,
 				27A61B8715D1EA4100C27BF5 /* UIImage+IQE.m in Sources */,
+				27A61B8A15D1F3E300C27BF5 /* ResultsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -523,6 +549,14 @@
 				27A61B4C15D1EA4100C27BF5 /* en */,
 			);
 			name = IQEViewController.xib;
+			sourceTree = "<group>";
+		};
+		27A61B8B15D1F3FB00C27BF5 /* ResultsViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				27A61B8C15D1F3FB00C27BF5 /* en */,
+			);
+			name = ResultsViewController.xib;
 			sourceTree = "<group>";
 		};
 		27EA37FE1432896900BAAB34 /* ExampleViewController.xib */ = {
