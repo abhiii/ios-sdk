@@ -24,18 +24,18 @@
 
 @interface IQEnginesResultResultParser : IQEnginesXMLParserBase
 {
-    BOOL      mFound;
-    int       mErrorCode;
-    NSString* mComment;
-
-    NSMutableDictionary* mResults;
-    NSMutableArray*      mBoundingBox;
+    BOOL            mFound;
+    int             mErrorCode;
+    NSString*       mComment;
+    NSMutableArray* mResults;
+   
+    NSMutableDictionary* mResultItem;  // qid_data collection, qid
+    NSMutableArray*      mBoundingBox; // bbox
 }
 
-@property(nonatomic, assign) BOOL      found;
-@property(nonatomic, assign) int       errorCode;
-@property(nonatomic, copy)   NSString* comment;
-
-@property(nonatomic, readonly) NSMutableDictionary* results;
+@property(nonatomic, assign)   BOOL            found;
+@property(nonatomic, assign)   int             errorCode;
+@property(nonatomic, copy)     NSString*       comment;
+@property(nonatomic, readonly) NSMutableArray* results;
 
 @end

@@ -39,7 +39,7 @@
 - (void) updateCompleteWithResults:(NSArray*)results;
 - (void) updateFailedWithError:(NSError*)error;
 - (void) result:(NSString*)qid completeNotAvailable:(NSString*)comment;
-- (void) result:(NSString*)qid completeWithResult:(NSDictionary*)result;
+- (void) result:(NSString*)qid completeWithResults:(NSArray*)results;
 - (void) result:(NSString*)qid failedWithError:(NSError*)error;
 - (void) barcode:(NSString*)c completeWithResult:(NSString*)results;
 - (void) barcode:(NSString*)c failedWithError:(NSError*)error;

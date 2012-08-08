@@ -28,45 +28,82 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import "IQEHistoryTableViewCell.h"
+#import "IQEBadgeView.h"
 
 #define CELL_MARGIN 4
+
+// --------------------------------------------------------------------------------
+#pragma mark -
+#pragma mark IQEHistoryTableViewCell private interface
+// --------------------------------------------------------------------------------
+
+@interface IQEHistoryTableViewCell ()
+@property(nonatomic, retain) IQEBadgeView* mBadgeView;
+@end
+
+// --------------------------------------------------------------------------------
+#pragma mark -
+#pragma mark IQEHistoryTableViewCell implementation
+// --------------------------------------------------------------------------------
 
 @implementation IQEHistoryTableViewCell
 
 @synthesize imageViewSize;
+@synthesize count;
+@synthesize mBadgeView;
+
+// --------------------------------------------------------------------------------
+#pragma mark -
+#pragma mark IQEHistoryTableViewCell lifecycle
+// --------------------------------------------------------------------------------
 
 - (id)initWithReuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
     if (self)
     {
+        count         = 0;
         imageViewSize = CGSizeZero;
+        
         self.imageView.layer.cornerRadius = 2.0;
+        
+        mBadgeView = [[IQEBadgeView alloc] init];
+        [self addSubview:mBadgeView];
     }
     return self;
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
-
 - (void)dealloc
 {
+    [mBadgeView release];
+    
     [super dealloc];
 }
+
+// --------------------------------------------------------------------------------
+#pragma mark -
+#pragma mark UIView
+// --------------------------------------------------------------------------------
 
 - (void)layoutSubviews
 {
     [super layoutSubviews];
     
+    // Positon badge view.
+    [mBadgeView sizeToFit];
+    mBadgeView.frame = CGRectMake(0.0,
+                                  ceilf((self.frame.size.height - mBadgeView.frame.size.height) / 2.0),
+                                  mBadgeView.frame.size.width,
+                                  mBadgeView.frame.size.height);
+    
+    if (mBadgeView.value == 0)
+        mBadgeView.frame = CGRectZero;    
+    
     if (CGSizeEqualToSize(imageViewSize, CGSizeZero))
          imageViewSize = self.imageView.frame.size;
         
     self.imageView.frame = CGRectMake(CELL_MARGIN,
-                                      (self.frame.size.height - imageViewSize.height) / 2.0,
+                                      ceilf((self.frame.size.height - imageViewSize.height) / 2.0),
                                       imageViewSize.width,
                                       imageViewSize.height);
     
@@ -74,10 +111,38 @@
     CGFloat textLabelW = self.accessoryView ? self.accessoryView.frame.origin.x - textLabelX - CELL_MARGIN
                                             : self.frame.size.width             - textLabelX - CELL_MARGIN;
     
+    // Shrink textLabel width if there is a badge.
+    textLabelW -= mBadgeView.frame.size.width + CELL_MARGIN;
+    
+    // Position badge horizontally.
+    mBadgeView.frame = CGRectOffset(mBadgeView.frame, CELL_MARGIN + textLabelX + textLabelW, 0.0);
+    
     self.textLabel.frame = CGRectMake(textLabelX,
                                       self.textLabel.frame.origin.y,
                                       textLabelW,
                                       self.textLabel.frame.size.height);
+}
+
+// --------------------------------------------------------------------------------
+#pragma mark -
+#pragma mark UITableViewCell
+// --------------------------------------------------------------------------------
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+{
+    [super setSelected:selected animated:animated];
+    
+    // Configure the view for the selected state
+}
+
+// --------------------------------------------------------------------------------
+#pragma mark -
+#pragma mark IQEHistoryTableViewCell public methods
+// --------------------------------------------------------------------------------
+
+- (void) setCount:(NSUInteger)aCount
+{
+    mBadgeView.value = aCount;
 }
 
 @end

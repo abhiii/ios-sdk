@@ -53,7 +53,7 @@ typedef enum
 // Called when an image search has completed successfully.
 // Results for the image search are contained in the results dictionary parameter.
 // The result dictionary keys are defined in IQEnginesAPI.h.
-- (void) iqEnginesRemote:(IQEnginesRemote*)iqe didCompleteSearch:(NSDictionary*)results forQID:(NSString*)qid;
+- (void) iqEnginesRemote:(IQEnginesRemote*)iqe didCompleteSearch:(NSArray*)results forQID:(NSString*)qid;
 
 // Called when a search for a UPC label has completed successfully.
 - (void) iqEnginesRemote:(IQEnginesRemote*)iqe didCompleteSearch:(NSString*)label forUPC:(NSString*)upc;

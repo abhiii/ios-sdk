@@ -34,7 +34,8 @@
 
 - (id)initWithReuseIdentifier:(NSString *)reuseIdentifier;
 
-@property(nonatomic, assign) CGSize imageViewSize;
+@property(nonatomic, assign) CGSize     imageViewSize;
+@property(nonatomic, assign) NSUInteger count;
 
 @end
 

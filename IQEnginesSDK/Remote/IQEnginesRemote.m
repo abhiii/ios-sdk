@@ -347,13 +347,13 @@
             // Cancel timed call for this qid that sets status to not ready.
             [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(searchTimeout:) object:qid];
             
-            NSDictionary* qidData = [result objectForKey:IQEnginesKeyQIDData];
+            NSArray* qidDataArray = [result objectForKey:IQEnginesKeyQIDData];
             
             if ([mDelegate respondsToSelector:@selector(iqEnginesRemote:statusDidChange:forQID:)])
                 [mDelegate iqEnginesRemote:self statusDidChange:IQEnginesRemoteStatusComplete forQID:qid];
             
             if ([mDelegate respondsToSelector:@selector(iqEnginesRemote:didCompleteSearch:forQID:)])
-                [mDelegate iqEnginesRemote:self didCompleteSearch:qidData forQID:qid];
+                [mDelegate iqEnginesRemote:self didCompleteSearch:qidDataArray forQID:qid];
             
             [mQIDs removeObject:qid];
         }
@@ -420,7 +420,7 @@
     }
 }
 
-- (void)result:(NSString*)qid completeWithResult:(NSDictionary*)result
+- (void)result:(NSString*)qid completeWithResults:(NSArray*)results
 {
     [mQIDs removeObject:qid];
 
@@ -428,7 +428,7 @@
         [mDelegate iqEnginesRemote:self statusDidChange:IQEnginesRemoteStatusComplete forQID:qid];
 
     if ([mDelegate respondsToSelector:@selector(iqEnginesRemote:didCompleteSearch:forQID:)])
-        [mDelegate iqEnginesRemote:self didCompleteSearch:result forQID:qid];
+        [mDelegate iqEnginesRemote:self didCompleteSearch:results forQID:qid];
 }
 
 - (void)result:(NSString*)qid failedWithError:(NSError*)error

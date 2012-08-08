@@ -24,7 +24,7 @@
 //
 //  IQE.h
 //
-//  Version 1.2
+//  Version 1.3
 //
 // --------------------------------------------------------------------------------
 
@@ -63,8 +63,8 @@ typedef enum
 
 // Called when an image search has completed successfully.
 // The type parameter indicates what type of image was detected.
-// Results for the image search are contained in the results dictionary parameter. The keys are listed below.
-- (void) iqEngines:(IQE*)iqe didCompleteSearch:(IQESearchType)type withResults:(NSDictionary*)results forQID:(NSString*)qid;
+// Results for the image search are contained in the results array parameter. The keys are listed below.
+- (void) iqEngines:(IQE*)iqe didCompleteSearch:(IQESearchType)type withResults:(NSArray*)results forQID:(NSString*)qid;
 
 // Called when an image search has failed.
 - (void) iqEngines:(IQE*)iqe failedWithError:(NSError*)error;
