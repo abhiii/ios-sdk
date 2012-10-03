@@ -28,7 +28,7 @@
 
 #import "UIImage+IQE.h"
 
-@interface UIImage ()
+@interface UIImage (UIImageIQEPrivate)
 - (UIImage *)resizedImage:(CGSize)newSize
                 transform:(CGAffineTransform)transform
            drawTransposed:(BOOL)transpose

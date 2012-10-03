@@ -29,6 +29,7 @@
 #import "ExampleViewController.h"
 #import "IQEViewController.h"
 #import "WebViewController.h"
+#import "UINavigationController+Rotation.h"
 #import "Config.h"
 
 @interface ExampleViewController ()

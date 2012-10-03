@@ -276,12 +276,6 @@ typedef enum
     // Set up video preview layer.
     //
     
-    CGRect layerRect = CGRectMake((mPreviewView.layer.bounds.size.width  - (mPreviewView.layer.bounds.size.width  * mZoom)) / 2,
-                                  (mPreviewView.layer.bounds.size.height - (mPreviewView.layer.bounds.size.height * mZoom)) / 2,
-                                   mPreviewView.layer.bounds.size.width  * mZoom,
-                                   mPreviewView.layer.bounds.size.height * mZoom);
-    mIQE.previewLayer.frame = layerRect;
-    
     [mPreviewView.layer insertSublayer:mIQE.previewLayer atIndex:0];
     
     mPreviewView.backgroundColor = [UIColor blackColor];
@@ -347,6 +341,11 @@ typedef enum
     self.mHistoryButton = nil;
 }
 
+- (void)viewDidLayoutSubviews
+{
+    [self updateView];
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -364,6 +363,16 @@ typedef enum
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (BOOL)shouldAutorotate
+{
+    return NO;
+}
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated
@@ -596,7 +605,7 @@ typedef enum
                                   image.size.width  / mZoom,
                                   image.size.height / mZoom);
     
-    image = [image croppedImage:cropRect];
+    image = [image croppedImage:CGRectIntegral(cropRect)];
     
     //
     // Got an image due to the camera button press. Start a new search.
@@ -1037,6 +1046,16 @@ typedef enum
 
 - (void)updateView
 {
+    //
+    // Preview layer.
+    //
+    
+    CGRect layerRect = CGRectInset(mPreviewView.frame,
+                                   (mPreviewView.frame.size.width  - mPreviewView.frame.size.width  * mZoom) / 2,
+                                   (mPreviewView.frame.size.height - mPreviewView.frame.size.height * mZoom) / 2);
+    
+    mIQE.previewLayer.frame = CGRectIntegral(layerRect);
+    
     //
     // History TableView.
     //

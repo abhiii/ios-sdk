@@ -192,7 +192,7 @@ static NSInteger SortKeyByName(id item1, id item2, void* context)
             [result appendData:[@"Content-Type: application/octet-stream\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
             [result appendData:value];
         }
-        [result appendData:[[NSString stringWithString:@"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
+        [result appendData:[@"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
     }
     [result appendData:[[NSString stringWithFormat:@"--%@--\r\n", PostBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
     

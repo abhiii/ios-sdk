@@ -70,6 +70,10 @@
 		27EA38051432896900BAAB34 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 27EA38001432896900BAAB34 /* InfoPlist.strings */; };
 		27EA38061432896900BAAB34 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27EA38021432896900BAAB34 /* MainWindow.xib */; };
 		27EA380D14328E5E00BAAB34 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27EA380C14328E5E00BAAB34 /* WebViewController.m */; };
+		27F01FFA161BCB1700C633B9 /* UINavigationController+Rotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F01FF8161BCB1700C633B9 /* UINavigationController+Rotation.m */; };
+		27F02002161BCF9100C633B9 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F01FFF161BCF9100C633B9 /* Default.png */; };
+		27F02003161BCF9100C633B9 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F02000161BCF9100C633B9 /* Default@2x.png */; };
+		27F02005161BCFAD00C633B9 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F02004161BCFAD00C633B9 /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -165,6 +169,11 @@
 		27EA380B14328E5E00BAAB34 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		27EA380C14328E5E00BAAB34 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		27EA380E14328E8100BAAB34 /* Config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
+		27F01FF8161BCB1700C633B9 /* UINavigationController+Rotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+Rotation.m"; sourceTree = "<group>"; };
+		27F01FF9161BCB1700C633B9 /* UINavigationController+Rotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+Rotation.h"; sourceTree = "<group>"; };
+		27F01FFF161BCF9100C633B9 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		27F02000161BCF9100C633B9 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		27F02004161BCFAD00C633B9 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -340,6 +349,8 @@
 				27EA37921432741A00BAAB34 /* ExampleAppDelegate.m */,
 				27EA37971432741A00BAAB34 /* ExampleViewController.h */,
 				27EA37981432741A00BAAB34 /* ExampleViewController.m */,
+				27F01FF9161BCB1700C633B9 /* UINavigationController+Rotation.h */,
+				27F01FF8161BCB1700C633B9 /* UINavigationController+Rotation.m */,
 				27EA380B14328E5E00BAAB34 /* WebViewController.h */,
 				27EA380C14328E5E00BAAB34 /* WebViewController.m */,
 				27EA37FD1432896900BAAB34 /* Resources */,
@@ -361,6 +372,9 @@
 		27EA37FD1432896900BAAB34 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				27F02004161BCFAD00C633B9 /* Default-568h@2x.png */,
+				27F01FFF161BCF9100C633B9 /* Default.png */,
+				27F02000161BCF9100C633B9 /* Default@2x.png */,
 				27655609143291530001BDE4 /* webview_back_button.png */,
 				2765560A143291530001BDE4 /* webview_back_button@2x.png */,
 				2765560B143291530001BDE4 /* webview_forward_button.png */,
@@ -454,6 +468,9 @@
 				27DC308D1537744900DBF197 /* IQEHistoryIcon@2x.png in Resources */,
 				27DC308E1537744900DBF197 /* IQEQRCode.png in Resources */,
 				27DC308F1537744900DBF197 /* IQEQRCode@2x.png in Resources */,
+				27F02002161BCF9100C633B9 /* Default.png in Resources */,
+				27F02003161BCF9100C633B9 /* Default@2x.png in Resources */,
+				27F02005161BCFAD00C633B9 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -489,6 +506,7 @@
 				27DC307C1537744900DBF197 /* IQEQuery.m in Sources */,
 				27DC307D1537744900DBF197 /* IQEViewController.m in Sources */,
 				27DC30901537744900DBF197 /* UIImage+IQE.m in Sources */,
+				27F01FFA161BCB1700C633B9 /* UINavigationController+Rotation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
