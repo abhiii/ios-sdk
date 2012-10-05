@@ -84,6 +84,7 @@
 		2765560C143291530001BDE4 /* webview_forward_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "webview_forward_button@2x.png"; sourceTree = "<group>"; };
 		2765560D143291530001BDE4 /* webview_back_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = webview_back_arrow.png; sourceTree = "<group>"; };
 		2765560E143291530001BDE4 /* webview_back_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "webview_back_arrow@2x.png"; sourceTree = "<group>"; };
+		279B4E5D161E7B650055A942 /* IQEVersion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IQEVersion.h; sourceTree = "<group>"; };
 		27ACF09714C8DB2400CF6FB1 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		27DC30241537744900DBF197 /* IQE.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQE.h; sourceTree = "<group>"; };
 		27DC30251537744900DBF197 /* IQE.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQE.m; sourceTree = "<group>"; };
@@ -209,6 +210,7 @@
 				27DC302A1537744900DBF197 /* IQEImageCapture.m */,
 				27DC302B1537744900DBF197 /* IQEnginesMisc.h */,
 				27DC302C1537744900DBF197 /* IQEnginesMisc.m */,
+				279B4E5D161E7B650055A942 /* IQEVersion.h */,
 				27DC302D1537744900DBF197 /* Local */,
 				27DC30311537744900DBF197 /* Remote */,
 				27DC30491537744900DBF197 /* UI */,
