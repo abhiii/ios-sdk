@@ -26,21 +26,33 @@
 
 #import "UINavigationController+Rotation.h"
 
-@implementation UINavigationController (oRotation)
+@implementation UINavigationController (Rotation)
 
 - (BOOL)shouldAutorotate
 {
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 60000
     return [self.topViewController shouldAutorotate];
+#else
+    return YES;
+#endif
 }
 
 - (NSUInteger)supportedInterfaceOrientations
 {
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 60000
     return [self.topViewController supportedInterfaceOrientations];
+#else
+    return 0;
+#endif
 }
 
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
 {
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 60000
     return [self.topViewController preferredInterfaceOrientationForPresentation];
+#else
+    return UIInterfaceOrientationPortrait;
+#endif
 }
 
 @end
