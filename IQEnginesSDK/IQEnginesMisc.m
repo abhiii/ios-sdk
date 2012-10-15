@@ -49,6 +49,9 @@
 
 + (NSString*) sha1:(NSString*)str
 {
+    if (str == nil || str.length <= 0)
+        return nil;
+    
     const char* cStr = [str UTF8String];
     unsigned char result[CC_SHA1_DIGEST_LENGTH];
     

@@ -226,7 +226,7 @@ respectively:
 ```
 
         - (void)iqEngines:(IQE*)iqe didCompleteSearch:(IQESearchType)type
-                                          withResults:(NSDictionary*)results
+                                          withResults:(NSArray*)results
                                                forQID:(NSString*)qid
         {
             NSLog(@"results:%@", results);

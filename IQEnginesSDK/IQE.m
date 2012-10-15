@@ -206,6 +206,38 @@ NSString* const IQEBarcodeTypeDATAMATRIX  = @"DataMatrix";
 #pragma mark IQE
 // --------------------------------------------------------------------------------
 
+- (void) setApiKey:(NSString*)key apiSecret:(NSString*)secret
+{
+    // Both key and secret are required.
+    if (key    == nil || [key    isEqualToString:@""]
+    ||  secret == nil || [secret isEqualToString:@""])
+        return;
+    
+    // Ignore same key/secret pair.
+    if ([key    isEqualToString:mApiKey]
+    &&  [secret isEqualToString:mApiSecret])
+        return;
+    
+    self.mApiKey    = key;
+    self.mApiSecret = secret;
+    
+    if ((mSearchType & IQESearchTypeRemoteSearch) || mIQEnginesRemote)
+    {
+        // Tear down existing remote search.
+        [mIQEnginesRemote closeConnection];
+        
+        mIQEnginesRemote.delegate = nil;
+        
+        [mIQEnginesRemote release];
+        mIQEnginesRemote = nil;
+        
+        // Init new remote search with new key and secret.
+        mIQEnginesRemote = [[IQEnginesRemote alloc] initWithKey:mApiKey secret:mApiSecret];
+        
+        mIQEnginesRemote.delegate = self;
+    }
+}
+
 - (void)startCamera
 {
     [mIQEImageCapture startCamera];
@@ -295,7 +327,7 @@ NSString* const IQEBarcodeTypeDATAMATRIX  = @"DataMatrix";
 #pragma mark <IQEnginesRemoteDelegate> implementation
 // --------------------------------------------------------------------------------
 
-- (void)iqEnginesRemote:(IQEnginesRemote*)iqe didCompleteSearch:(NSDictionary*)results forQID:(NSString *)qid
+- (void)iqEnginesRemote:(IQEnginesRemote*)iqe didCompleteSearch:(NSArray*)results forQID:(NSString *)qid
 {
     if ([mDelegate respondsToSelector:@selector(iqEngines:didCompleteSearch:withResults:forQID:)])
         [mDelegate iqEngines:self didCompleteSearch:IQESearchTypeRemoteSearch withResults:results forQID:qid];
@@ -348,10 +380,13 @@ NSString* const IQEBarcodeTypeDATAMATRIX  = @"DataMatrix";
            withResults:(NSDictionary*)results
                 forQID:(NSString*)qid
 {
+    // IQE delegate expects array of results, though local will return only one.
+    NSArray* resultsArray = [NSArray arrayWithObject:results];
+    
     if (type == IQEnginesLocalSearchTypeBarCode)
     {
         if ([mDelegate respondsToSelector:@selector(iqEngines:didCompleteSearch:withResults:forQID:)])
-            [mDelegate iqEngines:self didCompleteSearch:IQESearchTypeBarCode withResults:results forQID:qid];
+            [mDelegate iqEngines:self didCompleteSearch:IQESearchTypeBarCode withResults:resultsArray forQID:qid];
         
         // Not found. Don't do label retrieval.
         if (results.count == 0)
@@ -383,7 +418,7 @@ NSString* const IQEBarcodeTypeDATAMATRIX  = @"DataMatrix";
     if (type == IQEnginesLocalSearchTypeObjectSearch)
     {
         if ([mDelegate respondsToSelector:@selector(iqEngines:didCompleteSearch:withResults:forQID:)])
-            [mDelegate iqEngines:self didCompleteSearch:IQESearchTypeObjectSearch withResults:results forQID:qid];
+            [mDelegate iqEngines:self didCompleteSearch:IQESearchTypeObjectSearch withResults:resultsArray forQID:qid];
     }
 }
 

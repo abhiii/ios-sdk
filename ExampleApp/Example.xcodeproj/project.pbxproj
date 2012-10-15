@@ -15,46 +15,51 @@
 		27655613143291530001BDE4 /* webview_back_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 2765560D143291530001BDE4 /* webview_back_arrow.png */; };
 		27655614143291530001BDE4 /* webview_back_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2765560E143291530001BDE4 /* webview_back_arrow@2x.png */; };
 		27ACF09814C8DB2400CF6FB1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27ACF09714C8DB2400CF6FB1 /* CoreGraphics.framework */; };
-		27DC30691537744900DBF197 /* IQE.m in Sources */ = {isa = PBXBuildFile; fileRef = 27DC30251537744900DBF197 /* IQE.m */; };
-		27DC306A1537744900DBF197 /* IQEDebug.m in Sources */ = {isa = PBXBuildFile; fileRef = 27DC30281537744900DBF197 /* IQEDebug.m */; };
-		27DC306B1537744900DBF197 /* IQEImageCapture.m in Sources */ = {isa = PBXBuildFile; fileRef = 27DC302A1537744900DBF197 /* IQEImageCapture.m */; };
-		27DC306C1537744900DBF197 /* IQEnginesMisc.m in Sources */ = {isa = PBXBuildFile; fileRef = 27DC302C1537744900DBF197 /* IQEnginesMisc.m */; };
-		27DC306D1537744900DBF197 /* IQEnginesLocal.m in Sources */ = {isa = PBXBuildFile; fileRef = 27DC302F1537744900DBF197 /* IQEnginesLocal.m */; };
-		27DC306E1537744900DBF197 /* libIQEnginesLocal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 27DC30301537744900DBF197 /* libIQEnginesLocal.a */; };
-		27DC306F1537744900DBF197 /* IQEnginesAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 27DC30341537744900DBF197 /* IQEnginesAPI.m */; };
-		27DC30701537744900DBF197 /* IQEnginesBarcodeResultParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 27DC30361537744900DBF197 /* IQEnginesBarcodeResultParser.m */; };
-		27DC30711537744900DBF197 /* IQEnginesFeedbackResultParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 27DC30381537744900DBF197 /* IQEnginesFeedbackResultParser.m */; };
-		27DC30721537744900DBF197 /* IQEnginesQueryResultParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 27DC303A1537744900DBF197 /* IQEnginesQueryResultParser.m */; };
-		27DC30731537744900DBF197 /* IQEnginesRequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 27DC303C1537744900DBF197 /* IQEnginesRequestHandler.m */; };
-		27DC30741537744900DBF197 /* IQEnginesResultResultParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 27DC303E1537744900DBF197 /* IQEnginesResultResultParser.m */; };
-		27DC30751537744900DBF197 /* IQEnginesTags.m in Sources */ = {isa = PBXBuildFile; fileRef = 27DC30401537744900DBF197 /* IQEnginesTags.m */; };
-		27DC30761537744900DBF197 /* IQEnginesUpdateResultParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 27DC30421537744900DBF197 /* IQEnginesUpdateResultParser.m */; };
-		27DC30771537744900DBF197 /* IQEnginesUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 27DC30441537744900DBF197 /* IQEnginesUtils.m */; };
-		27DC30781537744900DBF197 /* IQEnginesXMLParserBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 27DC30461537744900DBF197 /* IQEnginesXMLParserBase.m */; };
-		27DC30791537744900DBF197 /* IQEnginesRemote.m in Sources */ = {isa = PBXBuildFile; fileRef = 27DC30481537744900DBF197 /* IQEnginesRemote.m */; };
-		27DC307A1537744900DBF197 /* IQEHistoryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 27DC304B1537744900DBF197 /* IQEHistoryTableViewCell.m */; };
-		27DC307B1537744900DBF197 /* IQELocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 27DC304D1537744900DBF197 /* IQELocation.m */; };
-		27DC307C1537744900DBF197 /* IQEQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 27DC304F1537744900DBF197 /* IQEQuery.m */; };
-		27DC307D1537744900DBF197 /* IQEViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27DC30511537744900DBF197 /* IQEViewController.m */; };
-		27DC307E1537744900DBF197 /* IQE.strings in Resources */ = {isa = PBXBuildFile; fileRef = 27DC30531537744900DBF197 /* IQE.strings */; };
-		27DC307F1537744900DBF197 /* IQEViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27DC30551537744900DBF197 /* IQEViewController.xib */; };
-		27DC30801537744900DBF197 /* IQEAccessoryDisclosureArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 27DC30571537744900DBF197 /* IQEAccessoryDisclosureArrow.png */; };
-		27DC30811537744900DBF197 /* IQEAccessoryDisclosureArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27DC30581537744900DBF197 /* IQEAccessoryDisclosureArrow@2x.png */; };
-		27DC30821537744900DBF197 /* IQEBackArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 27DC30591537744900DBF197 /* IQEBackArrow.png */; };
-		27DC30831537744900DBF197 /* IQEBackArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27DC305A1537744900DBF197 /* IQEBackArrow@2x.png */; };
-		27DC30841537744900DBF197 /* IQEBarcode.png in Resources */ = {isa = PBXBuildFile; fileRef = 27DC305B1537744900DBF197 /* IQEBarcode.png */; };
-		27DC30851537744900DBF197 /* IQEBarcode@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27DC305C1537744900DBF197 /* IQEBarcode@2x.png */; };
-		27DC30861537744900DBF197 /* IQECameraButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 27DC305D1537744900DBF197 /* IQECameraButton.png */; };
-		27DC30871537744900DBF197 /* IQECameraButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27DC305E1537744900DBF197 /* IQECameraButton@2x.png */; };
-		27DC30881537744900DBF197 /* IQECameraIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 27DC305F1537744900DBF197 /* IQECameraIcon.png */; };
-		27DC30891537744900DBF197 /* IQECameraIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27DC30601537744900DBF197 /* IQECameraIcon@2x.png */; };
-		27DC308A1537744900DBF197 /* IQEDataMatrix.png in Resources */ = {isa = PBXBuildFile; fileRef = 27DC30611537744900DBF197 /* IQEDataMatrix.png */; };
-		27DC308B1537744900DBF197 /* IQEDataMatrix@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27DC30621537744900DBF197 /* IQEDataMatrix@2x.png */; };
-		27DC308C1537744900DBF197 /* IQEHistoryIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 27DC30631537744900DBF197 /* IQEHistoryIcon.png */; };
-		27DC308D1537744900DBF197 /* IQEHistoryIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27DC30641537744900DBF197 /* IQEHistoryIcon@2x.png */; };
-		27DC308E1537744900DBF197 /* IQEQRCode.png in Resources */ = {isa = PBXBuildFile; fileRef = 27DC30651537744900DBF197 /* IQEQRCode.png */; };
-		27DC308F1537744900DBF197 /* IQEQRCode@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27DC30661537744900DBF197 /* IQEQRCode@2x.png */; };
-		27DC30901537744900DBF197 /* UIImage+IQE.m in Sources */ = {isa = PBXBuildFile; fileRef = 27DC30681537744900DBF197 /* UIImage+IQE.m */; };
+		27BE07A016279B34009292D8 /* IQE.m in Sources */ = {isa = PBXBuildFile; fileRef = 27BE075916279B34009292D8 /* IQE.m */; };
+		27BE07A116279B34009292D8 /* IQEDebug.m in Sources */ = {isa = PBXBuildFile; fileRef = 27BE075C16279B34009292D8 /* IQEDebug.m */; };
+		27BE07A216279B34009292D8 /* IQEImageCapture.m in Sources */ = {isa = PBXBuildFile; fileRef = 27BE075E16279B34009292D8 /* IQEImageCapture.m */; };
+		27BE07A316279B34009292D8 /* IQEnginesMisc.m in Sources */ = {isa = PBXBuildFile; fileRef = 27BE076016279B34009292D8 /* IQEnginesMisc.m */; };
+		27BE07A416279B34009292D8 /* IQEnginesLocal.m in Sources */ = {isa = PBXBuildFile; fileRef = 27BE076416279B34009292D8 /* IQEnginesLocal.m */; };
+		27BE07A516279B34009292D8 /* libIQEnginesLocal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 27BE076516279B34009292D8 /* libIQEnginesLocal.a */; };
+		27BE07A616279B34009292D8 /* IQEnginesAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 27BE076916279B34009292D8 /* IQEnginesAPI.m */; };
+		27BE07A716279B34009292D8 /* IQEnginesBarcodeResultParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 27BE076B16279B34009292D8 /* IQEnginesBarcodeResultParser.m */; };
+		27BE07A816279B34009292D8 /* IQEnginesFeedbackResultParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 27BE076D16279B34009292D8 /* IQEnginesFeedbackResultParser.m */; };
+		27BE07A916279B34009292D8 /* IQEnginesQueryResultParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 27BE076F16279B34009292D8 /* IQEnginesQueryResultParser.m */; };
+		27BE07AA16279B34009292D8 /* IQEnginesRequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 27BE077116279B34009292D8 /* IQEnginesRequestHandler.m */; };
+		27BE07AB16279B34009292D8 /* IQEnginesResultResultParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 27BE077316279B34009292D8 /* IQEnginesResultResultParser.m */; };
+		27BE07AC16279B34009292D8 /* IQEnginesTags.m in Sources */ = {isa = PBXBuildFile; fileRef = 27BE077516279B34009292D8 /* IQEnginesTags.m */; };
+		27BE07AD16279B34009292D8 /* IQEnginesUpdateResultParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 27BE077716279B34009292D8 /* IQEnginesUpdateResultParser.m */; };
+		27BE07AE16279B34009292D8 /* IQEnginesUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 27BE077916279B34009292D8 /* IQEnginesUtils.m */; };
+		27BE07AF16279B34009292D8 /* IQEnginesXMLParserBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 27BE077B16279B34009292D8 /* IQEnginesXMLParserBase.m */; };
+		27BE07B016279B34009292D8 /* IQEnginesRemote.m in Sources */ = {isa = PBXBuildFile; fileRef = 27BE077D16279B34009292D8 /* IQEnginesRemote.m */; };
+		27BE07B116279B34009292D8 /* IQEBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27BE078016279B34009292D8 /* IQEBadgeView.m */; };
+		27BE07B216279B34009292D8 /* IQEHistoryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 27BE078216279B34009292D8 /* IQEHistoryTableViewCell.m */; };
+		27BE07B316279B34009292D8 /* IQELocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 27BE078416279B34009292D8 /* IQELocation.m */; };
+		27BE07B416279B34009292D8 /* IQEQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 27BE078616279B34009292D8 /* IQEQuery.m */; };
+		27BE07B516279B34009292D8 /* IQEViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27BE078816279B34009292D8 /* IQEViewController.m */; };
+		27BE07B616279B34009292D8 /* IQE.strings in Resources */ = {isa = PBXBuildFile; fileRef = 27BE078A16279B34009292D8 /* IQE.strings */; };
+		27BE07B716279B34009292D8 /* IQEViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27BE078C16279B34009292D8 /* IQEViewController.xib */; };
+		27BE07B816279B34009292D8 /* IQEAccessoryDisclosureArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 27BE078E16279B34009292D8 /* IQEAccessoryDisclosureArrow.png */; };
+		27BE07B916279B34009292D8 /* IQEAccessoryDisclosureArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27BE078F16279B34009292D8 /* IQEAccessoryDisclosureArrow@2x.png */; };
+		27BE07BA16279B34009292D8 /* IQEBackArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 27BE079016279B34009292D8 /* IQEBackArrow.png */; };
+		27BE07BB16279B34009292D8 /* IQEBackArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27BE079116279B34009292D8 /* IQEBackArrow@2x.png */; };
+		27BE07BC16279B34009292D8 /* IQEBarcode.png in Resources */ = {isa = PBXBuildFile; fileRef = 27BE079216279B34009292D8 /* IQEBarcode.png */; };
+		27BE07BD16279B34009292D8 /* IQEBarcode@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27BE079316279B34009292D8 /* IQEBarcode@2x.png */; };
+		27BE07BE16279B34009292D8 /* IQECameraButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 27BE079416279B34009292D8 /* IQECameraButton.png */; };
+		27BE07BF16279B34009292D8 /* IQECameraButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27BE079516279B34009292D8 /* IQECameraButton@2x.png */; };
+		27BE07C016279B34009292D8 /* IQECameraIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 27BE079616279B34009292D8 /* IQECameraIcon.png */; };
+		27BE07C116279B34009292D8 /* IQECameraIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27BE079716279B34009292D8 /* IQECameraIcon@2x.png */; };
+		27BE07C216279B34009292D8 /* IQEDataMatrix.png in Resources */ = {isa = PBXBuildFile; fileRef = 27BE079816279B34009292D8 /* IQEDataMatrix.png */; };
+		27BE07C316279B34009292D8 /* IQEDataMatrix@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27BE079916279B34009292D8 /* IQEDataMatrix@2x.png */; };
+		27BE07C416279B34009292D8 /* IQEHistoryIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 27BE079A16279B34009292D8 /* IQEHistoryIcon.png */; };
+		27BE07C516279B34009292D8 /* IQEHistoryIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27BE079B16279B34009292D8 /* IQEHistoryIcon@2x.png */; };
+		27BE07C616279B34009292D8 /* IQEQRCode.png in Resources */ = {isa = PBXBuildFile; fileRef = 27BE079C16279B34009292D8 /* IQEQRCode.png */; };
+		27BE07C716279B34009292D8 /* IQEQRCode@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27BE079D16279B34009292D8 /* IQEQRCode@2x.png */; };
+		27BE07C816279B34009292D8 /* UIImage+IQE.m in Sources */ = {isa = PBXBuildFile; fileRef = 27BE079F16279B34009292D8 /* UIImage+IQE.m */; };
+		27BE07CB16279B7F009292D8 /* ResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27BE07C916279B7F009292D8 /* ResultsViewController.m */; };
+		27BE07CE16279BA4009292D8 /* ResultsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27BE07CC16279BA4009292D8 /* ResultsViewController.xib */; };
+		27BE07D316279BBF009292D8 /* ResultsBackArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 27BE07CF16279BBF009292D8 /* ResultsBackArrow.png */; };
+		27BE07D416279BBF009292D8 /* ResultsBackArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27BE07D016279BBF009292D8 /* ResultsBackArrow@2x.png */; };
 		27EA37831432741A00BAAB34 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27EA37821432741A00BAAB34 /* UIKit.framework */; };
 		27EA37851432741A00BAAB34 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27EA37841432741A00BAAB34 /* Foundation.framework */; };
 		27EA378F1432741A00BAAB34 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 27EA378E1432741A00BAAB34 /* main.m */; };
@@ -84,70 +89,77 @@
 		2765560C143291530001BDE4 /* webview_forward_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "webview_forward_button@2x.png"; sourceTree = "<group>"; };
 		2765560D143291530001BDE4 /* webview_back_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = webview_back_arrow.png; sourceTree = "<group>"; };
 		2765560E143291530001BDE4 /* webview_back_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "webview_back_arrow@2x.png"; sourceTree = "<group>"; };
-		279B4E5D161E7B650055A942 /* IQEVersion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IQEVersion.h; sourceTree = "<group>"; };
 		27ACF09714C8DB2400CF6FB1 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		27DC30241537744900DBF197 /* IQE.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQE.h; sourceTree = "<group>"; };
-		27DC30251537744900DBF197 /* IQE.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQE.m; sourceTree = "<group>"; };
-		27DC30261537744900DBF197 /* IQEConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQEConfig.h; sourceTree = "<group>"; };
-		27DC30271537744900DBF197 /* IQEDebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQEDebug.h; sourceTree = "<group>"; };
-		27DC30281537744900DBF197 /* IQEDebug.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQEDebug.m; sourceTree = "<group>"; };
-		27DC30291537744900DBF197 /* IQEImageCapture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQEImageCapture.h; sourceTree = "<group>"; };
-		27DC302A1537744900DBF197 /* IQEImageCapture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQEImageCapture.m; sourceTree = "<group>"; };
-		27DC302B1537744900DBF197 /* IQEnginesMisc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQEnginesMisc.h; sourceTree = "<group>"; };
-		27DC302C1537744900DBF197 /* IQEnginesMisc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQEnginesMisc.m; sourceTree = "<group>"; };
-		27DC302E1537744900DBF197 /* IQEnginesLocal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQEnginesLocal.h; sourceTree = "<group>"; };
-		27DC302F1537744900DBF197 /* IQEnginesLocal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQEnginesLocal.m; sourceTree = "<group>"; };
-		27DC30301537744900DBF197 /* libIQEnginesLocal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libIQEnginesLocal.a; sourceTree = "<group>"; };
-		27DC30331537744900DBF197 /* IQEnginesAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQEnginesAPI.h; sourceTree = "<group>"; };
-		27DC30341537744900DBF197 /* IQEnginesAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQEnginesAPI.m; sourceTree = "<group>"; };
-		27DC30351537744900DBF197 /* IQEnginesBarcodeResultParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQEnginesBarcodeResultParser.h; sourceTree = "<group>"; };
-		27DC30361537744900DBF197 /* IQEnginesBarcodeResultParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQEnginesBarcodeResultParser.m; sourceTree = "<group>"; };
-		27DC30371537744900DBF197 /* IQEnginesFeedbackResultParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQEnginesFeedbackResultParser.h; sourceTree = "<group>"; };
-		27DC30381537744900DBF197 /* IQEnginesFeedbackResultParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQEnginesFeedbackResultParser.m; sourceTree = "<group>"; };
-		27DC30391537744900DBF197 /* IQEnginesQueryResultParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQEnginesQueryResultParser.h; sourceTree = "<group>"; };
-		27DC303A1537744900DBF197 /* IQEnginesQueryResultParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQEnginesQueryResultParser.m; sourceTree = "<group>"; };
-		27DC303B1537744900DBF197 /* IQEnginesRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQEnginesRequestHandler.h; sourceTree = "<group>"; };
-		27DC303C1537744900DBF197 /* IQEnginesRequestHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQEnginesRequestHandler.m; sourceTree = "<group>"; };
-		27DC303D1537744900DBF197 /* IQEnginesResultResultParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQEnginesResultResultParser.h; sourceTree = "<group>"; };
-		27DC303E1537744900DBF197 /* IQEnginesResultResultParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQEnginesResultResultParser.m; sourceTree = "<group>"; };
-		27DC303F1537744900DBF197 /* IQEnginesTags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQEnginesTags.h; sourceTree = "<group>"; };
-		27DC30401537744900DBF197 /* IQEnginesTags.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQEnginesTags.m; sourceTree = "<group>"; };
-		27DC30411537744900DBF197 /* IQEnginesUpdateResultParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQEnginesUpdateResultParser.h; sourceTree = "<group>"; };
-		27DC30421537744900DBF197 /* IQEnginesUpdateResultParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQEnginesUpdateResultParser.m; sourceTree = "<group>"; };
-		27DC30431537744900DBF197 /* IQEnginesUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQEnginesUtils.h; sourceTree = "<group>"; };
-		27DC30441537744900DBF197 /* IQEnginesUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQEnginesUtils.m; sourceTree = "<group>"; };
-		27DC30451537744900DBF197 /* IQEnginesXMLParserBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQEnginesXMLParserBase.h; sourceTree = "<group>"; };
-		27DC30461537744900DBF197 /* IQEnginesXMLParserBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQEnginesXMLParserBase.m; sourceTree = "<group>"; };
-		27DC30471537744900DBF197 /* IQEnginesRemote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQEnginesRemote.h; sourceTree = "<group>"; };
-		27DC30481537744900DBF197 /* IQEnginesRemote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQEnginesRemote.m; sourceTree = "<group>"; };
-		27DC304A1537744900DBF197 /* IQEHistoryTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQEHistoryTableViewCell.h; sourceTree = "<group>"; };
-		27DC304B1537744900DBF197 /* IQEHistoryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQEHistoryTableViewCell.m; sourceTree = "<group>"; };
-		27DC304C1537744900DBF197 /* IQELocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQELocation.h; sourceTree = "<group>"; };
-		27DC304D1537744900DBF197 /* IQELocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQELocation.m; sourceTree = "<group>"; };
-		27DC304E1537744900DBF197 /* IQEQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQEQuery.h; sourceTree = "<group>"; };
-		27DC304F1537744900DBF197 /* IQEQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQEQuery.m; sourceTree = "<group>"; };
-		27DC30501537744900DBF197 /* IQEViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQEViewController.h; sourceTree = "<group>"; };
-		27DC30511537744900DBF197 /* IQEViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQEViewController.m; sourceTree = "<group>"; };
-		27DC30541537744900DBF197 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/IQE.strings; sourceTree = "<group>"; };
-		27DC30561537744900DBF197 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/IQEViewController.xib; sourceTree = "<group>"; };
-		27DC30571537744900DBF197 /* IQEAccessoryDisclosureArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IQEAccessoryDisclosureArrow.png; sourceTree = "<group>"; };
-		27DC30581537744900DBF197 /* IQEAccessoryDisclosureArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IQEAccessoryDisclosureArrow@2x.png"; sourceTree = "<group>"; };
-		27DC30591537744900DBF197 /* IQEBackArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IQEBackArrow.png; sourceTree = "<group>"; };
-		27DC305A1537744900DBF197 /* IQEBackArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IQEBackArrow@2x.png"; sourceTree = "<group>"; };
-		27DC305B1537744900DBF197 /* IQEBarcode.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IQEBarcode.png; sourceTree = "<group>"; };
-		27DC305C1537744900DBF197 /* IQEBarcode@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IQEBarcode@2x.png"; sourceTree = "<group>"; };
-		27DC305D1537744900DBF197 /* IQECameraButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IQECameraButton.png; sourceTree = "<group>"; };
-		27DC305E1537744900DBF197 /* IQECameraButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IQECameraButton@2x.png"; sourceTree = "<group>"; };
-		27DC305F1537744900DBF197 /* IQECameraIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IQECameraIcon.png; sourceTree = "<group>"; };
-		27DC30601537744900DBF197 /* IQECameraIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IQECameraIcon@2x.png"; sourceTree = "<group>"; };
-		27DC30611537744900DBF197 /* IQEDataMatrix.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IQEDataMatrix.png; sourceTree = "<group>"; };
-		27DC30621537744900DBF197 /* IQEDataMatrix@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IQEDataMatrix@2x.png"; sourceTree = "<group>"; };
-		27DC30631537744900DBF197 /* IQEHistoryIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IQEHistoryIcon.png; sourceTree = "<group>"; };
-		27DC30641537744900DBF197 /* IQEHistoryIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IQEHistoryIcon@2x.png"; sourceTree = "<group>"; };
-		27DC30651537744900DBF197 /* IQEQRCode.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IQEQRCode.png; sourceTree = "<group>"; };
-		27DC30661537744900DBF197 /* IQEQRCode@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IQEQRCode@2x.png"; sourceTree = "<group>"; };
-		27DC30671537744900DBF197 /* UIImage+IQE.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+IQE.h"; sourceTree = "<group>"; };
-		27DC30681537744900DBF197 /* UIImage+IQE.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+IQE.m"; sourceTree = "<group>"; };
+		27BE075816279B34009292D8 /* IQE.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQE.h; sourceTree = "<group>"; };
+		27BE075916279B34009292D8 /* IQE.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQE.m; sourceTree = "<group>"; };
+		27BE075A16279B34009292D8 /* IQEConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQEConfig.h; sourceTree = "<group>"; };
+		27BE075B16279B34009292D8 /* IQEDebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQEDebug.h; sourceTree = "<group>"; };
+		27BE075C16279B34009292D8 /* IQEDebug.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQEDebug.m; sourceTree = "<group>"; };
+		27BE075D16279B34009292D8 /* IQEImageCapture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQEImageCapture.h; sourceTree = "<group>"; };
+		27BE075E16279B34009292D8 /* IQEImageCapture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQEImageCapture.m; sourceTree = "<group>"; };
+		27BE075F16279B34009292D8 /* IQEnginesMisc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQEnginesMisc.h; sourceTree = "<group>"; };
+		27BE076016279B34009292D8 /* IQEnginesMisc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQEnginesMisc.m; sourceTree = "<group>"; };
+		27BE076116279B34009292D8 /* IQEVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQEVersion.h; sourceTree = "<group>"; };
+		27BE076316279B34009292D8 /* IQEnginesLocal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQEnginesLocal.h; sourceTree = "<group>"; };
+		27BE076416279B34009292D8 /* IQEnginesLocal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQEnginesLocal.m; sourceTree = "<group>"; };
+		27BE076516279B34009292D8 /* libIQEnginesLocal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libIQEnginesLocal.a; sourceTree = "<group>"; };
+		27BE076816279B34009292D8 /* IQEnginesAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQEnginesAPI.h; sourceTree = "<group>"; };
+		27BE076916279B34009292D8 /* IQEnginesAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQEnginesAPI.m; sourceTree = "<group>"; };
+		27BE076A16279B34009292D8 /* IQEnginesBarcodeResultParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQEnginesBarcodeResultParser.h; sourceTree = "<group>"; };
+		27BE076B16279B34009292D8 /* IQEnginesBarcodeResultParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQEnginesBarcodeResultParser.m; sourceTree = "<group>"; };
+		27BE076C16279B34009292D8 /* IQEnginesFeedbackResultParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQEnginesFeedbackResultParser.h; sourceTree = "<group>"; };
+		27BE076D16279B34009292D8 /* IQEnginesFeedbackResultParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQEnginesFeedbackResultParser.m; sourceTree = "<group>"; };
+		27BE076E16279B34009292D8 /* IQEnginesQueryResultParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQEnginesQueryResultParser.h; sourceTree = "<group>"; };
+		27BE076F16279B34009292D8 /* IQEnginesQueryResultParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQEnginesQueryResultParser.m; sourceTree = "<group>"; };
+		27BE077016279B34009292D8 /* IQEnginesRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQEnginesRequestHandler.h; sourceTree = "<group>"; };
+		27BE077116279B34009292D8 /* IQEnginesRequestHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQEnginesRequestHandler.m; sourceTree = "<group>"; };
+		27BE077216279B34009292D8 /* IQEnginesResultResultParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQEnginesResultResultParser.h; sourceTree = "<group>"; };
+		27BE077316279B34009292D8 /* IQEnginesResultResultParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQEnginesResultResultParser.m; sourceTree = "<group>"; };
+		27BE077416279B34009292D8 /* IQEnginesTags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQEnginesTags.h; sourceTree = "<group>"; };
+		27BE077516279B34009292D8 /* IQEnginesTags.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQEnginesTags.m; sourceTree = "<group>"; };
+		27BE077616279B34009292D8 /* IQEnginesUpdateResultParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQEnginesUpdateResultParser.h; sourceTree = "<group>"; };
+		27BE077716279B34009292D8 /* IQEnginesUpdateResultParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQEnginesUpdateResultParser.m; sourceTree = "<group>"; };
+		27BE077816279B34009292D8 /* IQEnginesUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQEnginesUtils.h; sourceTree = "<group>"; };
+		27BE077916279B34009292D8 /* IQEnginesUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQEnginesUtils.m; sourceTree = "<group>"; };
+		27BE077A16279B34009292D8 /* IQEnginesXMLParserBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQEnginesXMLParserBase.h; sourceTree = "<group>"; };
+		27BE077B16279B34009292D8 /* IQEnginesXMLParserBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQEnginesXMLParserBase.m; sourceTree = "<group>"; };
+		27BE077C16279B34009292D8 /* IQEnginesRemote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQEnginesRemote.h; sourceTree = "<group>"; };
+		27BE077D16279B34009292D8 /* IQEnginesRemote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQEnginesRemote.m; sourceTree = "<group>"; };
+		27BE077F16279B34009292D8 /* IQEBadgeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQEBadgeView.h; sourceTree = "<group>"; };
+		27BE078016279B34009292D8 /* IQEBadgeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQEBadgeView.m; sourceTree = "<group>"; };
+		27BE078116279B34009292D8 /* IQEHistoryTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQEHistoryTableViewCell.h; sourceTree = "<group>"; };
+		27BE078216279B34009292D8 /* IQEHistoryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQEHistoryTableViewCell.m; sourceTree = "<group>"; };
+		27BE078316279B34009292D8 /* IQELocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQELocation.h; sourceTree = "<group>"; };
+		27BE078416279B34009292D8 /* IQELocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQELocation.m; sourceTree = "<group>"; };
+		27BE078516279B34009292D8 /* IQEQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQEQuery.h; sourceTree = "<group>"; };
+		27BE078616279B34009292D8 /* IQEQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQEQuery.m; sourceTree = "<group>"; };
+		27BE078716279B34009292D8 /* IQEViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQEViewController.h; sourceTree = "<group>"; };
+		27BE078816279B34009292D8 /* IQEViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQEViewController.m; sourceTree = "<group>"; };
+		27BE078B16279B34009292D8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/IQE.strings; sourceTree = "<group>"; };
+		27BE078D16279B34009292D8 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/IQEViewController.xib; sourceTree = "<group>"; };
+		27BE078E16279B34009292D8 /* IQEAccessoryDisclosureArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IQEAccessoryDisclosureArrow.png; sourceTree = "<group>"; };
+		27BE078F16279B34009292D8 /* IQEAccessoryDisclosureArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IQEAccessoryDisclosureArrow@2x.png"; sourceTree = "<group>"; };
+		27BE079016279B34009292D8 /* IQEBackArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IQEBackArrow.png; sourceTree = "<group>"; };
+		27BE079116279B34009292D8 /* IQEBackArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IQEBackArrow@2x.png"; sourceTree = "<group>"; };
+		27BE079216279B34009292D8 /* IQEBarcode.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IQEBarcode.png; sourceTree = "<group>"; };
+		27BE079316279B34009292D8 /* IQEBarcode@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IQEBarcode@2x.png"; sourceTree = "<group>"; };
+		27BE079416279B34009292D8 /* IQECameraButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IQECameraButton.png; sourceTree = "<group>"; };
+		27BE079516279B34009292D8 /* IQECameraButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IQECameraButton@2x.png"; sourceTree = "<group>"; };
+		27BE079616279B34009292D8 /* IQECameraIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IQECameraIcon.png; sourceTree = "<group>"; };
+		27BE079716279B34009292D8 /* IQECameraIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IQECameraIcon@2x.png"; sourceTree = "<group>"; };
+		27BE079816279B34009292D8 /* IQEDataMatrix.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IQEDataMatrix.png; sourceTree = "<group>"; };
+		27BE079916279B34009292D8 /* IQEDataMatrix@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IQEDataMatrix@2x.png"; sourceTree = "<group>"; };
+		27BE079A16279B34009292D8 /* IQEHistoryIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IQEHistoryIcon.png; sourceTree = "<group>"; };
+		27BE079B16279B34009292D8 /* IQEHistoryIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IQEHistoryIcon@2x.png"; sourceTree = "<group>"; };
+		27BE079C16279B34009292D8 /* IQEQRCode.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IQEQRCode.png; sourceTree = "<group>"; };
+		27BE079D16279B34009292D8 /* IQEQRCode@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IQEQRCode@2x.png"; sourceTree = "<group>"; };
+		27BE079E16279B34009292D8 /* UIImage+IQE.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+IQE.h"; sourceTree = "<group>"; };
+		27BE079F16279B34009292D8 /* UIImage+IQE.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+IQE.m"; sourceTree = "<group>"; };
+		27BE07C916279B7F009292D8 /* ResultsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResultsViewController.m; sourceTree = "<group>"; };
+		27BE07CA16279B7F009292D8 /* ResultsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResultsViewController.h; sourceTree = "<group>"; };
+		27BE07CD16279BA4009292D8 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ResultsViewController.xib; sourceTree = "<group>"; };
+		27BE07CF16279BBF009292D8 /* ResultsBackArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ResultsBackArrow.png; sourceTree = "<group>"; };
+		27BE07D016279BBF009292D8 /* ResultsBackArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ResultsBackArrow@2x.png"; sourceTree = "<group>"; };
 		27EA377E1432741A00BAAB34 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		27EA37821432741A00BAAB34 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		27EA37841432741A00BAAB34 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -191,120 +203,122 @@
 				27EA37B4143286E500BAAB34 /* QuartzCore.framework in Frameworks */,
 				27EA37831432741A00BAAB34 /* UIKit.framework in Frameworks */,
 				27EA37851432741A00BAAB34 /* Foundation.framework in Frameworks */,
-				27DC306E1537744900DBF197 /* libIQEnginesLocal.a in Frameworks */,
+				27BE07A516279B34009292D8 /* libIQEnginesLocal.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		27DC30231537744900DBF197 /* IQEnginesSDK */ = {
+		27BE075716279B34009292D8 /* IQEnginesSDK */ = {
 			isa = PBXGroup;
 			children = (
-				27DC30241537744900DBF197 /* IQE.h */,
-				27DC30251537744900DBF197 /* IQE.m */,
-				27DC30261537744900DBF197 /* IQEConfig.h */,
-				27DC30271537744900DBF197 /* IQEDebug.h */,
-				27DC30281537744900DBF197 /* IQEDebug.m */,
-				27DC30291537744900DBF197 /* IQEImageCapture.h */,
-				27DC302A1537744900DBF197 /* IQEImageCapture.m */,
-				27DC302B1537744900DBF197 /* IQEnginesMisc.h */,
-				27DC302C1537744900DBF197 /* IQEnginesMisc.m */,
-				279B4E5D161E7B650055A942 /* IQEVersion.h */,
-				27DC302D1537744900DBF197 /* Local */,
-				27DC30311537744900DBF197 /* Remote */,
-				27DC30491537744900DBF197 /* UI */,
+				27BE075816279B34009292D8 /* IQE.h */,
+				27BE075916279B34009292D8 /* IQE.m */,
+				27BE075A16279B34009292D8 /* IQEConfig.h */,
+				27BE075B16279B34009292D8 /* IQEDebug.h */,
+				27BE075C16279B34009292D8 /* IQEDebug.m */,
+				27BE075D16279B34009292D8 /* IQEImageCapture.h */,
+				27BE075E16279B34009292D8 /* IQEImageCapture.m */,
+				27BE075F16279B34009292D8 /* IQEnginesMisc.h */,
+				27BE076016279B34009292D8 /* IQEnginesMisc.m */,
+				27BE076116279B34009292D8 /* IQEVersion.h */,
+				27BE076216279B34009292D8 /* Local */,
+				27BE076616279B34009292D8 /* Remote */,
+				27BE077E16279B34009292D8 /* UI */,
 			);
 			name = IQEnginesSDK;
 			path = ../IQEnginesSDK;
 			sourceTree = "<group>";
 		};
-		27DC302D1537744900DBF197 /* Local */ = {
+		27BE076216279B34009292D8 /* Local */ = {
 			isa = PBXGroup;
 			children = (
-				27DC302E1537744900DBF197 /* IQEnginesLocal.h */,
-				27DC302F1537744900DBF197 /* IQEnginesLocal.m */,
-				27DC30301537744900DBF197 /* libIQEnginesLocal.a */,
+				27BE076316279B34009292D8 /* IQEnginesLocal.h */,
+				27BE076416279B34009292D8 /* IQEnginesLocal.m */,
+				27BE076516279B34009292D8 /* libIQEnginesLocal.a */,
 			);
 			path = Local;
 			sourceTree = "<group>";
 		};
-		27DC30311537744900DBF197 /* Remote */ = {
+		27BE076616279B34009292D8 /* Remote */ = {
 			isa = PBXGroup;
 			children = (
-				27DC30321537744900DBF197 /* IQEnginesAPI */,
-				27DC30471537744900DBF197 /* IQEnginesRemote.h */,
-				27DC30481537744900DBF197 /* IQEnginesRemote.m */,
+				27BE076716279B34009292D8 /* IQEnginesAPI */,
+				27BE077C16279B34009292D8 /* IQEnginesRemote.h */,
+				27BE077D16279B34009292D8 /* IQEnginesRemote.m */,
 			);
 			path = Remote;
 			sourceTree = "<group>";
 		};
-		27DC30321537744900DBF197 /* IQEnginesAPI */ = {
+		27BE076716279B34009292D8 /* IQEnginesAPI */ = {
 			isa = PBXGroup;
 			children = (
-				27DC30331537744900DBF197 /* IQEnginesAPI.h */,
-				27DC30341537744900DBF197 /* IQEnginesAPI.m */,
-				27DC30351537744900DBF197 /* IQEnginesBarcodeResultParser.h */,
-				27DC30361537744900DBF197 /* IQEnginesBarcodeResultParser.m */,
-				27DC30371537744900DBF197 /* IQEnginesFeedbackResultParser.h */,
-				27DC30381537744900DBF197 /* IQEnginesFeedbackResultParser.m */,
-				27DC30391537744900DBF197 /* IQEnginesQueryResultParser.h */,
-				27DC303A1537744900DBF197 /* IQEnginesQueryResultParser.m */,
-				27DC303B1537744900DBF197 /* IQEnginesRequestHandler.h */,
-				27DC303C1537744900DBF197 /* IQEnginesRequestHandler.m */,
-				27DC303D1537744900DBF197 /* IQEnginesResultResultParser.h */,
-				27DC303E1537744900DBF197 /* IQEnginesResultResultParser.m */,
-				27DC303F1537744900DBF197 /* IQEnginesTags.h */,
-				27DC30401537744900DBF197 /* IQEnginesTags.m */,
-				27DC30411537744900DBF197 /* IQEnginesUpdateResultParser.h */,
-				27DC30421537744900DBF197 /* IQEnginesUpdateResultParser.m */,
-				27DC30431537744900DBF197 /* IQEnginesUtils.h */,
-				27DC30441537744900DBF197 /* IQEnginesUtils.m */,
-				27DC30451537744900DBF197 /* IQEnginesXMLParserBase.h */,
-				27DC30461537744900DBF197 /* IQEnginesXMLParserBase.m */,
+				27BE076816279B34009292D8 /* IQEnginesAPI.h */,
+				27BE076916279B34009292D8 /* IQEnginesAPI.m */,
+				27BE076A16279B34009292D8 /* IQEnginesBarcodeResultParser.h */,
+				27BE076B16279B34009292D8 /* IQEnginesBarcodeResultParser.m */,
+				27BE076C16279B34009292D8 /* IQEnginesFeedbackResultParser.h */,
+				27BE076D16279B34009292D8 /* IQEnginesFeedbackResultParser.m */,
+				27BE076E16279B34009292D8 /* IQEnginesQueryResultParser.h */,
+				27BE076F16279B34009292D8 /* IQEnginesQueryResultParser.m */,
+				27BE077016279B34009292D8 /* IQEnginesRequestHandler.h */,
+				27BE077116279B34009292D8 /* IQEnginesRequestHandler.m */,
+				27BE077216279B34009292D8 /* IQEnginesResultResultParser.h */,
+				27BE077316279B34009292D8 /* IQEnginesResultResultParser.m */,
+				27BE077416279B34009292D8 /* IQEnginesTags.h */,
+				27BE077516279B34009292D8 /* IQEnginesTags.m */,
+				27BE077616279B34009292D8 /* IQEnginesUpdateResultParser.h */,
+				27BE077716279B34009292D8 /* IQEnginesUpdateResultParser.m */,
+				27BE077816279B34009292D8 /* IQEnginesUtils.h */,
+				27BE077916279B34009292D8 /* IQEnginesUtils.m */,
+				27BE077A16279B34009292D8 /* IQEnginesXMLParserBase.h */,
+				27BE077B16279B34009292D8 /* IQEnginesXMLParserBase.m */,
 			);
 			path = IQEnginesAPI;
 			sourceTree = "<group>";
 		};
-		27DC30491537744900DBF197 /* UI */ = {
+		27BE077E16279B34009292D8 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				27DC304A1537744900DBF197 /* IQEHistoryTableViewCell.h */,
-				27DC304B1537744900DBF197 /* IQEHistoryTableViewCell.m */,
-				27DC304C1537744900DBF197 /* IQELocation.h */,
-				27DC304D1537744900DBF197 /* IQELocation.m */,
-				27DC304E1537744900DBF197 /* IQEQuery.h */,
-				27DC304F1537744900DBF197 /* IQEQuery.m */,
-				27DC30501537744900DBF197 /* IQEViewController.h */,
-				27DC30511537744900DBF197 /* IQEViewController.m */,
-				27DC30521537744900DBF197 /* Resources */,
-				27DC30671537744900DBF197 /* UIImage+IQE.h */,
-				27DC30681537744900DBF197 /* UIImage+IQE.m */,
+				27BE077F16279B34009292D8 /* IQEBadgeView.h */,
+				27BE078016279B34009292D8 /* IQEBadgeView.m */,
+				27BE078116279B34009292D8 /* IQEHistoryTableViewCell.h */,
+				27BE078216279B34009292D8 /* IQEHistoryTableViewCell.m */,
+				27BE078316279B34009292D8 /* IQELocation.h */,
+				27BE078416279B34009292D8 /* IQELocation.m */,
+				27BE078516279B34009292D8 /* IQEQuery.h */,
+				27BE078616279B34009292D8 /* IQEQuery.m */,
+				27BE078716279B34009292D8 /* IQEViewController.h */,
+				27BE078816279B34009292D8 /* IQEViewController.m */,
+				27BE078916279B34009292D8 /* Resources */,
+				27BE079E16279B34009292D8 /* UIImage+IQE.h */,
+				27BE079F16279B34009292D8 /* UIImage+IQE.m */,
 			);
 			path = UI;
 			sourceTree = "<group>";
 		};
-		27DC30521537744900DBF197 /* Resources */ = {
+		27BE078916279B34009292D8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				27DC30531537744900DBF197 /* IQE.strings */,
-				27DC30551537744900DBF197 /* IQEViewController.xib */,
-				27DC30571537744900DBF197 /* IQEAccessoryDisclosureArrow.png */,
-				27DC30581537744900DBF197 /* IQEAccessoryDisclosureArrow@2x.png */,
-				27DC30591537744900DBF197 /* IQEBackArrow.png */,
-				27DC305A1537744900DBF197 /* IQEBackArrow@2x.png */,
-				27DC305B1537744900DBF197 /* IQEBarcode.png */,
-				27DC305C1537744900DBF197 /* IQEBarcode@2x.png */,
-				27DC305D1537744900DBF197 /* IQECameraButton.png */,
-				27DC305E1537744900DBF197 /* IQECameraButton@2x.png */,
-				27DC305F1537744900DBF197 /* IQECameraIcon.png */,
-				27DC30601537744900DBF197 /* IQECameraIcon@2x.png */,
-				27DC30611537744900DBF197 /* IQEDataMatrix.png */,
-				27DC30621537744900DBF197 /* IQEDataMatrix@2x.png */,
-				27DC30631537744900DBF197 /* IQEHistoryIcon.png */,
-				27DC30641537744900DBF197 /* IQEHistoryIcon@2x.png */,
-				27DC30651537744900DBF197 /* IQEQRCode.png */,
-				27DC30661537744900DBF197 /* IQEQRCode@2x.png */,
+				27BE078A16279B34009292D8 /* IQE.strings */,
+				27BE078C16279B34009292D8 /* IQEViewController.xib */,
+				27BE078E16279B34009292D8 /* IQEAccessoryDisclosureArrow.png */,
+				27BE078F16279B34009292D8 /* IQEAccessoryDisclosureArrow@2x.png */,
+				27BE079016279B34009292D8 /* IQEBackArrow.png */,
+				27BE079116279B34009292D8 /* IQEBackArrow@2x.png */,
+				27BE079216279B34009292D8 /* IQEBarcode.png */,
+				27BE079316279B34009292D8 /* IQEBarcode@2x.png */,
+				27BE079416279B34009292D8 /* IQECameraButton.png */,
+				27BE079516279B34009292D8 /* IQECameraButton@2x.png */,
+				27BE079616279B34009292D8 /* IQECameraIcon.png */,
+				27BE079716279B34009292D8 /* IQECameraIcon@2x.png */,
+				27BE079816279B34009292D8 /* IQEDataMatrix.png */,
+				27BE079916279B34009292D8 /* IQEDataMatrix@2x.png */,
+				27BE079A16279B34009292D8 /* IQEHistoryIcon.png */,
+				27BE079B16279B34009292D8 /* IQEHistoryIcon@2x.png */,
+				27BE079C16279B34009292D8 /* IQEQRCode.png */,
+				27BE079D16279B34009292D8 /* IQEQRCode@2x.png */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -312,7 +326,7 @@
 		27EA37731432741A00BAAB34 = {
 			isa = PBXGroup;
 			children = (
-				27DC30231537744900DBF197 /* IQEnginesSDK */,
+				27BE075716279B34009292D8 /* IQEnginesSDK */,
 				27EA37881432741A00BAAB34 /* Example */,
 				27EA37811432741A00BAAB34 /* Frameworks */,
 				27EA377F1432741A00BAAB34 /* Products */,
@@ -351,6 +365,8 @@
 				27EA37921432741A00BAAB34 /* ExampleAppDelegate.m */,
 				27EA37971432741A00BAAB34 /* ExampleViewController.h */,
 				27EA37981432741A00BAAB34 /* ExampleViewController.m */,
+				27BE07CA16279B7F009292D8 /* ResultsViewController.h */,
+				27BE07C916279B7F009292D8 /* ResultsViewController.m */,
 				27F01FF9161BCB1700C633B9 /* UINavigationController+Rotation.h */,
 				27F01FF8161BCB1700C633B9 /* UINavigationController+Rotation.m */,
 				27EA380B14328E5E00BAAB34 /* WebViewController.h */,
@@ -377,6 +393,8 @@
 				27F02004161BCFAD00C633B9 /* Default-568h@2x.png */,
 				27F01FFF161BCF9100C633B9 /* Default.png */,
 				27F02000161BCF9100C633B9 /* Default@2x.png */,
+				27BE07CF16279BBF009292D8 /* ResultsBackArrow.png */,
+				27BE07D016279BBF009292D8 /* ResultsBackArrow@2x.png */,
 				27655609143291530001BDE4 /* webview_back_button.png */,
 				2765560A143291530001BDE4 /* webview_back_button@2x.png */,
 				2765560B143291530001BDE4 /* webview_forward_button.png */,
@@ -386,6 +404,7 @@
 				27EA38001432896900BAAB34 /* InfoPlist.strings */,
 				27EA37FE1432896900BAAB34 /* ExampleViewController.xib */,
 				27EA38021432896900BAAB34 /* MainWindow.xib */,
+				27BE07CC16279BA4009292D8 /* ResultsViewController.xib */,
 				27655606143290ED0001BDE4 /* WebViewController.xib */,
 			);
 			path = Resources;
@@ -452,27 +471,30 @@
 				27655612143291530001BDE4 /* webview_forward_button@2x.png in Resources */,
 				27655613143291530001BDE4 /* webview_back_arrow.png in Resources */,
 				27655614143291530001BDE4 /* webview_back_arrow@2x.png in Resources */,
-				27DC307E1537744900DBF197 /* IQE.strings in Resources */,
-				27DC307F1537744900DBF197 /* IQEViewController.xib in Resources */,
-				27DC30801537744900DBF197 /* IQEAccessoryDisclosureArrow.png in Resources */,
-				27DC30811537744900DBF197 /* IQEAccessoryDisclosureArrow@2x.png in Resources */,
-				27DC30821537744900DBF197 /* IQEBackArrow.png in Resources */,
-				27DC30831537744900DBF197 /* IQEBackArrow@2x.png in Resources */,
-				27DC30841537744900DBF197 /* IQEBarcode.png in Resources */,
-				27DC30851537744900DBF197 /* IQEBarcode@2x.png in Resources */,
-				27DC30861537744900DBF197 /* IQECameraButton.png in Resources */,
-				27DC30871537744900DBF197 /* IQECameraButton@2x.png in Resources */,
-				27DC30881537744900DBF197 /* IQECameraIcon.png in Resources */,
-				27DC30891537744900DBF197 /* IQECameraIcon@2x.png in Resources */,
-				27DC308A1537744900DBF197 /* IQEDataMatrix.png in Resources */,
-				27DC308B1537744900DBF197 /* IQEDataMatrix@2x.png in Resources */,
-				27DC308C1537744900DBF197 /* IQEHistoryIcon.png in Resources */,
-				27DC308D1537744900DBF197 /* IQEHistoryIcon@2x.png in Resources */,
-				27DC308E1537744900DBF197 /* IQEQRCode.png in Resources */,
-				27DC308F1537744900DBF197 /* IQEQRCode@2x.png in Resources */,
 				27F02002161BCF9100C633B9 /* Default.png in Resources */,
 				27F02003161BCF9100C633B9 /* Default@2x.png in Resources */,
 				27F02005161BCFAD00C633B9 /* Default-568h@2x.png in Resources */,
+				27BE07B616279B34009292D8 /* IQE.strings in Resources */,
+				27BE07B716279B34009292D8 /* IQEViewController.xib in Resources */,
+				27BE07B816279B34009292D8 /* IQEAccessoryDisclosureArrow.png in Resources */,
+				27BE07B916279B34009292D8 /* IQEAccessoryDisclosureArrow@2x.png in Resources */,
+				27BE07BA16279B34009292D8 /* IQEBackArrow.png in Resources */,
+				27BE07BB16279B34009292D8 /* IQEBackArrow@2x.png in Resources */,
+				27BE07BC16279B34009292D8 /* IQEBarcode.png in Resources */,
+				27BE07BD16279B34009292D8 /* IQEBarcode@2x.png in Resources */,
+				27BE07BE16279B34009292D8 /* IQECameraButton.png in Resources */,
+				27BE07BF16279B34009292D8 /* IQECameraButton@2x.png in Resources */,
+				27BE07C016279B34009292D8 /* IQECameraIcon.png in Resources */,
+				27BE07C116279B34009292D8 /* IQECameraIcon@2x.png in Resources */,
+				27BE07C216279B34009292D8 /* IQEDataMatrix.png in Resources */,
+				27BE07C316279B34009292D8 /* IQEDataMatrix@2x.png in Resources */,
+				27BE07C416279B34009292D8 /* IQEHistoryIcon.png in Resources */,
+				27BE07C516279B34009292D8 /* IQEHistoryIcon@2x.png in Resources */,
+				27BE07C616279B34009292D8 /* IQEQRCode.png in Resources */,
+				27BE07C716279B34009292D8 /* IQEQRCode@2x.png in Resources */,
+				27BE07CE16279BA4009292D8 /* ResultsViewController.xib in Resources */,
+				27BE07D316279BBF009292D8 /* ResultsBackArrow.png in Resources */,
+				27BE07D416279BBF009292D8 /* ResultsBackArrow@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -487,28 +509,30 @@
 				27EA37931432741A00BAAB34 /* ExampleAppDelegate.m in Sources */,
 				27EA37991432741A00BAAB34 /* ExampleViewController.m in Sources */,
 				27EA380D14328E5E00BAAB34 /* WebViewController.m in Sources */,
-				27DC30691537744900DBF197 /* IQE.m in Sources */,
-				27DC306A1537744900DBF197 /* IQEDebug.m in Sources */,
-				27DC306B1537744900DBF197 /* IQEImageCapture.m in Sources */,
-				27DC306C1537744900DBF197 /* IQEnginesMisc.m in Sources */,
-				27DC306D1537744900DBF197 /* IQEnginesLocal.m in Sources */,
-				27DC306F1537744900DBF197 /* IQEnginesAPI.m in Sources */,
-				27DC30701537744900DBF197 /* IQEnginesBarcodeResultParser.m in Sources */,
-				27DC30711537744900DBF197 /* IQEnginesFeedbackResultParser.m in Sources */,
-				27DC30721537744900DBF197 /* IQEnginesQueryResultParser.m in Sources */,
-				27DC30731537744900DBF197 /* IQEnginesRequestHandler.m in Sources */,
-				27DC30741537744900DBF197 /* IQEnginesResultResultParser.m in Sources */,
-				27DC30751537744900DBF197 /* IQEnginesTags.m in Sources */,
-				27DC30761537744900DBF197 /* IQEnginesUpdateResultParser.m in Sources */,
-				27DC30771537744900DBF197 /* IQEnginesUtils.m in Sources */,
-				27DC30781537744900DBF197 /* IQEnginesXMLParserBase.m in Sources */,
-				27DC30791537744900DBF197 /* IQEnginesRemote.m in Sources */,
-				27DC307A1537744900DBF197 /* IQEHistoryTableViewCell.m in Sources */,
-				27DC307B1537744900DBF197 /* IQELocation.m in Sources */,
-				27DC307C1537744900DBF197 /* IQEQuery.m in Sources */,
-				27DC307D1537744900DBF197 /* IQEViewController.m in Sources */,
-				27DC30901537744900DBF197 /* UIImage+IQE.m in Sources */,
 				27F01FFA161BCB1700C633B9 /* UINavigationController+Rotation.m in Sources */,
+				27BE07A016279B34009292D8 /* IQE.m in Sources */,
+				27BE07A116279B34009292D8 /* IQEDebug.m in Sources */,
+				27BE07A216279B34009292D8 /* IQEImageCapture.m in Sources */,
+				27BE07A316279B34009292D8 /* IQEnginesMisc.m in Sources */,
+				27BE07A416279B34009292D8 /* IQEnginesLocal.m in Sources */,
+				27BE07A616279B34009292D8 /* IQEnginesAPI.m in Sources */,
+				27BE07A716279B34009292D8 /* IQEnginesBarcodeResultParser.m in Sources */,
+				27BE07A816279B34009292D8 /* IQEnginesFeedbackResultParser.m in Sources */,
+				27BE07A916279B34009292D8 /* IQEnginesQueryResultParser.m in Sources */,
+				27BE07AA16279B34009292D8 /* IQEnginesRequestHandler.m in Sources */,
+				27BE07AB16279B34009292D8 /* IQEnginesResultResultParser.m in Sources */,
+				27BE07AC16279B34009292D8 /* IQEnginesTags.m in Sources */,
+				27BE07AD16279B34009292D8 /* IQEnginesUpdateResultParser.m in Sources */,
+				27BE07AE16279B34009292D8 /* IQEnginesUtils.m in Sources */,
+				27BE07AF16279B34009292D8 /* IQEnginesXMLParserBase.m in Sources */,
+				27BE07B016279B34009292D8 /* IQEnginesRemote.m in Sources */,
+				27BE07B116279B34009292D8 /* IQEBadgeView.m in Sources */,
+				27BE07B216279B34009292D8 /* IQEHistoryTableViewCell.m in Sources */,
+				27BE07B316279B34009292D8 /* IQELocation.m in Sources */,
+				27BE07B416279B34009292D8 /* IQEQuery.m in Sources */,
+				27BE07B516279B34009292D8 /* IQEViewController.m in Sources */,
+				27BE07C816279B34009292D8 /* UIImage+IQE.m in Sources */,
+				27BE07CB16279B7F009292D8 /* ResultsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -523,20 +547,28 @@
 			name = WebViewController.xib;
 			sourceTree = "<group>";
 		};
-		27DC30531537744900DBF197 /* IQE.strings */ = {
+		27BE078A16279B34009292D8 /* IQE.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				27DC30541537744900DBF197 /* en */,
+				27BE078B16279B34009292D8 /* en */,
 			);
 			name = IQE.strings;
 			sourceTree = "<group>";
 		};
-		27DC30551537744900DBF197 /* IQEViewController.xib */ = {
+		27BE078C16279B34009292D8 /* IQEViewController.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				27DC30561537744900DBF197 /* en */,
+				27BE078D16279B34009292D8 /* en */,
 			);
 			name = IQEViewController.xib;
+			sourceTree = "<group>";
+		};
+		27BE07CC16279BA4009292D8 /* ResultsViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				27BE07CD16279BA4009292D8 /* en */,
+			);
+			name = ResultsViewController.xib;
 			sourceTree = "<group>";
 		};
 		27EA37FE1432896900BAAB34 /* ExampleViewController.xib */ = {

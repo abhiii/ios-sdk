@@ -80,6 +80,9 @@
 - (id)initWithParameters:(IQESearchType)searchType;
 - (id)initWithParameters:(IQESearchType)searchType apiKey:(NSString*)key apiSecret:(NSString*)secret;
 
+// Set key and secret pair after initialization.
+- (void) setApiKey:(NSString*)key apiSecret:(NSString*)secret;
+
 // Actions for events.
 - (IBAction)onCameraButton:(id)sender;
 - (IBAction)onCancel:(id)sender;

@@ -1,3 +1,17 @@
+2012-10-11  IQ Engines iOS SDK Version 1.4.0
+
+    * Result screen for example app.
+
+    * Multiple results. Note: IQE delegate interface now returns an NSArray instead of an NSDictionary.
+
+    * Add version header file.
+
+    * Changes for iOS 6.0 and Retina 4" screen.
+
+    * Exclude libIQEnginesLocal.a when building for the simulator target.
+
+    * Handle 'no match' from server when autodetect is on.
+
 
 2012-04-12  IQ Engines iOS SDK Version 1.2
 

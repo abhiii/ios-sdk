@@ -411,10 +411,16 @@ typedef enum
 #pragma mark <IQEDelegate> implementation
 // --------------------------------------------------------------------------------
 
-- (void)iqEngines:(IQE*)iqe didCompleteSearch:(IQESearchType)type withResults:(NSDictionary*)results forQID:(NSString*)qid
+- (void)iqEngines:(IQE*)iqe didCompleteSearch:(IQESearchType)type withResults:(NSArray*)results forQID:(NSString*)qid
 {
     IQEQuery*  query       = nil;
     NSUInteger scrollIndex = NSNotFound;
+    
+    if (results.count <= 0)
+        return;
+    
+    // Multiple results. Take the first one.
+    NSDictionary* result = [results objectAtIndex:0];
     
     if (qid)
     {
@@ -427,7 +433,7 @@ typedef enum
     // Deal with queries that have no results.
     //
     
-    if (query && results.count == 0)
+    if (query && result.count == 0)
     {
         if (type == IQESearchTypeRemoteSearch)
             [query setState:IQEQueryStateNotFound forType:IQEQueryTypeRemoteObject];
@@ -463,9 +469,20 @@ typedef enum
             if (query.state != IQEQueryStateFound)
                 scrollIndex = [mQueryHistory indexOfObject:query];
             
-            query.qidData = results;
-            query.type    = IQEQueryTypeRemoteObject;
-            query.state   = IQEQueryStateFound;
+            if (results.count >= 1)
+            {
+                // multiple_results
+                query.qidResults = results;
+                query.qidData    = nil;
+            }
+            else
+            {
+                query.qidResults = nil;
+                query.qidData    = result;
+            }
+            
+            query.type  = IQEQueryTypeRemoteObject;
+            query.state = IQEQueryStateFound;
             
             [mTableView reloadData];
         }
@@ -473,10 +490,10 @@ typedef enum
     else
     if (type == IQESearchTypeObjectSearch)
     {
-        NSString* objId     = [results objectForKey:IQEKeyObjectId];
-        NSString* objName   = [results objectForKey:IQEKeyObjectName];
-        NSString* objMeta   = [results objectForKey:IQEKeyObjectMeta];
-        NSString* imagePath = [results objectForKey:IQEKeyObjectImagePath];
+        NSString* objId     = [result objectForKey:IQEKeyObjectId];
+        NSString* objName   = [result objectForKey:IQEKeyObjectName];
+        NSString* objMeta   = [result objectForKey:IQEKeyObjectMeta];
+        NSString* imagePath = [result objectForKey:IQEKeyObjectImagePath];
         
         if (query)
         {
@@ -492,12 +509,13 @@ typedef enum
                 [self saveImageFiles:query forImage:image];
             }
             
-            query.qidData = nil; // local results overwrite remote object
-            query.objId   = objId;
-            query.objName = objName;
-            query.objMeta = objMeta;
-            query.type    = IQEQueryTypeLocalObject;
-            query.state   = IQEQueryStateFound;
+            query.qidData    = nil; // local results overwrite remote object
+            query.qidResults = nil; // local results overwrite remote object
+            query.objId      = objId;
+            query.objName    = objName;
+            query.objMeta    = objMeta;
+            query.type       = IQEQueryTypeLocalObject;
+            query.state      = IQEQueryStateFound;
             
             scrollIndex = [mQueryHistory indexOfObject:query];
         }
@@ -536,8 +554,8 @@ typedef enum
     else
     if (type == IQESearchTypeBarCode)
     {
-        NSString* barData = [results objectForKey:IQEKeyBarcodeData];
-        NSString* barType = [results objectForKey:IQEKeyBarcodeType];
+        NSString* barData = [result objectForKey:IQEKeyBarcodeData];
+        NSString* barType = [result objectForKey:IQEKeyBarcodeType];
         
         if (query)
         {
@@ -546,11 +564,12 @@ typedef enum
             // Remove images. Barcode item uses default images in bundle.
             [self removeImageFiles:query];
             
-            query.qidData  = nil; // local results overwrite remote object
-            query.codeData = barData;
-            query.codeType = barType;
-            query.type     = IQEQueryTypeBarCode;
-            query.state    = IQEQueryStateFound;
+            query.qidData    = nil; // local results overwrite remote object
+            query.qidResults = nil; // local results overwrite remote object
+            query.codeData   = barData;
+            query.codeType   = barType;
+            query.type       = IQEQueryTypeBarCode;
+            query.state      = IQEQueryStateFound;
             
             scrollIndex = [mQueryHistory indexOfObject:query];
         }
@@ -779,6 +798,9 @@ typedef enum
         cell.imageView.image = [UIImage imageWithContentsOfFile:[mDocumentPath stringByAppendingPathComponent:query.thumbFile]];
     }
     
+    // Badge
+    cell.count = (query.qidResults.count > 1) ? query.qidResults.count : 0;
+    
     return cell;
 }
 
@@ -961,6 +983,12 @@ typedef enum
 #pragma mark Public methods
 // --------------------------------------------------------------------------------
 
+// Set key and secret pair after initialization.
+- (void) setApiKey:(NSString*)key apiSecret:(NSString*)secret
+{
+    [mIQE setApiKey:key apiSecret:secret];
+}
+
 - (BOOL)autoDetection
 {
     return mIQE.autoDetection;
@@ -1011,7 +1039,7 @@ typedef enum
     IQEQuery* query = n.object;
     
     // Save new result data to data source.
-    if (query.type == IQEQueryTypeRemoteObject)
+    if (query.type == IQEQueryTypeRemoteObject && query.qidData)
         [mIQE updateResults:query.qidData forQID:query.qid];
     
     [mTableView reloadData];
@@ -1053,8 +1081,8 @@ typedef enum
     //
     
     CGRect layerRect = CGRectInset(mPreviewView.frame,
-                                   (mPreviewView.frame.size.width  - mPreviewView.frame.size.width  * mZoom) / 2,
-                                   (mPreviewView.frame.size.height - mPreviewView.frame.size.height * mZoom) / 2);
+                                  (mPreviewView.frame.size.width  - mPreviewView.frame.size.width  * mZoom) / 2,
+                                  (mPreviewView.frame.size.height - mPreviewView.frame.size.height * mZoom) / 2);
     
     mIQE.previewLayer.frame = CGRectIntegral(layerRect);
     

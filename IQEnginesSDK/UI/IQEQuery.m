@@ -36,6 +36,7 @@
 
 #define QUERY_KEY_QID               @"qid"
 #define QUERY_KEY_QIDDATA           @"qidData"
+#define QUERY_KEY_QIDRESULTS        @"qidResults"
 
 #define QUERY_KEY_OBJID             @"objId"
 #define QUERY_KEY_OBJNAME           @"objName"
@@ -70,6 +71,7 @@ NSString* const IQEQueryStateChangeNotification = @"IQEQueryStateChangeNotificat
 - (NSString*)     stringFromType:(IQEQueryType)aType;
 - (IQEQueryState) stateFromString:(NSString*)aString;
 - (IQEQueryType)  typeFromString:(NSString*)aString;
++ (NSArray*)      removeDuplicates:(NSArray*)inArray;
 @end
 
 // --------------------------------------------------------------------------------
@@ -86,6 +88,7 @@ NSString* const IQEQueryStateChangeNotification = @"IQEQueryStateChangeNotificat
 @synthesize thumbFile;
 @synthesize qid;
 @synthesize qidData;
+@synthesize qidResults;
 @synthesize objId;
 @synthesize objName;
 @synthesize objMeta;
@@ -119,22 +122,23 @@ NSString* const IQEQueryStateChangeNotification = @"IQEQueryStateChangeNotificat
         NSString* strType   = [dict objectForKey:QUERY_KEY_TYPE];
         NSString* strStatus = [dict objectForKey:QUERY_KEY_STATE];
         
-        type           = [self typeFromString:strType];
-        state          = [self stateFromString:strStatus];
+        type            = [self typeFromString:strType];
+        state           = [self stateFromString:strStatus];
                 
-        self.imageFile = [dict objectForKey:QUERY_KEY_IMAGEFILE];
-        self.thumbFile = [dict objectForKey:QUERY_KEY_THUMBFILE];
+        self.imageFile  = [dict objectForKey:QUERY_KEY_IMAGEFILE];
+        self.thumbFile  = [dict objectForKey:QUERY_KEY_THUMBFILE];
 
-        self.qid       = [dict objectForKey:QUERY_KEY_QID];
-        self.qidData   = [dict objectForKey:QUERY_KEY_QIDDATA];
+        self.qid        = [dict objectForKey:QUERY_KEY_QID];
+        self.qidData    = [dict objectForKey:QUERY_KEY_QIDDATA];
+        self.qidResults = [dict objectForKey:QUERY_KEY_QIDRESULTS];
         
-        self.objId     = [dict objectForKey:QUERY_KEY_OBJID];
-        self.objName   = [dict objectForKey:QUERY_KEY_OBJNAME];
-        self.objMeta   = [dict objectForKey:QUERY_KEY_OBJMETA];
+        self.objId      = [dict objectForKey:QUERY_KEY_OBJID];
+        self.objName    = [dict objectForKey:QUERY_KEY_OBJNAME];
+        self.objMeta    = [dict objectForKey:QUERY_KEY_OBJMETA];
         
-        self.codeData  = [dict objectForKey:QUERY_KEY_CODEDATA];
-        self.codeType  = [dict objectForKey:QUERY_KEY_CODETYPE];
-        self.codeDesc  = [dict objectForKey:QUERY_KEY_CODEDESC];
+        self.codeData   = [dict objectForKey:QUERY_KEY_CODEDATA];
+        self.codeType   = [dict objectForKey:QUERY_KEY_CODETYPE];
+        self.codeDesc   = [dict objectForKey:QUERY_KEY_CODEDESC];
     }
     return self;
 }
@@ -149,6 +153,7 @@ NSString* const IQEQueryStateChangeNotification = @"IQEQueryStateChangeNotificat
     
     if (qid)         [dictionary setObject:qid         forKey:QUERY_KEY_QID];
     if (qidData)     [dictionary setObject:qidData     forKey:QUERY_KEY_QIDDATA];
+    if (qidResults)  [dictionary setObject:qidResults  forKey:QUERY_KEY_QIDRESULTS];
 
     if (objId)       [dictionary setObject:objId       forKey:QUERY_KEY_OBJID];
     if (objName)     [dictionary setObject:objName     forKey:QUERY_KEY_OBJNAME];
@@ -161,24 +166,30 @@ NSString* const IQEQueryStateChangeNotification = @"IQEQueryStateChangeNotificat
 
 - (void) dealloc
 {
-    [imageFile release];
-    [thumbFile release];
+    [imageFile  release];
+    [thumbFile  release];
     
-    [qid       release];
-    [qidData   release];
+    [qid        release];
+    [qidData    release];
+    [qidResults release];
     
-    [objId     release];
-    [objName   release];
-    [objMeta   release];
+    [objId      release];
+    [objName    release];
+    [objMeta    release];
     
-    [codeData  release];
-    [codeType  release];
-    [codeDesc  release];
+    [codeData   release];
+    [codeType   release];
+    [codeDesc   release];
     
-    [mStates   release];
+    [mStates    release];
     
     [super dealloc];
 }
+
+// --------------------------------------------------------------------------------
+#pragma mark -
+#pragma mark IQEQuery Public methods
+// --------------------------------------------------------------------------------
 
 - (BOOL) isEqualToQuery:(IQEQuery*)query
 {
@@ -206,6 +217,7 @@ NSString* const IQEQueryStateChangeNotification = @"IQEQueryStateChangeNotificat
     
     return NO;
 }
+
 - (NSString*) title
 {
     NSString* titleString = nil;
@@ -221,7 +233,7 @@ NSString* const IQEQueryStateChangeNotification = @"IQEQueryStateChangeNotificat
         if (state == IQEQueryStateTimeoutProblem) return NSLocalizedStringFromTable(@"Connection Problem", BUNDLE_TABLE, @"");
         if (state == IQEQueryStateFound)
         {
-            titleString = [qidData objectForKey:IQEKeyLabels];        
+            titleString = [self.qidData objectForKey:IQEKeyLabels];
         }
     }
     else
@@ -254,6 +266,9 @@ NSString* const IQEQueryStateChangeNotification = @"IQEQueryStateChangeNotificat
     
     if (type == IQEQueryTypeRemoteObject)
     {
+        if (qidData == nil)
+            return;
+        
         previous = [[qidData objectForKey:IQEKeyLabels] copy];
 
         NSMutableDictionary* dataDictionary = [NSMutableDictionary dictionaryWithDictionary:qidData];
@@ -348,6 +363,39 @@ NSString* const IQEQueryStateChangeNotification = @"IQEQueryStateChangeNotificat
     return NO;
 }
 
+- (NSDictionary*) qidData
+{
+    NSDictionary* data = nil;
+    
+    if (qidData)
+    {
+        data = qidData;
+    }
+    else
+    {
+        if (qidResults.count > 0)
+            data = [qidResults objectAtIndex:0];
+    }
+    
+    return [[data retain] autorelease];
+}
+
+- (void) setQidResults:(NSArray*)results
+{
+    if (qidResults == results)
+        return;
+        
+    [qidResults autorelease];
+    
+    //
+    // Remove results with same labels.
+    //
+    
+    results = [IQEQuery removeDuplicates:results];
+    
+    qidResults = [results retain];
+}
+
 - (NSString*) description
 {
     NSMutableDictionary* dictionary = [[[NSMutableDictionary alloc] init] autorelease];
@@ -356,6 +404,11 @@ NSString* const IQEQueryStateChangeNotification = @"IQEQueryStateChangeNotificat
     
     return [dictionary description];
 }
+
+// --------------------------------------------------------------------------------
+#pragma mark -
+#pragma mark IQEQuery Private methods
+// --------------------------------------------------------------------------------
 
 - (NSString*) stringFromState:(IQEQueryState)aState
 {
@@ -407,6 +460,34 @@ NSString* const IQEQueryStateChangeNotification = @"IQEQueryStateChangeNotificat
     
     NSAssert(NO, @"Unknown type");
     return IQEQueryTypeUnknown;
+}
+
++ (NSArray*)removeDuplicates:(NSArray*)inArray
+{
+    NSMutableArray* uniques = [NSMutableArray array];
+    
+    for (NSDictionary* queryData in inArray)
+    {
+        NSString* label = [queryData objectForKey:IQEKeyLabels];
+        
+        BOOL containsObject = NO;
+        
+        for (NSDictionary* queryDataUnique in uniques)
+        {
+            NSString* labelUnique = [queryDataUnique objectForKey:IQEKeyLabels];
+            
+            if ([label caseInsensitiveCompare:labelUnique] == NSOrderedSame)
+            {
+                containsObject = YES;
+                break;
+            }
+        }
+        
+        if (containsObject == NO)
+            [uniques addObject:queryData];
+    }
+    
+    return uniques;
 }
 
 @end

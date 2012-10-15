@@ -48,14 +48,50 @@
         <qid>c10b823e6f1c187869283715d0c718d20a065a9c</qid>
         <meta>http://www.starbucks.com</meta>
     </results>
+    ...
+    <error>0</error>
+</data>
+
+multiple_results
+ 
+<?xml version="1.0" ?>
+<data>
+    <results>
+        <qid_data>
+            <labels>Starbucks Coffee</labels>
+        </qid_data>
+        <qid_data>
+            <labels>Starbucks Coffee Logo</labels>
+        </qid_data>
+        <qid_data>
+            <labels>Starbucks Coffee</labels>
+            <meta>{}</meta>
+            <bbox>63</bbox><bbox>98</bbox><bbox>195</bbox><bbox>224</bbox>
+            <obj_id>932c37f1f30543268c3c05b866b1da71</obj_id>
+        </qid_data>
+        <qid_data>
+            <labels>Starbucks Coffee</labels>
+            <meta>{}</meta>
+            <bbox>69</bbox><bbox>107</bbox><bbox>203</bbox><bbox>215</bbox>
+            <obj_id>f3883842adba47b99fd05d0d69f15870</obj_id>
+        </qid_data>
+        <qid_data>
+            <labels>Starbucks Coffee</labels>
+            <meta>{}</meta>
+            <bbox>69</bbox><bbox>107</bbox><bbox>192</bbox><bbox>189</bbox>
+            <obj_id>dbeb32d1d01a4f74b4d624502eb43975</obj_id>
+        </qid_data>
+        <qid>0a68b06b81dedea6eaff8f2f7016c5ff9bbf26ad</qid>
+    </results>
     <results>
         <qid_data>
             <color>Mostly black white, with some gray.</color>
             <labels>starbucks</labels>
         </qid_data>
-        <qid>15d0c718d20a065a9cc10b823e6f1c1878692837</qid>
+        <qid>c10b823e6f1c187869283715d0c718d20a065a9c</qid>
         <meta>http://www.starbucks.com</meta>
     </results>
+    ...
     <error>0</error>
 </data>
 
@@ -68,11 +104,28 @@
 @synthesize comment   = mComment;
 @synthesize results   = mResults;
 
+- (id)initWithXMLData:(NSData*)xmlData
+{
+    self = [super initWithXMLData:xmlData];
+    if (self)
+    {
+        mResultItem   = nil;
+        mQIDDataItems = nil;
+        mQIDDataItem  = nil;
+        mBoundingBox  = nil;
+    }
+    return self;
+}
+
 - (void)dealloc
 {
-    [mResults     release];
-    [mComment     release];
-    [mBoundingBox release];
+    [mResults release];
+    [mComment release];
+
+    [mResultItem   release];
+    [mQIDDataItem  release];
+    [mQIDDataItems release];
+    [mBoundingBox  release];
     
     [super dealloc];
 }
@@ -89,7 +142,8 @@
 {
     if ([self xmlPathEndsWith:IQETagData, IQETagResults, nil])
     {
-        mResultItem = [[NSMutableDictionary alloc] initWithCapacity:0];
+        mResultItem   = [[NSMutableDictionary alloc] initWithCapacity:0];
+        mQIDDataItems = [[NSMutableArray      alloc] initWithCapacity:0];
     }
     else
     if ([self xmlPathEndsWith:IQETagData, IQETagResults, IQETagQIDData, nil])
@@ -112,10 +166,11 @@
     else
     if ([self xmlPathEndsWith:IQETagData, IQETagResults, nil])
     {
-        [mResults addObject:mResultItem];
+        [mResultItem setObject:mQIDDataItems forKey:IQEnginesKeyQIDData];// qid_data is now an array, not a dictionary.
+        [mQIDDataItems release]; mQIDDataItems = nil;
         
-        [mResultItem release];
-        mResultItem = nil;
+        [mResults addObject:mResultItem];
+        [mResultItem release]; mResultItem = nil;
     }
     else
     if ([self xmlPathEndsWith:IQETagData, IQETagResults, IQETagQID, nil])
@@ -125,13 +180,11 @@
     {
         if (mBoundingBox.count > 0)
             [mQIDDataItem setObject:mBoundingBox forKey:IQEnginesKeyBoundingBox];
-        [mBoundingBox release];
-        mBoundingBox = nil;
+        [mBoundingBox release]; mBoundingBox = nil;
         
-        [mResultItem setObject:mQIDDataItem forKey:IQETagQIDData];
+        [mQIDDataItems addObject:mQIDDataItem];
         
-        [mQIDDataItem release];
-        mQIDDataItem = nil;
+        [mQIDDataItem release]; mQIDDataItem = nil;
     }
     else
     if ([self xmlPathEndsWith:IQETagData, IQETagResults, IQETagQIDData, IQETagColor, nil])

@@ -63,19 +63,52 @@
     <error>1</error>
 </data>
 
+multiple_results
+ 
+<?xml version="1.0" ?>
+<data>
+    <results>
+        <labels>Starbucks</labels>
+        <meta>{}</meta>
+        <bbox>14</bbox><bbox>72</bbox><bbox>260</bbox><bbox>256</bbox>
+        <obj_id>8f1f9a16990746378c57d9a47f5048fd</obj_id>
+    </results>
+    <results>
+        <labels>Starbucks Coffee</labels>
+        <meta>{}</meta>
+        <bbox>37</bbox><bbox>72</bbox><bbox>213</bbox><bbox>219</bbox>
+        <obj_id>79301fce20c0475db46a6b22186a9199</obj_id>
+    </results>
+    ...
+    <error>0</error>
+</data>
+
 */
 
 @implementation IQEnginesResultResultParser
 
-@synthesize errorCode    = mErrorCode;
-@synthesize found        = mFound;
-@synthesize comment      = mComment;
-@synthesize results      = mResults;
+@synthesize found     = mFound;
+@synthesize errorCode = mErrorCode;
+@synthesize comment   = mComment;
+@synthesize results   = mResults;
+
+- (id)initWithXMLData:(NSData*)xmlData
+{
+    self = [super initWithXMLData:xmlData];
+    if (self)
+    {
+        mResultItem  = nil;
+        mBoundingBox = nil;
+    }
+    return self;
+}
 
 - (void)dealloc
 {
-    [mResults     release];
-    [mComment     release];
+    [mResults release];
+    [mComment release];
+    
+    [mResultItem  release];
     [mBoundingBox release];
     
     [super dealloc];
@@ -85,13 +118,15 @@
 {
     self.found     = NO;
     self.errorCode = 1;
+    
+    mResults = [[NSMutableArray alloc] initWithCapacity:0];
 }
 
 - (void)didStartElement:(NSString*)elementName namespaceURI:(NSString*)namespaceURI qualifiedName:(NSString*)qualifiedName attributes:(NSDictionary*)attributes;
 {
     if ([self xmlPathEndsWith:IQETagData, IQETagResults, nil])
     {
-        mResults     = [[NSMutableDictionary alloc] initWithCapacity:0];
+        mResultItem  = [[NSMutableDictionary alloc] initWithCapacity:0];
         mBoundingBox = [[NSMutableArray      alloc] initWithCapacity:0];
     }
 }
@@ -110,37 +145,39 @@
     if ([self xmlPathEndsWith:IQETagData, IQETagResults, nil])
     {        
         if (mBoundingBox.count > 0)
-            [mResults setObject:mBoundingBox forKey:IQEnginesKeyBoundingBox];
-        [mBoundingBox release];
-        mBoundingBox = nil;
+            [mResultItem setObject:mBoundingBox forKey:IQEnginesKeyBoundingBox];
+        [mBoundingBox release]; mBoundingBox = nil;
+        
+        [mResults addObject:mResultItem];
+        [mResultItem release]; mResultItem = nil;
     }
     else
     if ([self xmlPathEndsWith:IQETagData, IQETagResults, IQETagColor, nil])
-        [mResults setObject:[self trimmedString] forKey:IQEnginesKeyColor];
+        [mResultItem setObject:[self trimmedString] forKey:IQEnginesKeyColor];
     else
     if ([self xmlPathEndsWith:IQETagData, IQETagResults, IQETagISBN, nil])
-        [mResults setObject:[self trimmedString] forKey:IQEnginesKeyISBN];
+        [mResultItem setObject:[self trimmedString] forKey:IQEnginesKeyISBN];
     else
     if ([self xmlPathEndsWith:IQETagData, IQETagResults, IQETagLabels, nil])
-        [mResults setObject:[self trimmedString] forKey:IQEnginesKeyLabels];
+        [mResultItem setObject:[self trimmedString] forKey:IQEnginesKeyLabels];
     else
     if ([self xmlPathEndsWith:IQETagData, IQETagResults, IQETagSKU, nil])
-        [mResults setObject:[self trimmedString] forKey:IQEnginesKeySKU];
+        [mResultItem setObject:[self trimmedString] forKey:IQEnginesKeySKU];
     else
     if ([self xmlPathEndsWith:IQETagData, IQETagResults, IQETagUPC, nil])
-        [mResults setObject:[self trimmedString] forKey:IQEnginesKeyUPC];
+        [mResultItem setObject:[self trimmedString] forKey:IQEnginesKeyUPC];
     else
     if ([self xmlPathEndsWith:IQETagData, IQETagResults, IQETagURL, nil])
-        [mResults setObject:[self trimmedString] forKey:IQEnginesKeyURL];
+        [mResultItem setObject:[self trimmedString] forKey:IQEnginesKeyURL];
     else
     if ([self xmlPathEndsWith:IQETagData, IQETagResults, IQETagQRCode, nil])
-        [mResults setObject:[self trimmedString] forKey:IQEnginesKeyQRCode];
+        [mResultItem setObject:[self trimmedString] forKey:IQEnginesKeyQRCode];
     else
     if ([self xmlPathEndsWith:IQETagData, IQETagResults, IQETagMeta, nil])
-        [mResults setObject:[self trimmedString] forKey:IQEnginesKeyMeta];
+        [mResultItem setObject:[self trimmedString] forKey:IQEnginesKeyMeta];
     else
     if ([self xmlPathEndsWith:IQETagData, IQETagResults, IQETagObjId, nil])
-        [mResults setObject:[self trimmedString] forKey:IQEnginesKeyObjId];
+        [mResultItem setObject:[self trimmedString] forKey:IQEnginesKeyObjId];
     else
     if ([self xmlPathEndsWith:IQETagData, IQETagResults, IQETagBBox, nil])
         [mBoundingBox addObject:[self trimmedString]];

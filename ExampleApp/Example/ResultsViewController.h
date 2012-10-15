@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2010-2012 IQ Engines, Inc.
+ Copyright (c) 2012 IQ Engines, Inc.
  
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -20,24 +20,27 @@
  THE SOFTWARE.
 */
 
-#import "IQEnginesXMLParserBase.h"
+// --------------------------------------------------------------------------------
+//
+//  ResultsViewController.h
+//
+// --------------------------------------------------------------------------------
 
-@interface IQEnginesUpdateResultParser : IQEnginesXMLParserBase
+#import <UIKit/UIKit.h>
+#import "IQEQuery.h"
+
+@interface ResultsViewController : UIViewController
 {
-    BOOL            mFound;
-    int             mErrorCode;
-    NSString*       mComment;
-    NSMutableArray* mResults;
-    
-    NSMutableDictionary* mResultItem;  // qid_data collection, qid
-    NSMutableArray*      mQIDDataItems;// collection of qid_data
-    NSMutableDictionary* mQIDDataItem; // labels, color ...
-    NSMutableArray*      mBoundingBox; // bbox
+    IBOutlet UITableView*     mTableView;
+    IBOutlet UIImageView*     mImageView;
+    IBOutlet UIToolbar*       mToolBar;
+    IBOutlet UIBarButtonItem* mBackButton;
 }
 
-@property(nonatomic, assign)   BOOL            found;
-@property(nonatomic, assign)   int             errorCode;
-@property(nonatomic, copy)     NSString*       comment;
-@property(nonatomic, readonly) NSMutableArray* results;
+- (id) initWithQuery:(IQEQuery*)query;
+
+- (IBAction) onClose:(id)sender;
 
 @end
+
+// --------------------------------------------------------------------------------

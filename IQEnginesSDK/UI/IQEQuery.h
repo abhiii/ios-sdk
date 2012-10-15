@@ -71,6 +71,7 @@ typedef enum
 // Remote Object
 @property(nonatomic, retain) NSString*     qid;
 @property(nonatomic, retain) NSDictionary* qidData;
+@property(nonatomic, retain) NSArray*      qidResults;
 // Local Object
 @property(nonatomic, retain) NSString*     objId;
 @property(nonatomic, retain) NSString*     objName;

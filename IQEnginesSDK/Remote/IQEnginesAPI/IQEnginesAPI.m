@@ -59,6 +59,7 @@ static NSString* const IQEnginesKeyGPSLongitude = @"gps_longitude";
 static NSString* const IQEnginesKeyGPSAltitude  = @"gps_altitude";
 static NSString* const IQEnginesKeyImg          = @"img";
 static NSString* const IQEnginesKeyC            = @"c";
+static NSString* const IQEnginesParameterKeyMultipleResults = @"multiple_results";
 
 static NSString* const QueryApiUrl    = @"http://api.iqengines.com/v1.2/query/?";
 static NSString* const UpdateApiUrl   = @"http://api.iqengines.com/v1.2/update/?";
@@ -198,6 +199,7 @@ static NSString* const FeedbackApiUrl = @"http://api.iqengines.com/v1.2/feedback
     NSMutableDictionary* arguments = [NSMutableDictionary dictionaryWithCapacity:0];
     
     [arguments setObject:mAPIKey forKey:IQEnginesKeyAPIKey];
+    [arguments setObject:@"1"    forKey:IQEnginesParameterKeyMultipleResults]; // Hardcode multiple_results.
     if (lat       != MAXFLOAT) [arguments setObject:gpsLatitude  forKey:IQEnginesKeyGPSLatitude];
     if (lon       != MAXFLOAT) [arguments setObject:gpsLongitude forKey:IQEnginesKeyGPSLongitude];
     if (alt       != MAXFLOAT) [arguments setObject:gpsAltitude  forKey:IQEnginesKeyGPSAltitude];
@@ -599,8 +601,8 @@ static NSString* const FeedbackApiUrl = @"http://api.iqengines.com/v1.2/feedback
     {
         if (response.results != nil)
         {
-            if ([mDelegate respondsToSelector:@selector(result:completeWithResult:)])
-                [mDelegate result:qid completeWithResult:response.results];
+            if ([mDelegate respondsToSelector:@selector(result:completeWithResults:)])
+                [mDelegate result:qid completeWithResults:response.results];
         }
         else
         {
