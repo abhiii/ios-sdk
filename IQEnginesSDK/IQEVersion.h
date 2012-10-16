@@ -28,8 +28,8 @@
 
 #define IQE_VERSION_MAJOR 1
 #define IQE_VERSION_MINOR 4
-#define IQE_VERSION_REV   0
+#define IQE_VERSION_REV   1
 
-#define IQE_VERSION_STRING @"1.4.0"
+#define IQE_VERSION_STRING @"1.4.1"
 
 // --------------------------------------------------------------------------------
