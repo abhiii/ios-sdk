@@ -1,3 +1,8 @@
+2013-04-02  IQ Engines iOS SDK Version 1.4.1
+
+    * Add armv7s to LibIQEnginesLocal.a and Example App project.
+
+
 2012-10-11  IQ Engines iOS SDK Version 1.4.0
 
     * Result screen for example app.
