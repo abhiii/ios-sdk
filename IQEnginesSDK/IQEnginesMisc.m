@@ -99,7 +99,7 @@
     mib[3] = AF_LINK;       // Link layer information
     mib[4] = NET_RT_IFLIST; // Request all configured interfaces
     
-    mib[5] = if_nametoindex("en0");
+    mib[5] = (int)if_nametoindex("en0");
     if (mib[5] == 0)
     {
         NSLog(@"Error: if_nametoindex error");

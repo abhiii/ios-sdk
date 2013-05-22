@@ -224,7 +224,7 @@
         NSDictionary* results = nil;
         
         if (mQuery.qidResults)
-            results = [mQuery.qidResults objectAtIndex:[indexPath row]];
+            results = [mQuery.qidResults objectAtIndex:(NSUInteger)[indexPath row]];
         else
             results = mQuery.qidData;
         
@@ -290,7 +290,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (mQuery.qidResults.count)
-        return mQuery.qidResults.count;
+        return (NSInteger)mQuery.qidResults.count;
     else
         return 1;
 }
@@ -305,9 +305,9 @@
     if (cell == nil)
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier] autorelease];
     
-    if (indexPath.row < mQuery.qidResults.count)
+    if (indexPath.row < (NSInteger)mQuery.qidResults.count)
     {
-        NSDictionary* queryData = [mQuery.qidResults objectAtIndex:indexPath.row];
+        NSDictionary* queryData = [mQuery.qidResults objectAtIndex:(NSUInteger)indexPath.row];
         cell.textLabel.text = [queryData objectForKey:IQEKeyLabels];
     }
     else

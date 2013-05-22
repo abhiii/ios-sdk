@@ -35,7 +35,7 @@
 #define MINIMAL_DIMENSION   320
 #define MAXIMAL_DIMENSION   427
 
-#define JPEG_QUALITY        0.6
+#define JPEG_QUALITY        0.6f
 
 NSString* const IQEnginesKeyQID         = @"qid";
 NSString* const IQEnginesKeyQIDData     = @"qid_data";

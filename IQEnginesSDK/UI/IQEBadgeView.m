@@ -116,8 +116,8 @@
     
     CGSize  pathSize    = [self pathSizeForString:valueString];
     CGRect  badgeRect   = CGRectMake(0.0, 0.0, pathSize.width, pathSize.height);    
-    CGPoint originPoint = CGPointMake(ceilf((self.frame.size.width  - badgeRect.size.width)  / 2.0),
-                                      ceilf((self.frame.size.height - badgeRect.size.height) / 2.0));
+    CGPoint originPoint = CGPointMake(ceilf((self.frame.size.width  - badgeRect.size.width)  / 2.0f),
+                                      ceilf((self.frame.size.height - badgeRect.size.height) / 2.0f));
     
     //
     // Oval
@@ -154,14 +154,14 @@
 
         CGContextSaveGState(context);
 
-        CGFloat components[8] = { 1.0, 1.0, 1.0, 0.7,   // Start color
-                                  1.0, 1.0, 1.0, 0.0 }; // End color
+        CGFloat components[8] = { 1.0f, 1.0f, 1.0f, 0.7f,   // Start color
+                                  1.0f, 1.0f, 1.0f, 0.0f }; // End color
         
         CGColorSpaceRef rgbColorspace = CGColorSpaceCreateDeviceRGB();
         CGGradientRef   gradient      = CGGradientCreateWithColorComponents(rgbColorspace, components, nil, 2);
         
-        CGPoint startPoint = CGPointMake(0.0, 0.0);
-        CGPoint endPoint   = CGPointMake(0.0, self.bounds.size.height * 0.40);
+        CGPoint startPoint = CGPointMake(0.0f, 0.0f);
+        CGPoint endPoint   = CGPointMake(0.0f, self.bounds.size.height * 0.40f);
         
         CGContextDrawLinearGradient(context, gradient, startPoint, endPoint, 0);
         
@@ -183,8 +183,8 @@
     CGContextSetFillColorWithColor(context, mTextColor.CGColor);
     
     CGSize  textSize  = [valueString sizeWithFont:self.mFont];
-    CGPoint textPoint = CGPointMake(originPoint.x + floorf((badgeRect.size.width  - textSize.width)  / 2.0),
-                                    originPoint.y + floorf((badgeRect.size.height - textSize.height) / 2.0));
+    CGPoint textPoint = CGPointMake(originPoint.x + floorf((badgeRect.size.width  - textSize.width)  / 2.0f),
+                                    originPoint.y + floorf((badgeRect.size.height - textSize.height) / 2.0f));
         
     [valueString drawAtPoint:textPoint withFont:self.mFont];
     
@@ -199,8 +199,8 @@
     CGRect badgeRect = CGRectMake(0, 0, pathSize.width, pathSize.height);
 
     // Adjust badgeRect for border width, 1/2 border on each side of path + 1 pix border.
-    badgeRect = CGRectInset(badgeRect, - (mBorderWidth / 2.0 + 1.0),
-                                       - (mBorderWidth / 2.0 + 1.0));
+    badgeRect = CGRectInset(badgeRect, - (mBorderWidth / 2.0f + 1.0f),
+                                       - (mBorderWidth / 2.0f + 1.0f));
     
     return badgeRect.size;
 }
@@ -224,15 +224,15 @@
 
 - (void)pathAddOval:(CGMutablePathRef)path inRect:(CGRect)rect
 {
-    CGFloat radius = rect.size.height / 2.0;
+    CGFloat radius = rect.size.height / 2.0f;
     
     CGPathAddArc(path,
                  NULL,
                  rect.size.width - radius,
                  radius,
                  radius,
-                 M_PI_2,
-                 M_PI_2 * 3.0,
+                 (float)M_PI_2,
+                 (float)M_PI_2 * 3.0f,
                  YES);
     
     CGPathAddArc(path,
@@ -240,8 +240,8 @@
                  radius,
                  radius,
                  radius,
-                 M_PI_2 * 3.0,
-                 M_PI_2,
+                 (float)M_PI_2 * 3.0f,
+                 (float)M_PI_2,
                  YES);
 }
 
@@ -252,7 +252,7 @@
     textSize.width  += BADGE_TEXTBORDER * 2;
     textSize.height += BADGE_TEXTBORDER * 2;
     
-    textSize.width = MAX(textSize.height * 1.5, textSize.width + textSize.height / 2.0);
+    textSize.width = MAX(textSize.height * 1.5f, textSize.width + textSize.height / 2.0f);
     
     return CGSizeMake(textSize.width, textSize.height);
 }

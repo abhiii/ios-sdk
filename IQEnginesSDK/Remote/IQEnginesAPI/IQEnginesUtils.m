@@ -81,8 +81,8 @@
     CGSize inputSize = image.size;
     
     // Determine max size.
-    int biggerMaxDimension  = (maxDimension1 > maxDimension2) ? maxDimension1 : maxDimension2;
-    int smallerMaxDimension = (maxDimension1 > maxDimension2) ? maxDimension2 : maxDimension1;
+    NSUInteger biggerMaxDimension  = (maxDimension1 > maxDimension2) ? maxDimension1 : maxDimension2;
+    NSUInteger smallerMaxDimension = (maxDimension1 > maxDimension2) ? maxDimension2 : maxDimension1;
     
     CGSize maxSize;
     if (inputSize.width > inputSize.height)
@@ -115,10 +115,10 @@
     // Make scaled image.
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     CGContextRef context = CGBitmapContextCreate(NULL,
-                                                 finalSize.width,
-                                                 finalSize.height,
+                                                 (size_t)finalSize.width,
+                                                 (size_t)finalSize.height,
                                                  8,
-                                                 4 * ((int)finalSize.width),
+                                                 4 * ((size_t)finalSize.width),
                                                  colorSpace,
                                                  kCGImageAlphaPremultipliedLast);
     CGColorSpaceRelease(colorSpace);
@@ -160,7 +160,7 @@
             break;
         case UIImageOrientationDown: //EXIF = 3
             transform = CGAffineTransformMakeTranslation(imageSize.width, imageSize.height);
-            transform = CGAffineTransformRotate(transform, M_PI);
+            transform = CGAffineTransformRotate(transform, (float)M_PI);
             break;
         case UIImageOrientationDownMirrored: //EXIF = 4
             transform = CGAffineTransformMakeTranslation(0.0, imageSize.height);
@@ -172,28 +172,28 @@
             bounds.size.width  = boundsHeight;
             transform = CGAffineTransformMakeTranslation(imageSize.height, imageSize.width);
             transform = CGAffineTransformScale(transform, -1.0, 1.0);
-            transform = CGAffineTransformRotate(transform, 3.0 * M_PI / 2.0);
+            transform = CGAffineTransformRotate(transform, 3.0f * (float)M_PI / 2.0f);
             break;
         case UIImageOrientationLeft: //EXIF = 6
             boundsHeight = bounds.size.height;
             bounds.size.height = bounds.size.width;
             bounds.size.width  = boundsHeight;
             transform = CGAffineTransformMakeTranslation(0.0, imageSize.width);
-            transform = CGAffineTransformRotate(transform, 3.0 * M_PI / 2.0);
+            transform = CGAffineTransformRotate(transform, 3.0f * (float)M_PI / 2.0f);
             break;
         case UIImageOrientationRightMirrored: //EXIF = 7
             boundsHeight = bounds.size.height;
             bounds.size.height = bounds.size.width;
             bounds.size.width  = boundsHeight;
             transform = CGAffineTransformMakeScale(-1.0, 1.0);
-            transform = CGAffineTransformRotate(transform, M_PI / 2.0);
+            transform = CGAffineTransformRotate(transform, (float)M_PI / 2.0f);
             break;
         case UIImageOrientationRight: //EXIF = 8
             boundsHeight = bounds.size.height;
             bounds.size.height = bounds.size.width;
             bounds.size.width  = boundsHeight;
             transform = CGAffineTransformMakeTranslation(imageSize.height, 0.0);
-            transform = CGAffineTransformRotate(transform, M_PI / 2.0);
+            transform = CGAffineTransformRotate(transform, (float)M_PI / 2.0f);
             break;
         default:
             NSLog(@"Unknown orientation: %d", orientation);

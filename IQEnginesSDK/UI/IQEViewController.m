@@ -42,12 +42,12 @@
 
 #define DEFAULTS_KEY_RUNCOUNT @"IQERunCount"
 
-#define CELL_HEIGHT           60
-#define MAX_DISPLAYCELLS      3
-#define THUMB_WIDTH           50
-#define THUMB_HEIGHT          50
-#define SWIPE_HORIZ_MAX       40
-#define SWIPE_VERT_MIN        40
+#define CELL_HEIGHT           60.0f
+#define MAX_DISPLAYCELLS      3.0f
+#define THUMB_WIDTH           50.0f
+#define THUMB_HEIGHT          50.0f
+#define SWIPE_HORIZ_MAX       40.0f
+#define SWIPE_VERT_MIN        40.0f
 
 typedef enum 
 {
@@ -604,7 +604,7 @@ typedef enum
     
     if (scrollIndex != NSNotFound && [mTableView numberOfRowsInSection:0] > 0)
     {
-        [mTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:scrollIndex inSection:0]
+        [mTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:(NSInteger)scrollIndex inSection:0]
                           atScrollPosition:UITableViewScrollPositionTop
                                   animated:YES];
         
@@ -736,7 +736,7 @@ typedef enum
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return mQueryHistory.count;
+    return (NSInteger)mQueryHistory.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -744,12 +744,12 @@ typedef enum
     IQEHistoryTableViewCell* cell = nil;
     
     static NSString* cellIdentifier = @"IQECell";
-    
+
     cell = (IQEHistoryTableViewCell*)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (cell == nil)
         cell = [[[IQEHistoryTableViewCell alloc] initWithReuseIdentifier:cellIdentifier] autorelease];
     
-    IQEQuery* query = [mQueryHistory objectAtIndex:indexPath.row];
+    IQEQuery* query = [mQueryHistory objectAtIndex:(NSUInteger)indexPath.row];
     
     cell.textLabel.text                 = query.title;
     cell.textLabel.font                 = (query.state == IQEQueryStateFound) ? [UIFont boldSystemFontOfSize:14] : [UIFont systemFontOfSize:14];
@@ -817,13 +817,13 @@ typedef enum
         // Remove image and thumbnail files. Then remove query from query history.
         //
         
-        IQEQuery* query = [mQueryHistory objectAtIndex:indexPath.row];
+        IQEQuery* query = [mQueryHistory objectAtIndex:(NSUInteger)indexPath.row];
         if (query == nil)
             return;
             
         [self removeImageFiles:query];
         
-        [mQueryHistory removeObjectAtIndex:indexPath.row];
+        [mQueryHistory removeObjectAtIndex:(NSUInteger)indexPath.row];
         
         if (mListDisplayMode == ListDisplayModeResult)
             mListDisplayMode = ListDisplayModeNone;
@@ -848,12 +848,12 @@ typedef enum
 {
     // Notify delegate of item selection
     
-    IQEQuery* query = [mQueryHistory objectAtIndex:indexPath.row];
+    IQEQuery* query = [mQueryHistory objectAtIndex:(NSUInteger)indexPath.row];
 
     if (query.state == IQEQueryStateFound)
     {
         if ([mDelegate respondsToSelector:@selector(iqeViewController:didSelectItem:atIndex:)])
-            [mDelegate iqeViewController:self didSelectItem:query atIndex:indexPath.row];
+            [mDelegate iqeViewController:self didSelectItem:query atIndex:(NSUInteger)indexPath.row];
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -1133,7 +1133,7 @@ typedef enum
     if (mToolBar)
     {
         // Back button.
-        NSInteger backButtonIndex = [mToolBar.items indexOfObject:mBackButton];
+        NSUInteger backButtonIndex = [mToolBar.items indexOfObject:mBackButton];
         if (self.hidesBackButton)
         {
             if (backButtonIndex != NSNotFound)
@@ -1159,12 +1159,12 @@ typedef enum
         if (UIAccessibilityIsVoiceOverRunning != nil && UIAccessibilityIsVoiceOverRunning())
         {
             // Show edit button when history is shown.
-            NSInteger editButtonIndex = [mToolBar.items indexOfObject:self.editButtonItem];
+            NSUInteger editButtonIndex = [mToolBar.items indexOfObject:self.editButtonItem];
             if (mListDisplayMode == ListDisplayModeHistory)
             {
                 if (editButtonIndex == NSNotFound)
                 {
-                    NSInteger historyButtonIndex = [mToolBar.items indexOfObject:mHistoryButton];
+                    NSUInteger historyButtonIndex = [mToolBar.items indexOfObject:mHistoryButton];
                     
                     NSUInteger index = self.hidesBackButton ? 0 : historyButtonIndex;
                     NSMutableArray* array = [NSMutableArray arrayWithArray:mToolBar.items];

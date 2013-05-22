@@ -141,7 +141,7 @@
 - (BOOL)xmlPathEndsWith:(NSString*)first, ...
 {
     // Count arguments.
-    int count = 0;
+    NSUInteger count = 0;
     va_list ap1;
     va_start(ap1, first);
     NSString* x1 = first;
@@ -153,7 +153,7 @@
     if ([mElementStack count] < count) return NO;
     
     // Check path.
-    int index = [mElementStack count] - count;
+    NSUInteger index = [mElementStack count] - count;
     va_list ap2;
     va_start(ap2, first);
     NSString* x2 = first;
