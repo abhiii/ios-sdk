@@ -118,8 +118,8 @@
     
     // Build a context that's the same dimensions as the new size
     CGContextRef bitmap = CGBitmapContextCreate(NULL,
-                                                newRect.size.width,
-                                                newRect.size.height,
+                                                (size_t)newRect.size.width,
+                                                (size_t)newRect.size.height,
                                                 CGImageGetBitsPerComponent(imageRef),
                                                 0,
                                                 CGImageGetColorSpace(imageRef),
@@ -228,8 +228,8 @@
     
     // Build a context that's the same dimensions as the new size
     CGContextRef bitmap = CGBitmapContextCreate(NULL,
-                                                newRect.size.width,
-                                                newRect.size.height,
+                                                (size_t)newRect.size.width,
+                                                (size_t)newRect.size.height,
                                                 CGImageGetBitsPerComponent(imageRef),
                                                 0,
                                                 CGImageGetColorSpace(imageRef),
@@ -265,21 +265,21 @@
         case UIImageOrientationDown:           // EXIF = 3
         case UIImageOrientationDownMirrored:   // EXIF = 4
             transform = CGAffineTransformTranslate(transform, newSize.width, newSize.height);
-            transform = CGAffineTransformRotate(transform, M_PI);
+            transform = CGAffineTransformRotate(transform, (float)M_PI);
             break;
             
         case UIImageOrientationLeft:           // EXIF = 6
         case UIImageOrientationLeftMirrored:   // EXIF = 5
             transform = CGAffineTransformTranslate(transform, newSize.width, 0);
-            transform = CGAffineTransformRotate(transform, M_PI_2);
+            transform = CGAffineTransformRotate(transform, (float)M_PI_2);
             break;
             
         case UIImageOrientationRight:          // EXIF = 8
         case UIImageOrientationRightMirrored:  // EXIF = 7
             transform = CGAffineTransformTranslate(transform, 0, newSize.height);
-            transform = CGAffineTransformRotate(transform, -M_PI_2);
+            transform = CGAffineTransformRotate(transform, (float)-M_PI_2);
             break;
-            
+
         default:
             break;
     }

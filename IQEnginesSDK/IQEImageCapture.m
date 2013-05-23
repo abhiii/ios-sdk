@@ -399,8 +399,8 @@
     CGSize inputSize = CGSizeMake(CGImageGetWidth(uiImage.CGImage), CGImageGetHeight(uiImage.CGImage));
     
     // Determine max size.
-    int biggerMaxDimension  = (maxDimension1 > maxDimension2) ? maxDimension1 : maxDimension2;
-    int smallerMaxDimension = (maxDimension1 > maxDimension2) ? maxDimension2 : maxDimension1;
+    NSUInteger biggerMaxDimension  = (maxDimension1 > maxDimension2) ? maxDimension1 : maxDimension2;
+    NSUInteger smallerMaxDimension = (maxDimension1 > maxDimension2) ? maxDimension2 : maxDimension1;
     
     CGSize maxSize;
     if (inputSize.width > inputSize.height)
@@ -433,10 +433,10 @@
     // Make scaled image.
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     CGContextRef context = CGBitmapContextCreate(NULL,
-                                                 finalSize.width,
-                                                 finalSize.height,
+                                                 (size_t)finalSize.width,
+                                                 (size_t)finalSize.height,
                                                  8,
-                                                 4 * ((int)finalSize.width),
+                                                 4 * ((size_t)finalSize.width),
                                                  colorSpace,
                                                  kCGImageAlphaNoneSkipLast);
     CGColorSpaceRelease(colorSpace);

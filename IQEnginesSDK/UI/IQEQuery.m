@@ -330,7 +330,7 @@ NSString* const IQEQueryStateChangeNotification = @"IQEQueryStateChangeNotificat
     if (mStates == nil || mStates.count == 0)
         return state == IQEQueryStateFound;
     
-    NSInteger count = 0;
+    NSUInteger count = 0;
     
     for (NSString* theType in [mStates allKeys])
     {
